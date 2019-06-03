@@ -30,7 +30,7 @@ jobs:
             curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
             chmod 700 ./${PUBLISH}
             ./${PUBLISH}
-      
+
 workflows:
   version: 2
   build-publish-trigger:
