@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM cyberdojo/rack-base:latest
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /app
