@@ -2,7 +2,7 @@ FROM cyberdojo/rack-base:latest
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /app
-COPY .env .
+COPY . .
 
 ARG SHA
 ENV SHA=${SHA}
