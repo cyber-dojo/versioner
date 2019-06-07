@@ -8,6 +8,9 @@
 For example:
 ```bash
 docker run --rm cyberdojo/versioner:5e3bc0b sh -c 'cat /app/.env'
+```
+
+```text
 CYBER_DOJO_PORT=80
 
 CYBER_DOJO_CUSTOM=cyberdojo/custom:a089497
