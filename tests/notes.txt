@@ -1,15 +1,41 @@
 
-Versioner decides whether to take the
-sha of commander:latest and embed it into a .env
-file that it commits to a
+Versioner decides what kind of commit it has received...
   o) dev release    (SHA='cc86da6', RELEASE='')
   o) public release (SHA='cc86da6', RELEASE='3.41.2')
 
-what tests does versioner need?
 
-1. the SHAs for all services exist as github commits.
-2. the TAGs for all services exist as dockerhub images.
-3. start-points stater-base validation
-      the BASE_SHA env-var for custom/exercises/languages-{a,c,s}
+Tests running _BEFORE_ images have been pushed
+----------------------------------------------
+
+1. for each service in the .env file
+     its full SHA value is an existing git-commit sha
+
+2. for each service in the .env file
+     the 1st seven chars of the SHA is a published image tag
+
+3. for each start-point in the .env file (custom/exercises/languages-{a,c,s})
+     the BASE_SHA env-var inside the named start-point image
          (extracted with a [docker run ... sh -c 'cat /app/.env'])
-      matches the SHA for CYBER_DOJO_STARTER_BASE_SHA in .env
+     matches the CYBER_DOJO_STARTER_BASE_SHA value in .env
+
+4. when the git-commit message starts [RELEASE=X]
+   then X has semantic form A.B.C
+   then A.B.C is going forwards
+
+
+
+Tests running _AFTER_ images have been pushed
+---------------------------------------------
+1. given we're on CI,
+   when a commit message does _not_ signify a release (viz it does not start [RELEASE=...])
+   then a dockerhub image is tagged with the 1st seven chars of the git-commit's sha
+   then the image's SHA env-var matches the full git-commit sha
+   then the image's RELEASE env-var is the empty string
+
+2. given we're on CI,
+   when a commit message signifies a release (viz it starts [RELEASE=A.B.C])
+   then a dockerhub image is tagged with the 1st seven chars of the git-commit's sha
+   then a dockerhub image is tagged with A.B.C
+   then these are the same image
+   then the image's SHA env-var matches the full git-commit sha
+   then the image's RELEASE env-var is A.B.C
