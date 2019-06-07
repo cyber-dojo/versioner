@@ -1,27 +1,15 @@
 
-commander runs its tests against commander:latest
-This leaves versioner to decide whether to take the
+Versioner decides whether to take the
 sha of commander:latest and embed it into a .env
 file that it commits to a
-o) dev release (SHA-tag)
-o) public release (A.B.C tag)
-Regardless, what tests does versioner need?
-./cyber-dojo commands related to versioning...
+  o) dev release    (SHA='cc86da6', RELEASE='')
+  o) public release (SHA='cc86da6', RELEASE='3.41.2')
 
-update [latest|TAG]
-version [history]
+what tests does versioner need?
 
-
-update_with_no_argument
-  defaults_to_latest
-  version shows the release-tag
-update_arg_is_latest_tag
-  version shows the release-tag
-update_arg_is_a_release_tag
-  sets the latest tag
-  issues no warning
-update_arg_is_a_dev_tag
-  sets the latest tag
-  issues a warning
-update_arg_is_unknown_tag
-  fails with warning
+1. the SHAs for all services exist as github commits.
+2. the TAGs for all services exist as dockerhub images.
+3. start-points stater-base validation
+      the BASE_SHA env-var for custom/exercises/languages-{a,c,s}
+         (extracted with a [docker run ... sh -c 'cat /app/.env'])
+      matches the SHA for CYBER_DOJO_STARTER_BASE_SHA in .env
