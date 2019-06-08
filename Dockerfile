@@ -9,3 +9,6 @@ ENV SHA=${SHA}
 
 ARG RELEASE
 ENV RELEASE=${RELEASE}
+
+# NB: commander's cyber-dojo script relies on
+# there _not_ being an ENTRYPOINT
