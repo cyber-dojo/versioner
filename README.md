@@ -47,6 +47,22 @@ CYBER_DOJO_CUSTOM=cyberdojo/custom:a089497
 CYBER_DOJO_EXERCISES=cyberdojo/exercises:16fb5d9
 CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:8ab7cd9
 ```
+These can be overridden these in two ways
+* with an environment variable
+  ```bash
+  $ export CYBER_DOJO_CUSTOM=acme/my_custom:latest
+  $ cyber-dojo up
+  ...
+  Using custom=acme/my_custom:latest
+  ...
+  ```
+* with an up command-line argument
+  ```bash
+  $ cyber-dojo up --custom=acme/my_custom:latest
+  ...
+  Using custom=acme/my_custom:latest
+  ...
+  ```
 
 # non-overridable core-service commit-shas
 Each core-service image is tagged with the first 7 characters of its commit sha.
