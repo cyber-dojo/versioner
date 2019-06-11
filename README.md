@@ -43,7 +43,7 @@ CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:8ab7cd9
 Each core-service image is tagged with the first 7 characters of its commit sha.
 For example:
 ```text
-CYBER_DOJO_**DIFFER**_SHA=**5c95484**d60e50ee1a77a5b859bb23a5cdea1cebb
+CYBER_DOJO_DIFFER_SHA=5c95484d60e50ee1a77a5b859bb23a5cdea1cebb
 ```
 Corresponds to the image [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
 
