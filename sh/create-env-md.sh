@@ -55,7 +55,7 @@ svc_url()
 {
   local -r sha=$(svc_value ${1})
   local -r name=$(echo ${1} | tr '_' '-')
-  echo "https://github.com/cyber-dojo/${name}/commit/${sha:0:7}"
+  echo "https://github.com/cyber-dojo/${name}/commit/${sha}"
 }
 
 svc_env_var()
