@@ -34,7 +34,7 @@ cel_url()
 cel_env_var()
 {
   local -r env=$(cel_var ${1})
-  echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1}))  "
+  echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1}))<br/>"
 }
 
 # ---------------------------------------------------
@@ -60,13 +60,13 @@ svc_url()
 
 svc_env_var()
 {
-  echo "$(svc_var ${1})=[$(svc_value ${1})]($(svc_url ${1}))  "
+  echo "$(svc_var ${1})=[$(svc_value ${1})]($(svc_url ${1}))<br/>"
 }
 
 # ---------------------------------------------------
 
 echo
-echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}  "
+echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
 echo
 for cel in custom exercises languages
 do
