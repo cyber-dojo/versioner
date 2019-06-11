@@ -3,7 +3,8 @@
 # cyberdojo/versioner docker image
 
 - A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Records a set of consistent commits.
+- Records a consistent set of images for all the cyber-dojo server's micro-services.
+- Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
 For example:
 ```bash
@@ -30,5 +31,21 @@ CYBER_DOJO_ZIPPER_SHA=2047f300afc108c3b222e7ef5fbe3d38765b22f2
 CYBER_DOJO_GRAFANA_SHA=449370c2993649c9337a4197d124261d2394bb8e
 CYBER_DOJO_PROMETHEUS_SHA=f0f7978d0d9cc13bbd5d87cfef2c13a45c5d97cc
 ```
+
+# overridable start-point images
+```text
+CYBER_DOJO_CUSTOM=cyberdojo/custom:a089497
+CYBER_DOJO_EXERCISES=cyberdojo/exercises:16fb5d9
+CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:8ab7cd9
+```
+
+# non-overridable core-service commit-shas
+Each core-service image is tagged with the first 7 characters of its commit sha.
+For example:
+```text
+CYBER_DOJO_**DIFFER**_SHA=**5c95484**d60e50ee1a77a5b859bb23a5cdea1cebb
+```
+Corresponds to the image [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
+
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
