@@ -48,7 +48,7 @@ CYBER_DOJO_PROMETHEUS_SHA=f0f7978d0d9cc13bbd5d87cfef2c13a45c5d97cc
 CYBER_DOJO_PORT=80
 ```
 You can override the default port in two ways:
-* with an environment variable
+* with an environment-variable
   ```bash
   $ export CYBER_DOJO_PORT=81
   $ cyber-dojo up
@@ -56,7 +56,7 @@ You can override the default port in two ways:
   Using port=81
   ...
   ```
-* with a command-line argument to up
+* with a command-line argument to **up**
   ```bash
   $ cyber-dojo up --port=82
   ...
@@ -71,7 +71,7 @@ CYBER_DOJO_EXERCISES=cyberdojo/exercises:16fb5d9
 CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:8ab7cd9
 ```
 You can override the default start-point images in two ways:
-* with an environment variable
+* with an environment-variable
   ```bash
   $ export CYBER_DOJO_CUSTOM=acme/my_custom:latest
   $ cyber-dojo up
@@ -79,7 +79,7 @@ You can override the default start-point images in two ways:
   Using custom=acme/my_custom:latest
   ...
   ```
-* with a command-line argument to up
+* with a command-line argument to **up**
   ```bash
   $ cyber-dojo up --custom=acme/my_custom:latest
   ...
@@ -87,7 +87,7 @@ You can override the default start-point images in two ways:
   ...
   ```
 
-# non-overridable core-service commit-shas
+# non-overridable core-service images
 ```text
 CYBER_DOJO_DIFFER_SHA=5c95484d60e50ee1a77a5b859bb23a5cdea1cebb
 ...
