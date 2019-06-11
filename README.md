@@ -19,6 +19,8 @@ Using nginx=cyberdojo/nginx:380c557
 ...
 ```
 
+The names of the images are held inside the image cyberdojo/versioner:TAG
+inside the /app/.env file.
 ```bash
 $ docker run --rm cyberdojo/versioner:5e3bc0b sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
@@ -41,13 +43,34 @@ CYBER_DOJO_GRAFANA_SHA=449370c2993649c9337a4197d124261d2394bb8e
 CYBER_DOJO_PROMETHEUS_SHA=f0f7978d0d9cc13bbd5d87cfef2c13a45c5d97cc
 ```
 
+# overridable port
+```text
+CYBER_DOJO_PORT=80
+```
+You can override the default port in two ways:
+* with an environment variable
+  ```bash
+  $ export CYBER_DOJO_PORT=81
+  $ cyber-dojo up
+  ...
+  Using port=81
+  ...
+  ```
+* with a command-line argument to up
+  ```bash
+  $ cyber-dojo up --port=82
+  ...
+  Using port=82
+  ...
+  ```
+
 # overridable start-point images
 ```text
 CYBER_DOJO_CUSTOM=cyberdojo/custom:a089497
 CYBER_DOJO_EXERCISES=cyberdojo/exercises:16fb5d9
 CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:8ab7cd9
 ```
-These can be overridden these in two ways
+You can override the default start-point images in two ways:
 * with an environment variable
   ```bash
   $ export CYBER_DOJO_CUSTOM=acme/my_custom:latest
@@ -56,7 +79,7 @@ These can be overridden these in two ways
   Using custom=acme/my_custom:latest
   ...
   ```
-* with an up command-line argument
+* with a command-line argument to up
   ```bash
   $ cyber-dojo up --custom=acme/my_custom:latest
   ...
@@ -65,12 +88,15 @@ These can be overridden these in two ways
   ```
 
 # non-overridable core-service commit-shas
-Each core-service image is tagged with the first 7 characters of its commit sha.
-For example:
 ```text
 CYBER_DOJO_DIFFER_SHA=5c95484d60e50ee1a77a5b859bb23a5cdea1cebb
+...
+CYBER_DOJO_RUNNER_SHA=1b06f00f2a5bb3ec864cd449303087d9ba347ae1
 ```
-Corresponds to the image [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
+Each core-service image is tagged with the first 7 characters of its commit sha.
+For example
+- [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
+- [cyberdojo/runner:1b06f00](https://hub.docker.com/r/cyberdojo/runner/tags)
 
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
