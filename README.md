@@ -3,12 +3,12 @@
 # cyberdojo/versioner docker image
 
 - A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Records a consistent set of images for all the cyber-dojo server's micro-services.
+- Records a consistent set of image tags for all the cyber-dojo server's micro-services.
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
 For example, the image cyberdojo/versioner:5e3bc0b was created from
 a commit to this repo with a sha beginning 5e3bc0b and its
-/app/.env file holds the names of a consistent set of service images
+/app/.env file holds the tags of a consistent set of service images
 which can be used to bring up a cyber-dojo server:
 ```bash
 $ cyber-dojo update 5e3bc0b
@@ -98,5 +98,6 @@ For example
 - [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
 - [cyberdojo/runner:1b06f00](https://hub.docker.com/r/cyberdojo/runner/tags)
 
+- - - -
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
