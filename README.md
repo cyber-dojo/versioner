@@ -6,7 +6,19 @@
 - Records a consistent set of images for all the cyber-dojo server's micro-services.
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
-For example:
+For example, the image cyberdojo/versioner:5e3bc0b was created from
+a commit to this repo with a sha beginning 5e3bc0b and its
+/app/.env file holds the names of a consistent set of service images
+which can be used to bring up a cyber-dojo server:
+```bash
+./cyber-dojo update 5e3bc0b
+./cyber-dojo up
+...
+Using differ=cyberdojo/differ:5c95484
+Using nginx=cyberdojo/nginx:380c557
+...
+```
+
 ```bash
 docker run --rm cyberdojo/versioner:5e3bc0b sh -c 'cat /app/.env'
 ```
