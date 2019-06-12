@@ -6,10 +6,11 @@
 - Records a consistent set of image tags for all the cyber-dojo server's micro-services.
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
-For example, suppose the image cyberdojo/versioner:1.24.0 was created from
-a commit to this repo. Its /app/.env file holds the tags of a consistent set of
-service images (eg differ:5c95484, nginx:380c557) which can be used to bring
-up a cyber-dojo server:
+The .env file holds the tags/sha comprising a consistent set of service images
+which can be used to bring up a cyber-dojo server.
+For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
+a commit to this repo, and its .env file specifies tags of 5c95484 for differ and
+and 380c557 for nginx
 ```bash
 $ cyber-dojo update 1.24.0
 $ cyber-dojo up
@@ -19,8 +20,7 @@ Using nginx=cyberdojo/nginx:380c557
 ...
 ```
 
-The names of the images are held inside the image cyberdojo/versioner:1.24.0
-in the /app/.env file.
+The image names tags/shas are held inside the versoner image in its /app/.env file.
 ```bash
 $ docker run --rm cyberdojo/versioner:1.24.0 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
