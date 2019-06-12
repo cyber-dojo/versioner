@@ -18,6 +18,16 @@ class StartPointEntriesTest < MiniTest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def test_starter_base_image_exists
+    var = 'CYBER_DOJO_STARTER_BASE_SHA'
+    sha = dot_env(var)
+    sha7 = sha[0...7]
+    name = "cyberdojo/starter-base:#{sha7}e"
+    assert image_exists?(name), "#{var}=#{sha} #{name} does not exist"
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def test_all_start_points_were_created_from_named_starter_base
     sha = dot_env('CYBER_DOJO_STARTER_BASE_SHA')
 
