@@ -13,6 +13,7 @@ jobs:
           name: Build docker image
           command: |
             set -e
+            env
             ./pipe_build_up_test.sh
       - run:
           name: Tag docker image
