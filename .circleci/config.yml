@@ -36,7 +36,7 @@ jobs:
           name: Publish release tag?
           command: |
             set -e
-            GIT_COMMIT_MSG=$(git log --oneline --format=%B -n 1 HEAD | head -n 1)
+            export GIT_COMMIT_MSG=$(git log --oneline --format=%B -n 1 HEAD | head -n 1)
             if ./sh/is-release-commit.sh; then
               RELEASE=$(./sh/echo-commit-release.sh)
               docker tag cyberdojo/versioner:latest cyberdojo/versioner:${RELEASE}
