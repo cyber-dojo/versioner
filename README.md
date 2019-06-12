@@ -20,7 +20,7 @@ Using nginx=cyberdojo/nginx:380c557
 ...
 ```
 
-The image names tags/shas are held inside the versoner image in its /app/.env file.
+The image names tags/shas are held inside the versioner image in its /app/.env file.
 ```bash
 $ docker run --rm cyberdojo/versioner:1.24.0 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
