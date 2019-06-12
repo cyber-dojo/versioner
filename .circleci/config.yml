@@ -14,9 +14,9 @@ jobs:
           command: |
             set -e
             ./pipe_build_up_test.sh
-            echo '~~~~~~~'
+            echo '+++++++'
             docker run --rm cyberdojo/versioner:latest sh -c 'echo -n ${RELEASE}'
-            echo '~~~~~~~'
+            echo '+++++++'
       - run:
           name: Tag docker image
           command: |
