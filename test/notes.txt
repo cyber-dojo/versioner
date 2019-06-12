@@ -1,20 +1,22 @@
 
 Versioner decides what kind of commit it has received...
-  o) dev release    (SHA='cc86da6', RELEASE='')
-  o) public release (SHA='cc86da6', RELEASE='3.41.2')
+  o) development release (SHA='cc86da6', RELEASE='')
+  o) public release      (SHA='cc86da6', RELEASE='3.41.2')
 
 
 Tests running _BEFORE_ images have been pushed
 ----------------------------------------------
 
-0. versions are well-formed env-vars suitable for bash sourcing
+0. versions inside .env file are well-formed env-vars suitable for bash sourcing
    with form NAME=VALUE
    with no leading space
    with no space either side of the =
    with NAME non-empty alphabetical (A-Z + underscore)
    with VALUE non-empty alphabetical (a-z + forwardSlash + colon + hyphen)
 
-1. there are NAME entries for all services
+1. inside .env there are NAME entries for
+   the port and for
+   all services
    and one for CYBER_DOJO_STARTER_BASE_SHA
    but nothing else except blank lines and comment lines
 
