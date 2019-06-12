@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 # eg git commit -m "blah blah"                  --> false
 # eg git commit -m "[RELEASE=1.2.3] blah blah"  --> true
 

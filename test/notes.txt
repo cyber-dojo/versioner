@@ -5,7 +5,8 @@ Versioner decides what kind of commit it has received...
 Tests running _BEFORE_ images have been pushed
 ----------------------------------------------
 
-4. All images in .env are current :latest? :beta?
+4. If its a RELEASE
+   All images in .env are current :latest? :beta?
 
 5. when the git-commit message starts [RELEASE=X]
    then X has semantic form A.B.C
