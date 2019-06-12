@@ -15,7 +15,7 @@ class CoreServicesEntriesTest < MiniTest::Test
     vars.delete('CYBER_DOJO_LANGUAGES')
     vars.delete('CYBER_DOJO_STARTER_BASE_SHA')
     vars.keys.sort.each do |env_name|
-      value = var[env_name]
+      value = vars[env_name]
       name = image_name(env_name)
       assert image_exists?(name), "#{env_name}=#{value} #{name} does not exist"
     end

@@ -7,35 +7,9 @@ Versioner decides what kind of commit it has received...
 Tests running _BEFORE_ images have been pushed
 ----------------------------------------------
 
-0. versions inside .env file are well-formed env-vars suitable for bash sourcing
-   with form NAME=VALUE
-   with no leading space
-   with no space either side of the =
-   with NAME non-empty alphabetical (A-Z + underscore)
-   with VALUE non-empty alphabetical (a-z + forwardSlash + colon + hyphen)
-
-1. inside .env there are NAME entries for
-   the port and for
-   all services
-   and one for CYBER_DOJO_STARTER_BASE_SHA
-   but nothing else except blank lines and comment lines
-
-2. the VALUE for CYBER_DOJO_STARTER_BASE_SHA
-   is an existing git-commit sha in the starter-base repo
-
-3. each start-point (c/e/l) has a VALUE where
-    VALUE is the name of an existing image with a sha:0:7 tag
-    the BASE_SHA env-var inside the image
-      matches the VALUE of CYBER_DOJO_STARTER_BASE_SHA
-
-4. each non-start-point has a VALUE where
-     VALUE is an existing git-commit sha
-     VALUE:0:7 is a published image tag
-
 5. when the git-commit message starts [RELEASE=X]
    then X has semantic form A.B.C
    then A.B.C is going forwards
-
 
 
 Tests running _AFTER_ images have been pushed

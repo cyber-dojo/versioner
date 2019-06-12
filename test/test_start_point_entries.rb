@@ -22,7 +22,7 @@ class StartPointEntriesTest < MiniTest::Test
     var = 'CYBER_DOJO_STARTER_BASE_SHA'
     sha = dot_env(var)
     sha7 = sha[0...7]
-    name = "cyberdojo/starter-base:#{sha7}e"
+    name = "cyberdojo/starter-base:#{sha7}"
     assert image_exists?(name), "#{var}=#{sha} #{name} does not exist"
   end
 
