@@ -6,11 +6,11 @@
 - Records a consistent set of image tags for all the cyber-dojo server's micro-services.
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
-The .env file holds the commit-shas -> image-tags comprising a consistent set of service images
+The .env file holds the commit-shas -> image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
 For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
-a commit to this repo, and its .env file specifies tags of 5c95484 for differ and
-and 380c557 for nginx
+a commit to this repo, and its .env file specifies tags of 5c95484 for differ,
+380c557 for nginx, etc.
 ```bash
 $ cyber-dojo update 1.24.0
 $ cyber-dojo up
