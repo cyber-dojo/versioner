@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
@@ -10,5 +10,4 @@ if ${ROOT_DIR}/sh/is-release-commit.sh; then
 fi
 
 "${ROOT_DIR}/sh/build_docker_images.sh"
-
 "${ROOT_DIR}/test/run.sh"

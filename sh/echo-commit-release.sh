@@ -1,6 +1,6 @@
 #!/bin/bash
-
-# eg git commit -m "[RELEASE=1.2.3] blah blah"  --> true
+set -ex
+# eg git commit -m "[RELEASE=1.2.3] blah blah"  --> 1.2.3
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SCRIPT=echo-commit-release.rb

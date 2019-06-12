@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+set -ex
+# eg git commit -m "blah blah"                  --> false
 # eg git commit -m "[RELEASE=1.2.3] blah blah"  --> true
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
@@ -12,4 +13,4 @@ docker run \
   cyberdojo/versioner:latest \
     /app/${SCRIPT}
 
-echo $?
+exit $?
