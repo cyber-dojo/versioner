@@ -10,7 +10,7 @@ docker run \
   --rm \
   --env GIT_COMMIT_MSG="${GIT_COMMIT_MSG}" \
   --volume ${MY_DIR}/${SCRIPT}:/app/${SCRIPT}:ro \
-  cyberdojo/versioner:latest \
+  cyberdojo/ruby-base:latest \
     /app/${SCRIPT}
 
 exit $?

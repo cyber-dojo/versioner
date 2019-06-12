@@ -14,9 +14,6 @@ jobs:
           command: |
             set -e
             ./pipe_build_up_test.sh
-            echo '+++++++'
-            docker run --rm cyberdojo/versioner:latest sh -c 'echo -n ${RELEASE}'
-            echo '+++++++'
       - run:
           name: Tag docker image
           command: |
@@ -34,6 +31,19 @@ jobs:
             chmod 700 ./${PUBLISH}
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             ./${PUBLISH}
+            docker logout
+      - run:
+          name: Publish release tag?
+          command: |
+            set -e
+            GIT_COMMIT_MSG=$(git log --oneline --format=%B -n 1 HEAD | head -n 1)
+            if ./sh/is-release-commit.sh; then
+              RELEASE=$(./sh/echo-commit-release.sh)
+              docker tag cyberdojo/versioner:latest cyberdojo/versioner:${RELEASE}
+              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+              docker push cyberdojo/versioner:${RELEASE}
+              docker logout
+            fi
 
 workflows:
   version: 2
