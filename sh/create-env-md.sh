@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Script to create .env.md as a hyperlinked version of .env
+# Used by .git/hooks/pre-push
+
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 . "${ROOT_DIR}/.env"
 
