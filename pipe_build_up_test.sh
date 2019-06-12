@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
-readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )/sh"
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-"${SH_DIR}/build_docker_images.sh"
+"${ROOT_DIR}/sh/build_docker_images.sh"
+"${ROOT_DIR}/test/run.sh"
