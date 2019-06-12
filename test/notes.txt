@@ -1,8 +1,6 @@
-
 Versioner decides what kind of commit it has received...
   o) development release (SHA='cc86da6', RELEASE='')
   o) public release      (SHA='cc86da6', RELEASE='3.41.2')
-
 
 Tests running _BEFORE_ images have been pushed
 ----------------------------------------------
