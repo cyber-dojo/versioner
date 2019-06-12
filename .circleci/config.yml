@@ -13,8 +13,8 @@ jobs:
           name: Build docker image
           command: |
             set -e
-            export GIT_COMMIT_MSG=$(git log --oneline --format=%B -n 1 HEAD)
             ./pipe_build_up_test.sh
+            docker run --rm cyberdojo/versioner:latest sh -c 'echo -n ${RELEASE}'
       - run:
           name: Tag docker image
           command: |
