@@ -3,7 +3,7 @@
 # cyberdojo/versioner docker image
 
 - A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Records a consistent set of image tags for all the cyber-dojo server's micro-services.
+- Records a consistent set of image tags for all the cyber-dojo server's micro-services [dockerhub](https://hub.docker.com/r/cyberdojo/versioner/tags)
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
 The .env file holds the commit-shas -> image-tags comprising a consistent set of images
