@@ -7,6 +7,8 @@ set -e
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 . "${ROOT_DIR}/.env"
 
+# ---------------------------------------------------
+
 sha()
 {
   docker run --rm ${1} sh -c 'echo -n ${SHA}'
@@ -42,28 +44,53 @@ cel_env_var()
 
 # ---------------------------------------------------
 
-svc_var()
+sha_var()
 {
   local -r upper=$(echo ${1} | tr [a-z] [A-Z])
   echo "CYBER_DOJO_${upper}_SHA"
 }
 
-svc_value()
+sha_value()
 {
-  local name=$(svc_var ${1})
+  local name=$(sha_var ${1})
   echo ${!name}
 }
 
-svc_url()
+sha_url()
 {
-  local -r sha=$(svc_value ${1})
+  local -r sha=$(sha_value ${1})
   local -r name=$(echo ${1} | tr '_' '-')
   echo "https://github.com/cyber-dojo/${name}/commit/${sha}"
 }
 
-svc_env_var()
+sha_env_var()
 {
-  echo "$(svc_var ${1})=[$(svc_value ${1})]($(svc_url ${1}))<br/>"
+  echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
+}
+
+# ---------------------------------------------------
+
+tag_var()
+{
+  local -r upper=$(echo ${1} | tr [a-z] [A-Z])
+  echo "CYBER_DOJO_${upper}_TAG"
+}
+
+tag_value()
+{
+  local name=$(sha_var ${1})
+  echo ${!name:0:7}
+}
+
+tag_url()
+{
+  local -r name=$(echo ${1} | tr '_' '-')
+  echo "https://hub.docker.com/r/cyberdojo/${name}/tags"
+}
+
+tag_env_var()
+{
+  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
 }
 
 # ---------------------------------------------------
@@ -75,8 +102,30 @@ for cel in custom exercises languages
 do
   cel_env_var ${cel}
 done
+
+readonly services=(
+  commander
+  differ
+  mapper
+  nginx
+  ragger
+  runner
+  saver
+  starter_base
+  web
+  zipper
+  grafana
+  prometheus
+)
+
 echo
-for svc in commander differ mapper nginx ragger runner saver starter_base web zipper grafana prometheus
+for svc in "${services[@]}";
 do
-  svc_env_var ${svc}
+  sha_env_var ${svc}
+done
+
+#echo
+for svc in "${services[@]}";
+do
+  : #tag_env_var ${svc}
 done
