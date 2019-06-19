@@ -23,20 +23,18 @@ $ cyber-dojo up
 You need to ensure versioner/.env's entry for web is a web image
 which includes changes to the web repo.
 
-rebuild web image and tag it to a known LOCAL_SHA
+rebuild web image and tag it to a known 'fake' sha
 -------------------------------------------------
-$ export LOCAL_SHA=$(printf '9%.0s' {1..40})
-$ env | grep LOCAL_SHA
-LOCAL_SHA=9999999999999999999999999999999999999999
 $ cd web/
 $ ./sh/build_docker_images.sh # [1]
-$ docker tag cyberdojo/web:latest cyberdojo/web:${LOCAL_SHA:0:7} # [2]
+$ export WEB_SHA=$(printf '9%.0s' {1..40})
+$ docker tag cyberdojo/web:latest cyberdojo/web:${WEB_SHA:0:7} # [2]
 
-rebuild versioner image with web's LOCAL_SHA
---------------------------------------------
+rebuild image versioner:latest with web's fake sha
+--------------------------------------------------
+Appending will work as last setting 'wins'
 $ cd versioner/
-# edit ./env file so its CYBER_DOJO_WEB_SHA entry matches LOCAL_SHA
-CYBER_DOJO_WEB_SHA=9999999999999999999999999999999999999999
+$ echo "CYBER_DOJO_WEB_SHA=${WEB_SHA}" >> .env
 $ ./sh/build_docker_images.sh
 
 bring the server up
@@ -49,7 +47,7 @@ Using web=cyberdojo/web:9999999
 ...
 
 
-You only need to repeat commands [1,2,3]
+You need to repeat commands [1,2,3]
 Docker is smart enough to see that although the web image tag has
 not changed, it is nonetheless a new image:
 $ ./cyber-dojo up
