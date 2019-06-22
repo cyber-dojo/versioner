@@ -3,6 +3,8 @@ set -e
 
 # Script to create .env.md as a hyperlinked version of .env
 # Used by .git/hooks/pre-push
+# which tells you to run
+# $ ./sh/create-env-md.sh > .env.md
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 . "${ROOT_DIR}/.env"
