@@ -1,0 +1,33 @@
+
+version: '2.2'
+
+services:
+
+  versioner_client:
+    #build:
+    #  context: test_client
+    image: cyberdojo/versioner-client
+    init: true
+    container_name: test-versioner-client
+    user: nobody
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+
+
+  versioner:
+    build:
+      context: .
+      args:
+        - SHA
+    image: cyberdojo/versioner
+    container_name: test-versioner-server
+    #volumes:
+    #  - ./test_server:/app/test:ro
+    ports:
+      - 5647:5647
+    init: true
+    user: nobody
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
