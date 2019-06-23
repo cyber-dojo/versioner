@@ -1,7 +1,7 @@
-require_relative 'http_json/request_error'
-require_relative 'http_json_args'
-require 'rack'
-require 'json'
+require_relative('http_json/request_error')
+require_relative('http_json_args')
+require('rack')
+require('json')
 
 class RackDispatcher
 

@@ -1,5 +1,5 @@
-require_relative 'http_json/request_error'
-require 'json'
+require_relative('http_json/request_error')
+require('json')
 
 class HttpJsonArgs
 

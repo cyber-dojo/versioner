@@ -1,4 +1,4 @@
-require_relative 'stdout_log'
+require_relative('stdout_log')
 
 class External
 
