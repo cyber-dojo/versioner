@@ -42,6 +42,25 @@ wait_until_ready()
 
 # - - - - - - - - - - - - - - - - - - - - - -
 
+exit_unless_clean()
+{
+  local name="${1}"
+  local docker_logs=$(docker logs "${name}")
+  echo -n "Checking ${name} started cleanly..."
+  if [[ -z "${docker_logs}" ]]; then
+    echo 'OK'
+  else
+    echo 'FAIL'
+    echo "[docker logs] not empty on startup"
+    echo "<docker_log>"
+    echo "${docker_logs}"
+    echo "</docker_log>"
+    exit 1
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - -
+
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
@@ -49,9 +68,13 @@ docker-compose \
   --force-recreate \
   versioner
 
-wait_until_ready test-versioner-server 5647
+readonly NAME=test-versioner-server
+readonly PORT=5647
 
-$(curl_cmd 5647 dot_env)
+wait_until_ready ${NAME} ${PORT}
+exit_unless_clean ${NAME}
+
+$(curl_cmd ${PORT} dot_env)
+
+docker container rm ${NAME} --force > /dev/null 2>&1
 echo
-
-docker container rm test-versioner-server --force > /dev/null 2>&1
