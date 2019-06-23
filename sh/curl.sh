@@ -27,7 +27,7 @@ wait_until_ready()
   for _ in $(seq ${max_tries})
   do
     echo -n '.'
-    if eval $(curl_cmd ${port} ready?) > /dev/null 2>&1 ; then
+    if $(curl_cmd ${port} ready?) > /dev/null 2>&1 ; then
       echo 'OK'
       return
     else
