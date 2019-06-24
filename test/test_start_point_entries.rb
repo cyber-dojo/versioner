@@ -29,6 +29,14 @@ class StartPointEntriesTest < MiniTest::Test
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def test_all_start_points_were_created_from_named_starter_base
+    # If we have updated only CYBER_DOJO_STARTER_BASE_SHA
+    # with the intention of then building new versions of
+    # custom/exercises/languages
+    # then these tests will fail.
+    # Chicken and egg problem...
+    # For now I am manually working around this
+    # by creating local cyberdojo/languages-X images
+    # tagging them and pushing them.
     sha = dot_env('CYBER_DOJO_STARTER_BASE_SHA')
 
     image = dot_env('CYBER_DOJO_CUSTOM')
