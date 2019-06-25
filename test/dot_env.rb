@@ -9,15 +9,13 @@ module DotEnv
   end
 
   def raw_dot_env
-    @dot_env ||= read_dot_env
-  end
-
-  def read_dot_env
-    lines = IO.read('/app/.env').lines
-    lines.reject! do |line|
-      line.strip.empty? || line.start_with?('#')
+    @dot_env ||= begin
+      lines = IO.read('/app/.env').lines
+      lines.reject! do |line|
+        line.strip.empty? || line.start_with?('#')
+      end
+      lines.map { |line| line.strip.split('=',2) }.to_h
     end
-    lines.map { |line| line.strip.split('=',2) }.to_h
   end
 
 end
