@@ -40,21 +40,21 @@ class StartPointEntriesTest < MiniTest::Test
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
     diagnostic = "CYBER_DOJO_CUSTOM's BASE_SHA env-var does not match CYBER_DOJO_STARTER_BASE_SHA"
     if sha != base_sha
-      echo "WARNING: #{diagnostic}"
+      puts "WARNING: #{diagnostic}"
     end
 
     image = dot_env('CYBER_DOJO_EXERCISES')
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
     diagnostic = "CYBER_DOJO_EXERCISES's BASE_SHA env-var does not match CYBER_DOJO_STARTER_BASE_SHA"
     if sha != base_sha
-      echo "WARNING: #{diagnostic}"
+      puts "WARNING: #{diagnostic}"
     end
 
     image = dot_env('CYBER_DOJO_LANGUAGES')
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
     diagnostic = "CYBER_DOJO_LANGUAGES's BASE_SHA env-var does not match CYBER_DOJO_STARTER_BASE_SHA"
     if sha != base_sha
-      echo "WARNING: #{diagnostic}"
+      puts "WARNING: #{diagnostic}"
     end
   end
 
