@@ -55,8 +55,6 @@ readonly services=(
   starter-base
   web
   zipper
-  grafana
-  prometheus
 )
 
 echo
