@@ -2,6 +2,10 @@
 set -e
 
 # Script to create .env file from :latest images
+# Intended use:
+#   $ ./sh/latest_env.sh | tee .env
+#   $ ./sh/create-env-md.sh > .env.md
+#
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
