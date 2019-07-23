@@ -67,3 +67,4 @@ end
 #
 # However, you cant use that :0:7 bashism inside a docker-compose yaml file :-(
 # So instead, there is this script, which generates the extra env vars.
+# It is used in commander in cmd/lib/dot_env.rb

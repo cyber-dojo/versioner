@@ -99,11 +99,15 @@ tag_env_var()
 
 echo
 echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
+
 echo
 for cel in custom exercises languages
 do
   cel_env_var ${cel}
 done
+
+echo
+sha_env_var starter_base
 
 readonly services=(
   commander
@@ -113,7 +117,6 @@ readonly services=(
   ragger
   runner
   saver
-  starter_base
   web
   zipper
 )
@@ -122,10 +125,4 @@ echo
 for svc in "${services[@]}";
 do
   sha_env_var ${svc}
-done
-
-#echo
-for svc in "${services[@]}";
-do
-  : #tag_env_var ${svc}
 done

@@ -11,7 +11,7 @@ class PortEntryTest < MiniTest::Test
   end
 
   private
-  
+
   include DotEnv
 
 end
