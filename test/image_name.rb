@@ -1,11 +1,10 @@
 
 module ImageName
 
-  def image_name(env_name)
-    sha = dot_env(env_name)
-    name = env_name.split('_')[2].downcase
-    sha7 = sha[0...7]
-    "cyberdojo/#{name}:#{sha7}"
+  def image_name(tag_env_name)
+    tag = dot_env(tag_env_name)
+    name = tag_env_name.split('_')[2].downcase
+    "cyberdojo/#{name}:#{tag}"
   end
 
 end

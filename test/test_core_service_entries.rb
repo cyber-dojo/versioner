@@ -14,10 +14,12 @@ class CoreServicesEntriesTest < MiniTest::Test
     vars.delete('CYBER_DOJO_EXERCISES')
     vars.delete('CYBER_DOJO_LANGUAGES')
     vars.delete('CYBER_DOJO_STARTER_BASE_SHA')
-    vars.keys.sort.each do |env_name|
-      value = vars[env_name]
-      name = image_name(env_name)
-      assert image_exists?(name), "#{env_name}=#{value} #{name} does not exist"
+    vars.delete('CYBER_DOJO_STARTER_BASE_TAG')    
+    tags = vars.keys.select{ |name| name.end_with?('TAG') }
+    tags.sort.each do |tag_env_name|
+      tag_value = vars[tag_env_name]
+      name = image_name(tag_env_name)
+      assert image_exists?(name), "#{tag_env_name}=#{tag_value} #{name} does not exist"
     end
   end
 
