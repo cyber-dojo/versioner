@@ -1,4 +1,4 @@
-FROM cyberdojo/ruby-base:latest
+FROM alpine:latest
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /app
