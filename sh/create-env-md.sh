@@ -114,6 +114,7 @@ readonly services=(
   differ
   mapper
   nginx
+  puller
   ragger
   runner
   saver
