@@ -68,6 +68,7 @@ sha_url()
 sha_env_var()
 {
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
+  echo "$(tag_var ${1})=$(tag_value ${1})<br/>"
 }
 
 # ---------------------------------------------------
@@ -122,8 +123,8 @@ readonly services=(
   zipper
 )
 
-echo
 for svc in "${services[@]}";
 do
+  echo
   sha_env_var ${svc}
 done
