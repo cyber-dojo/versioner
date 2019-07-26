@@ -6,11 +6,10 @@
 - Records a consistent set of image tags for all the cyber-dojo server's micro-services on [dockerhub](https://hub.docker.com/r/cyberdojo/versioner/tags)
 - Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
-The .env file holds the commit-shas -> image-tags comprising a consistent set of images
+The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
 For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
-a commit to this repo, and its .env file specifies tags (1st seven chars of the sha)
-of 5c95484 for differ, 380c557 for nginx, etc.
+a commit to this repo, and its .env file specifies tags of 5c95484 for differ, 380c557 for nginx, etc.
 ```bash
 $ cyber-dojo update 1.24.0
 $ cyber-dojo up
@@ -64,8 +63,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 ```
 
 - The custom/exercises/languages start-point entries are image names.
-- The remaining core-service entries are commit shas. Each core-service
-image is tagged with the first 7 characters of its commit sha.
+- The remaining core-service entries are commit shas and image tags.
 For example
   - [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
   - [cyberdojo/runner:1b06f00](https://hub.docker.com/r/cyberdojo/runner/tags)
