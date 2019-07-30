@@ -9,13 +9,15 @@
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
 For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
-a commit to this repo, and its .env file specifies tags of 5c95484 for differ, 380c557 for nginx, etc.
+a commit to this repo, and its .env file specifies a differ tag of 5c95484, a runner tag of 380c557, etc.
 ```bash
 $ cyber-dojo update 1.24.0
 $ cyber-dojo up
+Using version=1.24.0 (public)
 ...
 Using differ=cyberdojo/differ:5c95484
-Using nginx=cyberdojo/nginx:380c557
+...
+Using runner=cyberdojo/runner:380c557
 ...
 ```
 
@@ -64,9 +66,24 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 
 - The custom/exercises/languages start-point entries are image names.
 - The remaining core-service entries are commit shas and image tags.
-For example
-  - [cyberdojo/differ:5c95484](https://hub.docker.com/r/cyberdojo/differ/tags)
-  - [cyberdojo/runner:1b06f00](https://hub.docker.com/r/cyberdojo/runner/tags)
+- The tag is always the first seven chars of the sha.
+- Integration tests can cat /app/.env to /tmp, source it, and then use
+  the tag env-vars in their docker-compose.yml files. For example:
+  ```bash
+  #!/bin/bash
+  docker run --rm cyberdojo/versioner:1.24.0 sh -c 'cat /app/.env' > /tmp/versioner.sh
+  set -a
+  . /tmp/versioner.sh
+  set +a
+  docker-compose --file docker-compose.yml up -d
+  ```
+  ```yml
+  # docker-compose.yml
+  services:
+    runner:
+      image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
+      ...
+  ```
 
 - - - -
 
