@@ -71,8 +71,9 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
   the tag env-vars in their docker-compose.yml files. For example:
   ```bash
   #!/bin/bash
-  docker run --rm cyberdojo/versioner:1.24.0 sh -c 'cat /app/.env' > /tmp/versioner.sh
-  set -a
+  TAG=${VERSIONER_TAG:-latest}
+  docker run --rm cyberdojo/versioner:${TAG} sh -c 'cat /app/.env' > /tmp/versioner.sh
+  set -a # -o allexport
   . /tmp/versioner.sh
   set +a
   docker-compose --file docker-compose.yml up -d
