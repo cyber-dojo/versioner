@@ -65,6 +65,7 @@ starter_base_env_var()
 # ---------------------------------------------------
 
 readonly services=(
+  avatars
   commander
   differ
   mapper

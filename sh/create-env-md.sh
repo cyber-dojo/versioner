@@ -111,6 +111,7 @@ echo
 sha_env_var starter_base
 
 readonly services=(
+  avatars
   commander
   differ
   mapper
