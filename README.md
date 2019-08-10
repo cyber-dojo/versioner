@@ -9,15 +9,21 @@
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
 For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
-a commit to this repo, and its .env file specifies a differ tag of 5c95484, a runner tag of 380c557, etc.
+a commit to this repo, and its .env file specifies
+an avatar tag of 47dd256, a differ tag of 5c95484, an nginx tag of 7bb8fdb,
+a runner tag of 380c557, etc.
 ```bash
 $ cyber-dojo update 1.24.0
 $ cyber-dojo up
 Using version=1.24.0 (public)
 ...
+Using avatars=cyberdojo/avatars:47dd256
 Using differ=cyberdojo/differ:5c95484
-...
+Using nginx=cyberdojo/nginx:7bb8fdb
+Using ragger=cyberdojo/ragger:989f7a0
 Using runner=cyberdojo/runner:380c557
+Using saver=cyberdojo/saver:03bc78e
+Using web=cyberdojo/web:2b85507
 ...
 ```
 
