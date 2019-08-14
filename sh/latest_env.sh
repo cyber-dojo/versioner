@@ -99,6 +99,9 @@ do
   sha=$(service_sha $service)
   tag=${sha:0:7}
   echo
+  if [ "${service}" == 'web' ]; then
+    echo 'CYBER_DOJO_WEB_IMAGE=cyberdojo/web'
+  fi
   echo "${sha_env_var_name}=${sha}"
   echo "${tag_env_var_name}=${tag}"
 done
