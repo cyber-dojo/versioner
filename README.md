@@ -8,13 +8,13 @@
 
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
-For example, suppose there is an image cyberdojo/versioner:0.1.29, created from
+For example, suppose there is an image cyberdojo/versioner:**0.1.29**, created from
 a commit to this repo, and its .env file specifies:
   * a tag of **47dd256** for the [avatars](https://github.com/cyber-dojo/avatars/tree/47dd256870aa6053734626809dff3d08e963b6c3) service
   * a tag of **610f484** for the [differ](https://github.com/cyber-dojo/differ/tree/610f484e67fde232d9561521590de43e1e365fc3) service
   * a tag of **02183dc** for the [nginx](https://github.com/cyber-dojo/nginx/tree/02183dc03f0ed93d81829f9fca8eaa5eddd913b9) service
   * a tag of **f03228c** for the [runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) service
-  * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/runner/tree/05e89eee29666e5474ddd486938f33127b0c2471) service
+  * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) service
   * etc...
   ```bash
   $ cyber-dojo update 0.1.29
@@ -103,10 +103,10 @@ specify its tag **and** its image name. For example:
       ...
   ```  
 - Integration tests can cat /app/.env to /tmp, source it, and use
-  the tag env-vars in their docker-compose.yml files. For example:
+  the tag env-vars, eg, in a docker-compose.yml files. For example:
   ```bash
   #!/bin/bash
-  TAG=${VERSIONER_TAG:-latest}
+  TAG=${CYBER_DOJO_VERSION:-latest}
   docker run --rm cyberdojo/versioner:${TAG} \
     sh -c 'cat /app/.env' \
       > /tmp/cyber-dojo-image-tags.sh
@@ -114,10 +114,15 @@ specify its tag **and** its image name. For example:
   . /tmp/cyber-dojo-image-tags.sh
   set +a
   docker-compose --file my-docker-compose.yml up -d
+  # ...wait for all services to be ready
+  # ...run your tests which depend on differ and runner...
   ```
   ```yml
   # my-docker-compose.yml
   services:
+    differ:
+      image: cyberdojo/differ:${CYBER_DOJO_DIFFER_TAG}
+      ...
     runner:
       image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
       ...
