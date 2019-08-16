@@ -8,14 +8,16 @@
 
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
-For example, suppose there is an image cyberdojo/versioner:1.24.0, created from
+For example, suppose there is an image cyberdojo/versioner:0.1.29, created from
 a commit to this repo, and its .env file specifies
-an avatar tag of 47dd256, a differ tag of 5c95484, an nginx tag of 7bb8fdb,
+an avatar tag of 47dd256,
+a differ tag of 5c95484,
+an nginx tag of 7bb8fdb,
 a runner tag of 380c557, etc.
 ```bash
-$ cyber-dojo update 1.24.0
+$ cyber-dojo update 0.1.29
 $ cyber-dojo up
-Using version=1.24.0 (public)
+Using version=0.1.29 (public)
 ...
 Using avatars=cyberdojo/avatars:47dd256
 Using differ=cyberdojo/differ:5c95484
@@ -29,7 +31,7 @@ Using web=cyberdojo/web:2b85507
 
 The commit-shas/image-tags are held inside the versioner image in its /app/.env file.
 ```bash
-$ docker run --rm cyberdojo/versioner:1.24.0 sh -c 'cat /app/.env'
+$ docker run --rm cyberdojo/versioner:0.1.29 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
 
 CYBER_DOJO_CUSTOM=cyberdojo/custom:0d80805
@@ -63,6 +65,7 @@ CYBER_DOJO_RUNNER_TAG=3d210ed
 CYBER_DOJO_SAVER_SHA=a7f8fe50d412d0eb94b7184667dfd74bc5aaed87
 CYBER_DOJO_SAVER_TAG=a7f8fe5
 
+CYBER_DOJO_WEB_IMAGE=cyberdojo/web
 CYBER_DOJO_WEB_SHA=ac9952bc01f0708cf383264fcddd2536e9d077c4
 CYBER_DOJO_WEB_TAG=ac9952b
 
@@ -73,19 +76,35 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The custom/exercises/languages start-point entries are image names.
 - The remaining core-service entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha.
-- Integration tests can cat /app/.env to /tmp, source it, and then use
+- To run a customized web service specify its image name and tag. For example:
+  ```bash
+  #!/bin/bash
+  export CYBER_DOJO_WEB_IMAGE=turtlesec/web
+  export CYBER_DOJO_WEB_TAG=latest
+  cyber-dojo up ...
+  ```
+  ```yml
+  # docker-compose.yml (used by cyber-dojo script)
+  services:
+    web:
+      image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+      ...
+  ```  
+- Integration tests can cat /app/.env to /tmp, source it, and use
   the tag env-vars in their docker-compose.yml files. For example:
   ```bash
   #!/bin/bash
   TAG=${VERSIONER_TAG:-latest}
-  docker run --rm cyberdojo/versioner:${TAG} sh -c 'cat /app/.env' > /tmp/versioner.sh
+  docker run --rm cyberdojo/versioner:${TAG} \
+    sh -c 'cat /app/.env' \
+      > /tmp/versioner.sh
   set -a # -o allexport
   . /tmp/versioner.sh
   set +a
-  docker-compose --file docker-compose.yml up -d
+  docker-compose --file my-docker-compose.yml up -d
   ```
   ```yml
-  # docker-compose.yml
+  # my-docker-compose.yml
   services:
     runner:
       image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
