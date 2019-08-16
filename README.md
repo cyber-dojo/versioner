@@ -80,8 +80,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The custom/exercises/languages start-point entries are image names.
 - The remaining core-service entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha.
-- To run your own web service forked from [web](https://github.com/cyber-dojo/web)
-specify its tag **and** its image name. For example:
+- To run your own web service specify its tag **and** its image name. For example:
   ```bash
   $ export CYBER_DOJO_WEB_IMAGE=turtlesec/web
   $ export CYBER_DOJO_WEB_TAG=84d6d0e
@@ -109,9 +108,9 @@ specify its tag **and** its image name. For example:
   TAG=${CYBER_DOJO_VERSION:-latest}
   docker run --rm cyberdojo/versioner:${TAG} \
     sh -c 'cat /app/.env' \
-      > /tmp/cyber-dojo-image-tags.sh
+      > /tmp/cyber-dojo-image-env-vars.sh
   set -a # -o allexport
-  source /tmp/cyber-dojo-image-tags.sh
+  source /tmp/cyber-dojo-image-env-vars.sh
   set +a
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
