@@ -83,10 +83,9 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - To run your own web service forked from [web](https://github.com/cyber-dojo/web)
 specify its tag **and** its image name. For example:
   ```bash
-  #!/bin/bash
-  export CYBER_DOJO_WEB_IMAGE=turtlesec/web
-  export CYBER_DOJO_WEB_TAG=84d6d0e
-  cyber-dojo up ...
+  $ export CYBER_DOJO_WEB_IMAGE=turtlesec/web
+  $ export CYBER_DOJO_WEB_TAG=84d6d0e
+  $ cyber-dojo up ...
   Using avatars=cyberdojo/avatars:47dd256
   Using differ=cyberdojo/differ:610f484
   Using nginx=cyberdojo/nginx:02183dc
@@ -106,6 +105,7 @@ specify its tag **and** its image name. For example:
   the tag env-vars, eg, in a docker-compose.yml files. For example:
   ```bash
   #!/bin/bash
+  set -e
   TAG=${CYBER_DOJO_VERSION:-latest}
   docker run --rm cyberdojo/versioner:${TAG} \
     sh -c 'cat /app/.env' \
