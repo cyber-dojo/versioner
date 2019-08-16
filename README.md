@@ -111,7 +111,7 @@ specify its tag **and** its image name. For example:
     sh -c 'cat /app/.env' \
       > /tmp/cyber-dojo-image-tags.sh
   set -a # -o allexport
-  . /tmp/cyber-dojo-image-tags.sh
+  source /tmp/cyber-dojo-image-tags.sh
   set +a
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
