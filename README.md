@@ -8,7 +8,7 @@
 
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
-For example, suppose there is an image cyberdojo/versioner:**0.1.29**, created from
+For example, suppose the latest tag fir image cyberdojo/versioner:**0.1.35**, created from
 a commit to this repo, and its .env file specifies:
   * a tag of **47dd256** for the [avatars](https://github.com/cyber-dojo/avatars/tree/47dd256870aa6053734626809dff3d08e963b6c3) service
   * a tag of **610f484** for the [differ](https://github.com/cyber-dojo/differ/tree/610f484e67fde232d9561521590de43e1e365fc3) service
@@ -17,9 +17,13 @@ a commit to this repo, and its .env file specifies:
   * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) service
   * etc...
   ```bash
-  $ cyber-dojo update 0.1.29
+  $ cyber-dojo update
+  $ cyber-dojo version
+  Version: 0.1.35
+     Type: public
+  Created: 2019-09-27 07:14:23
   $ cyber-dojo up
-  Using version=0.1.29 (public)
+  Using version=0.1.35 (public)
   ...
   Using avatars=cyberdojo/avatars:47dd256
   Using differ=cyberdojo/differ:610f484
@@ -80,7 +84,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The custom/exercises/languages start-point entries are image names.
 - The remaining core-service entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha.
-- To run your own web service specify its tag **and** its image name. For example:
+- To run your own **web** service specify its tag **and** its image name. For example:
   ```bash
   $ export CYBER_DOJO_WEB_IMAGE=turtlesec/web
   $ export CYBER_DOJO_WEB_TAG=84d6d0e
@@ -97,7 +101,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
   # docker-compose.yml (used by cyber-dojo script)
   services:
     web:
-      image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+      image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
       ...
   ```  
 - Integration tests can cat /app/.env to /tmp, source it, and use
@@ -114,7 +118,8 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
   set +a
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
-  # ...run your tests which depend on differ and runner...
+  # ...run your tests which depend on, eg, differ and runner...
+  #
   ```
   ```yml
   # my-docker-compose.yml
