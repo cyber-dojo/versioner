@@ -8,7 +8,7 @@
 
 The .env file holds the commit-shas and image-tags comprising a consistent set of images
 which can be used to bring up a cyber-dojo server.
-For example, suppose the latest tag fir image cyberdojo/versioner:**0.1.35**, created from
+For example, suppose the latest tag for image cyberdojo/versioner:**0.1.35**, created from
 a commit to this repo, and its .env file specifies:
   * a tag of **47dd256** for the [avatars](https://github.com/cyber-dojo/avatars/tree/47dd256870aa6053734626809dff3d08e963b6c3) service
   * a tag of **610f484** for the [differ](https://github.com/cyber-dojo/differ/tree/610f484e67fde232d9561521590de43e1e365fc3) service
@@ -36,7 +36,7 @@ a commit to this repo, and its .env file specifies:
 
 The commit-shas/image-tags are held inside the versioner image in its /app/.env file.
 ```bash
-$ docker run --rm cyberdojo/versioner:0.1.29 sh -c 'cat /app/.env'
+$ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
 
 CYBER_DOJO_CUSTOM=cyberdojo/custom:0d80805
