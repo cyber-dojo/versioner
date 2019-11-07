@@ -75,18 +75,12 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The remaining entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha (docker-compose yml files
   can use ```${ENV_VAR}``` but cannot use ```${ENV_VAR:0:7}```).
-- Integration tests can cat ```/app/.env``` to ```/tmp```, source it, and use
-  the tag env-vars, eg, in a docker-compose.yml file. For example:
+- Integration tests can export ```/app/.env``` and use the env-vars in a docker-compose.yml file. For example:
   ```bash
   #!/bin/bash
   set -e
   TAG=${CYBER_DOJO_VERSION:-latest}
-  docker run --rm cyberdojo/versioner:${TAG} \
-    sh -c 'cat /app/.env' \
-      > /tmp/cyber-dojo-image-env-vars.sh
-  set -a # -o allexport
-  source /tmp/cyber-dojo-image-env-vars.sh
-  set +a
+  export $(docker run --rm cyberdojo/versioner:${TAG} sh -c 'cat /app/.env')
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
   # ...run your tests which depend on, eg, runner...
