@@ -2,34 +2,29 @@
 
 # cyberdojo/versioner docker image
 
-- A docker image for [cyber-dojo](http://cyber-dojo.org).
-- Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script to bring up a cyber-dojo server.
-- Records a consistent set of image tags for all the cyber-dojo server's micro-services on [dockerhub](https://hub.docker.com/r/cyberdojo/versioner/tags)
+The [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
+uses a cyberdojo/versioner docker image when bringing up a cyber-dojo server.
+For example, suppose cyberdojo/versioner:**latest** is a tag for cyberdojo/versioner:**0.1.35**,
+and we bring up a cyber-dojo server:
+```bash
+$ cyber-dojo up
+Using version=0.1.35 (public)
+...
+Using nginx=cyberdojo/nginx:02183dc
+Using runner=cyberdojo/runner:f03228c
+Using web=cyberdojo/web:05e89ee
+...
+```
+This means cyberdojo/versioner:**0.1.35** specifies a consistent working set of
+image tags for a cyber-dojo server's micro-services, as follows:
+*  the [nginx](https://github.com/cyber-dojo/nginx/tree/02183dc03f0ed93d81829f9fca8eaa5eddd913b9) image with the tag **02183dc**
+*  the [runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image with the tag **f03228c**
+*  the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image with the tag **05e89ee**
+* etc...
 
-For example, suppose cyberdojo/versioner:**latest** is a tag for cyberdojo/versioner:**0.1.35**, created from a commit to this repo, which specifies:
-  * a tag of **02183dc** for the [nginx](https://github.com/cyber-dojo/nginx/tree/02183dc03f0ed93d81829f9fca8eaa5eddd913b9) image
-  * a tag of **f03228c** for the [runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image
-  * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image
-  * etc...
-  ```bash
-  $ cyber-dojo update
-  ...
-  $ cyber-dojo version
-  Version: 0.1.35
-     Type: public
-  Created: 2019-09-27 07:14:23
+- - - -
 
-  $ cyber-dojo up
-  Using version=0.1.35 (public)
-  ...
-  Using nginx=cyberdojo/nginx:02183dc
-  Using ragger=cyberdojo/runner:f03228c
-  ...
-  Using web=cyberdojo/web:05e89ee
-  ...
-  ```
-
-The ```/app/.env``` file holds the set of image tags.
+The ```/app/.env``` file holds the consistent set of image tags.
 For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
@@ -77,7 +72,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 ```
 
 - The custom/exercises/languages start-point entries are image names.
-- The remaining core-service entries are commit shas and image tags.
+- The remaining entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha (docker-compose yml files
   can use ```${ENV_VAR}``` but cannot use ```${ENV_VAR:0:7}```).
 - Integration tests can cat ```/app/.env``` to ```/tmp```, source it, and use
