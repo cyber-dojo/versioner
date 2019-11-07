@@ -76,7 +76,7 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The tag is always the first seven chars of the sha (docker-compose yml files
   can use ```${ENV_VAR}``` but cannot use ```${ENV_VAR:0:7}```).
 - Integration tests can cat ```/app/.env``` to ```/tmp```, source it, and use
-  the tag env-vars, eg, in a docker-compose.yml files. For example:
+  the tag env-vars, eg, in a docker-compose.yml file. For example:
   ```bash
   #!/bin/bash
   set -e
