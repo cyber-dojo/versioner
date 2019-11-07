@@ -3,30 +3,25 @@
 # cyberdojo/versioner docker image
 
 - A docker image for [cyber-dojo](http://cyber-dojo.org).
+- Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script to bring up a cyber-dojo server.
 - Records a consistent set of image tags for all the cyber-dojo server's micro-services on [dockerhub](https://hub.docker.com/r/cyberdojo/versioner/tags)
-- Used by the main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) script
 
-The .env file holds the commit-shas and image-tags comprising a consistent set of images
-which can be used to bring up a cyber-dojo server.
-For example, suppose the latest tag for image cyberdojo/versioner:**0.1.35**, created from
-a commit to this repo, and its .env file specifies:
-  * a tag of **47dd256** for the [avatars](https://github.com/cyber-dojo/avatars/tree/47dd256870aa6053734626809dff3d08e963b6c3) service
-  * a tag of **610f484** for the [differ](https://github.com/cyber-dojo/differ/tree/610f484e67fde232d9561521590de43e1e365fc3) service
-  * a tag of **02183dc** for the [nginx](https://github.com/cyber-dojo/nginx/tree/02183dc03f0ed93d81829f9fca8eaa5eddd913b9) service
-  * a tag of **f03228c** for the [runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) service
-  * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) service
+For example, suppose cyberdojo/versioner:**latest** is a tag for cyberdojo/versioner:**0.1.35**, created from a commit to this repo, which specifies:
+  * a tag of **02183dc** for the [nginx](https://github.com/cyber-dojo/nginx/tree/02183dc03f0ed93d81829f9fca8eaa5eddd913b9) image
+  * a tag of **f03228c** for the [runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image
+  * a tag of **05e89ee** for the [web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image
   * etc...
   ```bash
   $ cyber-dojo update
+  ...
   $ cyber-dojo version
   Version: 0.1.35
      Type: public
   Created: 2019-09-27 07:14:23
+
   $ cyber-dojo up
   Using version=0.1.35 (public)
   ...
-  Using avatars=cyberdojo/avatars:47dd256
-  Using differ=cyberdojo/differ:610f484
   Using nginx=cyberdojo/nginx:02183dc
   Using ragger=cyberdojo/runner:f03228c
   ...
@@ -34,7 +29,8 @@ a commit to this repo, and its .env file specifies:
   ...
   ```
 
-The commit-shas/image-tags are held inside the versioner image in its /app/.env file.
+The ```/app/.env``` file holds the set of image tags.
+For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
@@ -83,8 +79,8 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
 - The custom/exercises/languages start-point entries are image names.
 - The remaining core-service entries are commit shas and image tags.
 - The tag is always the first seven chars of the sha (docker-compose yml files
-  can use ${ENV_VAR} but cannot use ${ENV_VAR:0:7}).
-- Integration tests can cat /app/.env to /tmp, source it, and use
+  can use ```${ENV_VAR}``` but cannot use ```${ENV_VAR:0:7}```).
+- Integration tests can cat ```/app/.env``` to ```/tmp```, source it, and use
   the tag env-vars, eg, in a docker-compose.yml files. For example:
   ```bash
   #!/bin/bash
@@ -98,15 +94,12 @@ CYBER_DOJO_ZIPPER_TAG=42e684b
   set +a
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
-  # ...run your tests which depend on, eg, differ and runner...
+  # ...run your tests which depend on, eg, runner...
   #
   ```
   ```yml
   # my-docker-compose.yml
   services:
-    differ:
-      image: cyberdojo/differ:${CYBER_DOJO_DIFFER_TAG}
-      ...
     runner:
       image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
       ...
