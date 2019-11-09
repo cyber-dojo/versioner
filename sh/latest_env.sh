@@ -68,7 +68,6 @@ readonly services=(
   avatars
   commander
   differ
-  mapper
   nginx
   puller
   ragger
