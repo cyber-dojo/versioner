@@ -70,6 +70,9 @@ sha_env_var()
   if [ "${1}" == 'web' ]; then
     echo "CYBER_DOJO_WEB_IMAGE=cyberdojo/web"
   fi
+  if [ "${1}" == 'nginx' ]; then
+    echo "CYBER_DOJO_NGINX_IMAGE=cyberdojo/nginx"
+  fi
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
   echo "$(tag_var ${1})=$(tag_value ${1})<br/>"
 }

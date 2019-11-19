@@ -101,6 +101,9 @@ do
   if [ "${service}" == 'web' ]; then
     echo 'CYBER_DOJO_WEB_IMAGE=cyberdojo/web'
   fi
+  if [ "${service}" == 'nginx' ]; then
+    echo 'CYBER_DOJO_NGINX_IMAGE=cyberdojo/nginx'
+  fi
   echo "${sha_env_var_name}=${sha}"
   echo "${tag_env_var_name}=${tag}"
 done
