@@ -15,6 +15,12 @@ class CoreServicesEntriesTest < MiniTest::Test
     vars.delete('CYBER_DOJO_LANGUAGES')
     vars.delete('CYBER_DOJO_STARTER_BASE_SHA')
     vars.delete('CYBER_DOJO_STARTER_BASE_TAG')
+    vars.delete('CYBER_DOJO_CUSTOM_SHA') # todo
+    vars.delete('CYBER_DOJO_CUSTOM_TAG')
+    vars.delete('CYBER_DOJO_EXERCISES_SHA') # todo
+    vars.delete('CYBER_DOJO_EXERCISES_TAG')
+    vars.delete('CYBER_DOJO_LANGUAGES_SHA') # todo
+    vars.delete('CYBER_DOJO_LANGUAGES_TAG')
     tags = vars.keys.select{ |name| name.end_with?('TAG') }
     tags.sort.each do |tag_env_name|
       tag_value = vars[tag_env_name]
