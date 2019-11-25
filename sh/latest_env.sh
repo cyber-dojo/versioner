@@ -63,6 +63,42 @@ starter_base_env_var()
 }
 
 # ---------------------------------------------------
+custom_env_var()
+{
+  local -r sha_env_var_name="CYBER_DOJO_CUSTOM_SHA"
+  local -r tag_env_var_name="CYBER_DOJO_CUSTOM_TAG"
+  docker_image_pull custom
+  local -r sha=$(service_sha custom)
+  local -r tag=${sha:0:7}
+  echo "${sha_env_var_name}=${sha}"
+  echo "${tag_env_var_name}=${tag}"
+}
+
+# ---------------------------------------------------
+exercises_env_var()
+{
+  local -r sha_env_var_name="CYBER_DOJO_EXERCISES_SHA"
+  local -r tag_env_var_name="CYBER_DOJO_EXERCISES_TAG"
+  docker_image_pull exercises
+  local -r sha=$(service_sha exercises)
+  local -r tag=${sha:0:7}
+  echo "${sha_env_var_name}=${sha}"
+  echo "${tag_env_var_name}=${tag}"
+}
+
+# ---------------------------------------------------
+languages_env_var()
+{
+  local -r sha_env_var_name="CYBER_DOJO_LANGUAGES_SHA"
+  local -r tag_env_var_name="CYBER_DOJO_LANGUAGES_TAG"
+  docker_image_pull languages-common
+  local -r sha=$(service_sha languages-common)
+  local -r tag=${sha:0:7}
+  echo "${sha_env_var_name}=${sha}"
+  echo "${tag_env_var_name}=${tag}"
+}
+
+# ---------------------------------------------------
 
 readonly services=(
   avatars
@@ -83,12 +119,16 @@ echo
 echo "CYBER_DOJO_PORT=80"
 
 echo
+starter_base_env_var
+echo
+custom_env_var
+exercises_env_var
+languages_env_var
+
+echo
 start_point_env_var CUSTOM    custom
 start_point_env_var EXERCISES exercises
 start_point_env_var LANGUAGES languages-common
-
-echo
-starter_base_env_var
 
 for service in "${services[@]}";
 do

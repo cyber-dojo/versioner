@@ -116,6 +116,11 @@ done
 echo
 sha_env_var starter_base
 
+echo
+sha_env_var custom
+sha_env_var exercises
+sha_env_var languages
+
 readonly services=(
   avatars
   commander
