@@ -116,30 +116,25 @@ readonly services=(
   zipper
 )
 
-echo '# --------------------------------------------------------'
-echo '# $ cyber-dojo bash commands delegate to commander'
+echo '### $ cyber-dojo bash commands delegate to commander'
 echo
 sha_env_var commander
 echo
-echo '# --------------------------------------------------------'
-echo '# Base image tag used in: $ cyber-dojo start-point create'
+echo '### Base image tag used in: $ cyber-dojo start-point create'
 echo
 sha_env_var starter_base
 echo
-echo '# --------------------------------------------------------'
-echo '# Default start-points images used in: $ cyber-dojo up'
+echo '### Default start-points images used in: $ cyber-dojo up'
 echo
 cel_env_var custom     custom-start-points
 cel_env_var exercises  exercises-start-points
 cel_env_var languages  languages-start-points
 echo
-echo '# --------------------------------------------------------'
-echo '# Default port used in: $ cyber-dojo up'
+echo '### Default port used in: $ cyber-dojo up'
 echo
 echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
 echo
-echo '# --------------------------------------------------------'
-echo '# HTTP web services used in: $ cyber-dojo up|down'
+echo '### HTTP web services used in: $ cyber-dojo up'
 echo
 for svc in "${services[@]}";
 do
