@@ -35,13 +35,12 @@ cel_sha()
 
 cel_url()
 {
-  echo "https://github.com/cyber-dojo/${1}/commit/$(cel_sha ${1})"
+  echo "https://github.com/cyber-dojo/${2}/commit/$(cel_sha ${1})"
 }
 
 cel_env_var()
 {
-  local -r env=$(cel_var ${1})
-  echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1}))<br/>"
+  echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1} ${2}))<br/>"
 }
 
 # ---------------------------------------------------
@@ -102,28 +101,11 @@ tag_env_var()
   echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
 }
 
-# ---------------------------------------------------
-
-echo
-echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
-
-echo
-for cel in custom exercises languages
-do
-  cel_env_var ${cel}
-done
-
-echo
-sha_env_var starter_base
-
-#echo
-#sha_env_var custom
-#sha_env_var exercises
-#sha_env_var languages
-
 readonly services=(
+  custom
+  exercises
+  languages
   avatars
-  commander
   differ
   nginx
   puller
@@ -134,8 +116,33 @@ readonly services=(
   zipper
 )
 
+echo '# --------------------------------------------------------'
+echo '# $ cyber-dojo bash commands delegate to commander'
+echo
+sha_env_var commander
+echo
+echo '# --------------------------------------------------------'
+echo '# Base image tag used in: $ cyber-dojo start-point create'
+echo
+sha_env_var starter_base
+echo
+echo '# --------------------------------------------------------'
+echo '# Default start-points images used in: $ cyber-dojo up'
+echo
+cel_env_var custom     custom-start-points
+cel_env_var exercises  exercises-start-points
+cel_env_var languages  languages-start-points
+echo
+echo '# --------------------------------------------------------'
+echo '# Default port used in: $ cyber-dojo up'
+echo
+echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
+echo
+echo '# --------------------------------------------------------'
+echo '# HTTP web services used in: $ cyber-dojo up|down'
+echo
 for svc in "${services[@]}";
 do
-  echo
   sha_env_var ${svc}
+  echo
 done

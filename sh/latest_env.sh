@@ -99,10 +99,29 @@ languages_env_var()
 }
 
 # ---------------------------------------------------
+sha_env_var()
+{
+  docker_image_pull ${1}
+  sha_env_var_name="CYBER_DOJO_$(upper_case $1)_SHA" # eg CYBER_DOJO_WEB_SHA
+  tag_env_var_name="CYBER_DOJO_$(upper_case $1)_TAG" # eg CYBER_DOJO_WEB_TAG
+  sha=$(service_sha $1)
+  tag=${sha:0:7}
+  if [ "${1}" == 'web' ]; then
+    echo 'CYBER_DOJO_WEB_IMAGE=cyberdojo/web'
+  fi
+  if [ "${1}" == 'nginx' ]; then
+    echo 'CYBER_DOJO_NGINX_IMAGE=cyberdojo/nginx'
+  fi
+  echo "${sha_env_var_name}=${sha}"
+  echo "${tag_env_var_name}=${tag}"
+}
 
+# ---------------------------------------------------
 readonly services=(
+  custom
+  exercises
+  languages
   avatars
-  commander
   differ
   nginx
   puller
@@ -115,35 +134,33 @@ readonly services=(
 
 # ---------------------------------------------------
 
+echo '# --------------------------------------------------------'
+echo '# $ cyber-dojo bash commands delegate to commander'
 echo
-echo "CYBER_DOJO_PORT=80"
-
+sha_env_var commander
+echo
+echo '# --------------------------------------------------------'
+echo '# Base image tag used in: $ cyber-dojo start-point create'
 echo
 starter_base_env_var
 echo
-custom_env_var
-exercises_env_var
-languages_env_var
-
+echo '# --------------------------------------------------------'
+echo '# Default start-points images used in: $ cyber-dojo up'
 echo
-start_point_env_var CUSTOM    custom
-start_point_env_var EXERCISES exercises
-start_point_env_var LANGUAGES languages-common
-
+start_point_env_var CUSTOM    custom-start-points
+start_point_env_var EXERCISES exercises-start-points
+start_point_env_var LANGUAGES languages-start-points-common
+echo
+echo '# --------------------------------------------------------'
+echo '# Default port used in: $ cyber-dojo up'
+echo
+echo "CYBER_DOJO_PORT=80"
+echo
+echo '# --------------------------------------------------------'
+echo '# HTTP web services used in: $ cyber-dojo up|down'
+echo
 for service in "${services[@]}";
 do
-  docker_image_pull $service
-  sha_env_var_name="CYBER_DOJO_$(upper_case $service)_SHA" # eg CYBER_DOJO_WEB_SHA
-  tag_env_var_name="CYBER_DOJO_$(upper_case $service)_TAG" # eg CYBER_DOJO_WEB_TAG
-  sha=$(service_sha $service)
-  tag=${sha:0:7}
+  sha_env_var ${service}
   echo
-  if [ "${service}" == 'web' ]; then
-    echo 'CYBER_DOJO_WEB_IMAGE=cyberdojo/web'
-  fi
-  if [ "${service}" == 'nginx' ]; then
-    echo 'CYBER_DOJO_NGINX_IMAGE=cyberdojo/nginx'
-  fi
-  echo "${sha_env_var_name}=${sha}"
-  echo "${tag_env_var_name}=${tag}"
 done
