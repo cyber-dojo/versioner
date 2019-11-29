@@ -134,25 +134,20 @@ readonly services=(
 
 # ---------------------------------------------------
 
-echo '### $ cyber-dojo bash commands delegate to commander'
 echo
 sha_env_var commander
 echo
-echo '### Base image tag used in: $ cyber-dojo start-point create'
-echo
 starter_base_env_var
 echo
-echo '### Default start-points images used in: $ cyber-dojo up'
+echo 'CYBER_DOJO_CUSTOM_PORT=4526'
+echo 'CYBER_DOJO_EXERCISES_PORT=4525'
+echo 'CYBER_DOJO_LANGUAGES_PORT=4524'
 echo
 start_point_env_var CUSTOM    custom-start-points
 start_point_env_var EXERCISES exercises-start-points
 start_point_env_var LANGUAGES languages-start-points-common
 echo
-echo '### Default port used in: $ cyber-dojo up'
-echo
 echo "CYBER_DOJO_PORT=80"
-echo
-echo '### HTTP web services used in: $ cyber-dojo up'
 echo
 for service in "${services[@]}";
 do
