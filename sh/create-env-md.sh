@@ -133,9 +133,9 @@ echo 'CYBER_DOJO_LANGUAGES_PORT=4524'
 echo
 echo '### Default start-points images used in: $ cyber-dojo up'
 echo
-cel_env_var custom     custom-start-points
-cel_env_var exercises  exercises
-cel_env_var languages  languages-common
+cel_env_var custom    custom-start-points
+cel_env_var exercises exercises-start-points
+cel_env_var languages languages-common
 echo
 echo '### Default port used in: $ cyber-dojo up'
 echo
