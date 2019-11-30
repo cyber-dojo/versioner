@@ -143,7 +143,7 @@ echo 'CYBER_DOJO_CUSTOM_PORT=4526'
 echo 'CYBER_DOJO_EXERCISES_PORT=4525'
 echo 'CYBER_DOJO_LANGUAGES_PORT=4524'
 echo
-start_point_env_var CUSTOM    custom
+start_point_env_var CUSTOM    custom-start-points
 start_point_env_var EXERCISES exercises
 start_point_env_var LANGUAGES languages-common
 echo
