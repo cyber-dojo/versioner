@@ -3,7 +3,7 @@ jobs:
   build-publish-trigger:
 
     machine:
-      enabled: true
+      image: ubuntu-1604:201903-01
 
     working_directory: ~/repo
 
@@ -15,7 +15,7 @@ jobs:
             set -e
             ./pipe_build_up_test.sh
       - run:
-          name: Publish sha-tagged on dockerhub
+          name: Publish sha-tagged image on dockerhub
           command: |
             set -e
             SHA="${CIRCLE_SHA1}"
