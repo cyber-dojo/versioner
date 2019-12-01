@@ -30,9 +30,9 @@ For example:
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
 CYBER_DOJO_PORT=80
 
-CYBER_DOJO_CUSTOM=cyberdojo/custom:0d80805
-CYBER_DOJO_EXERCISES=cyberdojo/exercises:7ca6d19
-CYBER_DOJO_LANGUAGES=cyberdojo/languages-common:4b35db8
+CYBER_DOJO_CUSTOM=cyberdojo/custom-start-points:f3020d2
+CYBER_DOJO_EXERCISES=cyberdojo/exercises-start-points:ebdd09f
+CYBER_DOJO_LANGUAGES=cyberdojo/languages-start-points-common:6604370
 ...
 CYBER_DOJO_NGINX_SHA=02183dc03f0ed93d81829f9fca8eaa5eddd913b9
 CYBER_DOJO_NGINX_TAG=02183dc
