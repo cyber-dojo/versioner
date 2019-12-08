@@ -28,8 +28,11 @@ The ```/app/.env``` file holds the consistent set of image tags.
 For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
-CYBER_DOJO_PORT=80
-
+...
+CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
+CYBER_DOJO_START_POINTS_BASE_SHA=b9c7459b07d337a890e5d22a9c805f372bda758f
+CYBER_DOJO_START_POINTS_BASE_TAG=b9c7459
+...
 CYBER_DOJO_CUSTOM=cyberdojo/custom-start-points:f3020d2
 CYBER_DOJO_EXERCISES=cyberdojo/exercises-start-points:ebdd09f
 CYBER_DOJO_LANGUAGES=cyberdojo/languages-start-points-common:6604370
@@ -44,17 +47,16 @@ CYBER_DOJO_WEB_SHA=ac9952bc01f0708cf383264fcddd2536e9d077c4
 CYBER_DOJO_WEB_TAG=ac9952b
 ...
 ```
-
+- The start-points-base entries specify the [cyber-dojo start-point create] base image name
 - The custom/exercises/languages start-point entries are image names.
-- The remaining entries are commit shas and image tags.
+- The remaining entries are image names, commit shas and image tags.
 - The tag is always the first seven chars of the sha (docker-compose yml files
-  can use ```${ENV_VAR}``` but cannot use ```${ENV_VAR:0:7}```).
+  can use ```${TAG}``` but cannot use ```${SHA:0:7}```).
 - Integration tests can export ```/app/.env``` and use the tag env-vars in a docker-compose.yml file. For example:
   ```bash
   #!/bin/bash
   set -e
-  TAG=${CYBER_DOJO_VERSION:-latest}
-  export $(docker run --rm cyberdojo/versioner:${TAG} sh -c 'cat /app/.env')
+  export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
   docker-compose --file my-docker-compose.yml up -d
   # ...wait for all services to be ready
   # ...run your tests which depend on, eg, runner...
