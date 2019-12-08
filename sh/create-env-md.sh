@@ -66,6 +66,9 @@ sha_url()
 
 sha_env_var()
 {
+  if [ "${1}" == 'starter_base' ]; then
+    echo "CYBER_DOJO_STARTER_BASE_IMAGE=cyberdojo/starter-base"
+  fi
   if [ "${1}" == 'web' ]; then
     echo "CYBER_DOJO_WEB_IMAGE=cyberdojo/web"
   fi
@@ -123,13 +126,6 @@ echo
 echo '### Base image tag used in: $ cyber-dojo start-point create'
 echo
 sha_env_var starter_base
-echo
-echo
-echo '### Default ports used in: $ cyber-dojo start-point create'
-echo
-echo 'CYBER_DOJO_CUSTOM_PORT=4526'
-echo 'CYBER_DOJO_EXERCISES_PORT=4525'
-echo 'CYBER_DOJO_LANGUAGES_PORT=4524'
 echo
 echo '### Default start-points images used in: $ cyber-dojo up'
 echo
