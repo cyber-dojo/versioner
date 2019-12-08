@@ -18,8 +18,6 @@ class CoreServicesEntriesTest < MiniTest::Test
     vars.delete('CYBER_DOJO_START_POINTS_BASE_SHA')
     vars.delete('CYBER_DOJO_START_POINTS_BASE_TAG')
 
-    vars.delete('CYBER_DOJO_STARTER_BASE_SHA')
-    vars.delete('CYBER_DOJO_STARTER_BASE_TAG')
     vars.delete('CYBER_DOJO_CUSTOM_SHA') # todo
     vars.delete('CYBER_DOJO_CUSTOM_TAG')
     vars.delete('CYBER_DOJO_EXERCISES_SHA') # todo
