@@ -66,6 +66,9 @@ sha_url()
 
 sha_env_var()
 {
+  if [ "${1}" == 'start_points_base' ]; then
+    echo "CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base"
+  fi
   if [ "${1}" == 'starter_base' ]; then
     echo "CYBER_DOJO_STARTER_BASE_IMAGE=cyberdojo/starter-base"
   fi
@@ -124,6 +127,8 @@ echo
 sha_env_var commander
 echo
 echo '### Base image tag used in: $ cyber-dojo start-point create'
+echo
+sha_env_var start_points_base
 echo
 sha_env_var starter_base
 echo

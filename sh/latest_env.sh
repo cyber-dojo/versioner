@@ -51,6 +51,19 @@ upper_case()
 }
 
 # ---------------------------------------------------
+start_points_base_env_var()
+{
+  local -r image_env_var_name="CYBER_DOJO_START_POINTS_BASE_IMAGE"
+  local -r sha_env_var_name="CYBER_DOJO_START_POINTS_BASE_SHA"
+  local -r tag_env_var_name="CYBER_DOJO_START_POINTS_BASE_TAG"
+  docker_image_pull start-points-base
+  local -r sha=$(service_base_sha start-points-base)
+  local -r tag=${sha:0:7}
+  echo "${image_env_var_name}=cyberdojo/start-points-base"
+  echo "${sha_env_var_name}=${sha}"
+  echo "${tag_env_var_name}=${tag}"
+}
+
 starter_base_env_var()
 {
   local -r image_env_var_name="CYBER_DOJO_STARTER_BASE_IMAGE"
@@ -138,6 +151,8 @@ readonly services=(
 
 echo
 sha_env_var commander
+echo
+start_points_base_env_var
 echo
 starter_base_env_var
 echo
