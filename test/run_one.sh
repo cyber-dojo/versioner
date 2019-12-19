@@ -5,7 +5,7 @@ set -e
 ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-run_all_tests()
+run_one_test()
 {
   docker run \
     --rm \
@@ -14,8 +14,8 @@ run_all_tests()
     --volume "${ROOT_DIR}/.env:/app/.env:ro" \
     --volume "${ROOT_DIR}/test:/app/test:ro" \
     cyberdojo/docker-base \
-      "/app/test/run_all.sh"
+      "/app/test/${1}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-run_all_tests
+run_one_test "${1}"
