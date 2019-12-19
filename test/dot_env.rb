@@ -11,9 +11,7 @@ module DotEnv
   def raw_dot_env
     @dot_env ||= begin
       lines = IO.read('/app/.env').lines
-      lines.reject! do |line|
-        line.strip.empty? || line.start_with?('#')
-      end
+      lines.reject! { |line| line.strip.empty? }
       lines.map { |line| line.strip.split('=',2) }.to_h
     end
   end

@@ -10,37 +10,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build docker image
+          name: Build docker image, test it, tag it, publish it
           command: |
             set -e
-            ./pipe_build_up_test.sh
-      - run:
-          name: Publish sha-tagged image on dockerhub
-          command: |
-            set -e
-            SHA="${CIRCLE_SHA1}"
-            docker tag cyberdojo/versioner:latest cyberdojo/versioner:${SHA:0:7}
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            docker push cyberdojo/versioner:${SHA:0:7}
-            docker logout
-      - run:
-          name: Publish dev/release tag on dockerhub
-          command: |
-            set -e
-            export GIT_COMMIT_MSG=$(git log --oneline --format=%B -n 1 HEAD | head -n 1)
-            if ./sh/is-release-commit.sh; then
-              RELEASE=$(./sh/echo-commit-release.sh)
-              docker tag cyberdojo/versioner:latest cyberdojo/versioner:${RELEASE}
-              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-              docker push cyberdojo/versioner:${RELEASE}
-              docker push cyberdojo/versioner:latest
-              docker logout
-            else
-              docker tag cyberdojo/versioner:latest cyberdojo/versioner:dev_latest
-              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-              docker push cyberdojo/versioner:dev_latest
-              docker logout
-            fi
+            ./build_test_tag_publish.sh
 
 workflows:
   version: 2

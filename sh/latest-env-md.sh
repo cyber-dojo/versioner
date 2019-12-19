@@ -2,14 +2,15 @@
 set -e
 
 # Script to create .env.md as a hyperlinked version of .env
+# Use
+# $ ./sh/latest-env-md.sh > .env.md
 # Used by .git/hooks/pre-push
-# which tells you to run
-# $ ./sh/create-env-md.sh > .env.md
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-. "${ROOT_DIR}/.env"
+source "${ROOT_DIR}/.env"
 
-# ---------------------------------------------------
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
 sha()
 {
@@ -19,7 +20,7 @@ sha()
 cel_var()
 {
   local -r upper=$(echo ${1} | tr [a-z] [A-Z])
-   echo "CYBER_DOJO_${upper}"
+   echo "CYBER_DOJO_$(upper_case "${1}")"
 }
 
 cel_value()
@@ -43,12 +44,10 @@ cel_env_var()
   echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1} ${2}))<br/>"
 }
 
-# ---------------------------------------------------
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_var()
 {
-  local -r upper=$(echo ${1} | tr [a-z] [A-Z])
-  echo "CYBER_DOJO_${upper}_SHA"
+  echo "CYBER_DOJO_$(upper_case "${1}")_SHA"
 }
 
 sha_value()
@@ -66,25 +65,29 @@ sha_url()
 
 sha_env_var()
 {
-  if [ "${1}" == 'start_points_base' ]; then
-    echo "CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base"
-  fi
-  if [ "${1}" == 'web' ]; then
-    echo "CYBER_DOJO_WEB_IMAGE=cyberdojo/web"
-  fi
-  if [ "${1}" == 'nginx' ]; then
-    echo "CYBER_DOJO_NGINX_IMAGE=cyberdojo/nginx"
-  fi
+  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=[cyberdojo/${1}](https://hub.docker.com/r/cyberdojo/${1}/tags)"
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
   echo "$(tag_var ${1})=$(tag_value ${1})<br/>"
+  case "${1}" in
+  creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+  custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
+  exercises ) printf 'CYBER_DOJO_EXERCISES_PORT=4535\n';;
+  languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
+  avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
+  differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
+  puller    ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
+  ragger    ) printf 'CYBER_DOJO_RAGGER_PORT=5537\n';;
+  runner    ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
+  saver     ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
+  web       ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
+  zipper    ) printf 'CYBER_DOJO_ZIPPER_PORT=4587\n';;
+  esac
 }
 
-# ---------------------------------------------------
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_var()
 {
-  local -r upper=$(echo ${1} | tr [a-z] [A-Z])
-  echo "CYBER_DOJO_${upper}_TAG"
+  echo "CYBER_DOJO_$(upper_case "${1}")_TAG"
 }
 
 tag_value()
@@ -105,9 +108,10 @@ tag_env_var()
 }
 
 readonly services=(
-  custom
-  exercises
-  languages
+  #creator
+  #custom
+  #exercises
+  #languages
   avatars
   differ
   nginx
@@ -119,13 +123,14 @@ readonly services=(
   zipper
 )
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 echo '### $ cyber-dojo bash commands delegate to commander'
 echo
 sha_env_var commander
 echo
 echo '### Base image tag used in: $ cyber-dojo start-point create'
 echo
-sha_env_var start_points_base
+sha_env_var start-points-base
 echo
 echo '### Default start-points images used in: $ cyber-dojo up'
 echo

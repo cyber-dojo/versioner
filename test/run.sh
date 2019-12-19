@@ -3,6 +3,7 @@ set -e
 
 ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 run_all_tests()
 {
   for file in ${ROOT_DIR}/test/test_*.rb; do
@@ -11,8 +12,7 @@ run_all_tests()
   done
 }
 
-# - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 run_one_test()
 {
   docker run \
@@ -24,8 +24,7 @@ run_one_test()
       "/app/test/${1}"
 }
 
-# - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 if [ -z "${1}" ]; then
   run_all_tests
 else
