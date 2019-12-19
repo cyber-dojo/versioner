@@ -17,12 +17,14 @@ build_image()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  echo $(cd "${ROOT_DIR}" \
+    && git rev-parse HEAD)
 }
 
 git_commit_msg()
 {
-  echo $(cd ${ROOT_DIR} && git log --oneline --format=%B -n 1 HEAD | head -n 1)
+  echo $(cd ${ROOT_DIR} \
+    && git log --oneline --format=%B -n 1 HEAD | head -n 1)
 }
 
 image_sha()
@@ -33,13 +35,8 @@ image_sha()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 release()
 {
-  local -r SCRIPT=puts-commit-release.rb
-  docker run \
-    --rm \
-    --env GIT_COMMIT_MSG="$(git_commit_msg)" \
-    --volume ${ROOT_DIR}/sh/${SCRIPT}:/app/${SCRIPT} \
-    cyberdojo/ruby-base:latest \
-      /app/${SCRIPT}
+  [[ "$(git_commit_msg)" =~ RELEASE=([0-9]*.[0-9]*.[0-9]*) ]] \
+     && echo ${BASH_REMATCH[1]}
 }
 
 image_release()
@@ -86,7 +83,7 @@ publish_tagged_images()
   # requires DOCKER_USER, DOCKER_PASS in ci context
   local -r SHA="$(image_sha)"
   local -r RELEASE="$(image_release)"
-  echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker push ${IMAGE}:${SHA:0:7}
   if [ "${RELEASE}" != "" ]; then
     docker push ${IMAGE}:${RELEASE}
