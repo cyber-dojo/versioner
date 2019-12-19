@@ -29,8 +29,7 @@ from_inside_run_all_tests()
 {
   cd "${ROOT_DIR}/test"
   TEST_FILES=(test_*.rb)
-  export RUBYOPT='-W2'
-  ruby -e "%w( ${TEST_FILES[*]} ).shuffle.map{ |file| require './'+file }"
+  ruby -W2 -e "%w( ${TEST_FILES[*]} ).shuffle.map{ |file| require './'+file }"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
