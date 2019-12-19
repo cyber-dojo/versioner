@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-# Script to create .env file from :latest images
-# Use:
-#   $ ./sh/latest-env.sh | tee .env
+# Script to create .env file from pulled :latest images
+# Use: $ ./sh/latest-env.sh | tee .env
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 

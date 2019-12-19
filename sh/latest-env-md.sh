@@ -2,9 +2,8 @@
 set -e
 
 # Script to create .env.md as a hyperlinked version of .env
-# Use
-# $ ./sh/latest-env-md.sh > .env.md
 # Used by .git/hooks/pre-push
+# Use: $ ./sh/latest-env-md.sh | tee .env.md
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 source "${ROOT_DIR}/.env"
@@ -66,7 +65,7 @@ sha_env_var()
 {
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=[cyberdojo/${1}](https://hub.docker.com/r/cyberdojo/${1}/tags)"
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
-  echo "$(tag_var ${1})=$(tag_value ${1})<br/>"
+  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
   case "${1}" in
   creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
   custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
@@ -97,15 +96,14 @@ tag_value()
 
 tag_url()
 {
-  local -r name=$(echo ${1} | tr '_' '-')
-  echo "https://hub.docker.com/r/cyberdojo/${name}/tags"
+  # Relies on :latest being pulled in latest-env.sh
+  local -r name="${1}" # eg runner
+  local -r tag="$(tag_value ${1})"
+  local digest=$(docker inspect --format='{{index .RepoDigests 0}}' cyberdojo/${name}:latest)
+  echo "https://hub.docker.com/layers/cyberdojo/${name}/${tag}/images/sha256-${digest:(-64)}"
 }
 
-tag_env_var()
-{
-  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
-}
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
   #creator
   #custom
