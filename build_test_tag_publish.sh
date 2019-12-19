@@ -101,7 +101,7 @@ assert_equal SHA     "$(git_commit_sha)" "$(image_sha)"
 assert_equal RELEASE "$(release)"        "$(image_release)"
 tag_the_image
 if [ "${1}" != '--build-only' ]; then
-  ${ROOT_DIR}/test/run.sh
+  ${ROOT_DIR}/test/run_all.sh
 fi
 if on_ci; then
   echo 'on CI so publishing tagged images'
