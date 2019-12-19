@@ -19,8 +19,7 @@ sha()
 
 cel_var()
 {
-  local -r upper=$(echo ${1} | tr [a-z] [A-Z])
-   echo "CYBER_DOJO_$(upper_case "${1}")"
+  echo "CYBER_DOJO_$(upper_case "${1}")"
 }
 
 cel_value()
@@ -124,7 +123,7 @@ readonly services=(
 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-echo '### $ cyber-dojo bash commands delegate to commander'
+echo '### $ cyber-dojo commands delegate to commander'
 echo
 sha_env_var commander
 echo
