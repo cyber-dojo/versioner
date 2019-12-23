@@ -31,9 +31,9 @@ CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
 CYBER_DOJO_START_POINTS_BASE_SHA=b9c7459b07d337a890e5d22a9c805f372bda758f
 CYBER_DOJO_START_POINTS_BASE_TAG=b9c7459
 ...
-CYBER_DOJO_CUSTOM=cyberdojo/custom-start-points:f3020d2
-CYBER_DOJO_EXERCISES=cyberdojo/exercises-start-points:ebdd09f
-CYBER_DOJO_LANGUAGES=cyberdojo/languages-start-points-common:6604370
+CYBER_DOJO_CUSTOM_START_POINTS=cyberdojo/custom-start-points:f3020d2
+CYBER_DOJO_EXERCISES_START_POINTS=cyberdojo/exercises-start-points:ebdd09f
+CYBER_DOJO_LANGUAGES_START_POINTS=cyberdojo/languages-start-points-common:6604370
 ...
 CYBER_DOJO_RUNNER_IMAGE=cyberdojo/runner
 CYBER_DOJO_RUNNER_SHA=f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815
@@ -47,7 +47,7 @@ CYBER_DOJO_WEB_PORT=3000
 ...
 ```
 - The start-points-base entries specify the [cyber-dojo start-point create] base-image
-- The custom/exercises/languages start-point entries are image names.
+- The start-points entries are image names.
 - The remaining entries are image names, commit shas, image tags, and port numbers.
 - The tag is always the first seven chars of the sha (docker-compose yml files
   can use ```${TAG}``` but cannot use ```${SHA:0:7}```).
@@ -66,7 +66,6 @@ CYBER_DOJO_WEB_PORT=3000
   services:
     runner:
       image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
-      ports: [ "${CYBER_DOJO_RUNNER_PORT}:${CYBER_DOJO_RUNNER_PORT}" ]      
       ...
   ```
 
