@@ -40,6 +40,7 @@ cel_url()
 cel_env_var()
 {
   echo "$(cel_var ${1})=[$(cel_value ${1})]($(cel_url ${1} ${2}))<br/>"
+  echo "$(cel_var ${1})_START_POINTS=[$(cel_value ${1})]($(cel_url ${1} ${2}))<br/>"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

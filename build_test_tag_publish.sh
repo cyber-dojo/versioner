@@ -72,14 +72,13 @@ tag_the_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci()
+on_ci_publish_tagged_images()
 {
-  [ -n "${CIRCLECI}" ]
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-publish_tagged_images()
-{
+  if [ -z "${CIRCLECI}" ]; then
+    echo 'not on CI so not publishing tagged images'
+    return
+  fi
+  echo 'on CI so publishing tagged images'
   # requires DOCKER_USER, DOCKER_PASS in ci context
   local -r SHA="$(image_sha)"
   local -r RELEASE="$(image_release)"
@@ -103,9 +102,4 @@ tag_the_image
 if [ "${1}" != '--build-only' ]; then
   ${ROOT_DIR}/test/run_all.sh
 fi
-if on_ci; then
-  echo 'on CI so publishing tagged images'
-  publish_tagged_images
-else
-  echo 'not on CI so not publishing tagged images'
-fi
+on_ci_publish_tagged_images
