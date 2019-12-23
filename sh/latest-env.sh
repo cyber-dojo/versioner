@@ -36,7 +36,6 @@ start_point_env_var()
   local -r sha=$(service_sha "${2}")
   local -r tag=${sha:0:7}
   printf "CYBER_DOJO_${1}_START_POINTS=$(cd_image_name "${2}" "${tag}")\n"
-  printf "CYBER_DOJO_${1}=$(cd_image_name "${2}" "${tag}")\n"
 }
 
 # ---------------------------------------------------
