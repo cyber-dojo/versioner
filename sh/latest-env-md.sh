@@ -23,28 +23,27 @@ cel_var()
 
 cel_value()
 {
-  local -r name="$(cel_var ${1})"
-  echo ${!name}
+  local -r name="${1}"
+  local -r env_var_name="$(cel_var ${name})"
+  echo ${!env_var_name}
 }
 
 cel_sha()
 {
-  local -r name="${1}"
+  local -r name="${1}" # eg languages-start-points
   sha $(cel_value "${name}")
 }
 
 cel_url()
 {
-  local -r name="${1}"
-  local -r repo="${2}"
-  echo "https://github.com/cyber-dojo/${repo}/commit/$(cel_sha ${name})"
+  local -r name="${1}" # eg languages-start-points
+  echo "https://github.com/cyber-dojo/${name}/commit/$(cel_sha ${name})"
 }
 
 cel_env_var()
 {
-  local -r name="${1}"  # languages-start-points
-  local -r repo="${2}"  # languages-start-points-common
-  echo "$(cel_var ${name})=[$(cel_value ${name})]($(cel_url ${name} ${repo}))<br/>"
+  local -r name="${1}"  # eg languages-start-points
+  echo "$(cel_var "${name}")=[$(cel_value "${name}")]($(cel_url "${name}"))<br/>"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,9 +135,9 @@ sha_env_var start-points-base
 echo
 echo '### Default start-points images used in: $ cyber-dojo up'
 echo
-cel_env_var custom-start-points    custom-start-points
-cel_env_var exercises-start-points exercises-start-points
-cel_env_var languages-start-points languages-start-points-common
+cel_env_var custom-start-points
+cel_env_var exercises-start-points
+cel_env_var languages-start-points
 echo
 echo '### Default port used in: $ cyber-dojo up'
 echo
