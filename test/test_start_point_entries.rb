@@ -8,12 +8,12 @@ require 'minitest/autorun'
 class StartPointEntriesTest < MiniTest::Test
 
   def test_env_file_has_valid_start_points
-    custom = dot_env('CYBER_DOJO_CUSTOM')
-    exercises = dot_env('CYBER_DOJO_EXERCISES')
-    languages = dot_env('CYBER_DOJO_LANGUAGES')
-    assert image_exists?(custom), "CYBER_DOJO_CUSTOM: #{custom} does not exist"
-    assert image_exists?(exercises), "CYBER_DOJO_EXERCISES: #{exercises} does not exist"
-    assert image_exists?(languages), "CYBER_DOJO_LANGUAGES: #{languages} does not exist"
+    custom = dot_env('CYBER_DOJO_CUSTOM_START_POINTS')
+    exercises = dot_env('CYBER_DOJO_EXERCISES_START_POINTS')
+    languages = dot_env('CYBER_DOJO_LANGUAGES_START_POINTS')
+    assert image_exists?(custom), "CYBER_DOJO_CUSTOM_START_POINTS: #{custom} does not exist"
+    assert image_exists?(exercises), "CYBER_DOJO_EXERCISES_START_POINTS: #{exercises} does not exist"
+    assert image_exists?(languages), "CYBER_DOJO_LANGUAGES_START_POINTS: #{languages} does not exist"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -36,23 +36,23 @@ class StartPointEntriesTest < MiniTest::Test
     # So these tests WARN when there isn't a match.
     sha = dot_env('CYBER_DOJO_START_POINTS_BASE_SHA')
 
-    image = dot_env('CYBER_DOJO_CUSTOM')
+    image = dot_env('CYBER_DOJO_CUSTOM_START_POINTS')
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_CUSTOM's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
+    diagnostic = "CYBER_DOJO_CUSTOM_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
     if sha != base_sha
       puts "WARNING: #{diagnostic}"
     end
 
-    image = dot_env('CYBER_DOJO_EXERCISES')
+    image = dot_env('CYBER_DOJO_EXERCISES_START_POINTS')
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_EXERCISES's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
+    diagnostic = "CYBER_DOJO_EXERCISES_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
     if sha != base_sha
       puts "WARNING: #{diagnostic}"
     end
 
-    image = dot_env('CYBER_DOJO_LANGUAGES')
+    image = dot_env('CYBER_DOJO_LANGUAGES_START_POINTS')
     base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_LANGUAGES's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
+    diagnostic = "CYBER_DOJO_LANGUAGES_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
     if sha != base_sha
       puts "WARNING: #{diagnostic}"
     end
