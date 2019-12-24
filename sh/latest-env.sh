@@ -9,9 +9,20 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
 # ---------------------------------------------------
-cd_image_name()
+untagged_image_name()
 {
-  if [ "${name}" == 'languages-start-points' ]; then
+  if [ "${1}" == 'languages-start-points' ]; then
+    local -r name='languages-start-points-common'
+  else
+    local -r name="${1}"
+  fi
+  echo "cyberdojo/${name}"
+}
+
+# ---------------------------------------------------
+cd_image_name() # tagged
+{
+  if [ "${1}" == 'languages-start-points' ]; then
     local -r name='languages-start-points-common'
   else
     local -r name="${1}"
@@ -23,7 +34,7 @@ cd_image_name()
 # ---------------------------------------------------
 docker_image_pull()
 {
-  docker pull $(cd_image_name "${1}") > /dev/null 2>&1
+  docker pull "${1}" > /dev/null 2>&1
 }
 
 # ---------------------------------------------------
@@ -35,8 +46,9 @@ service_sha()
 # ---------------------------------------------------
 start_point_env_var()
 {
-  local -r cep="${1}"       # custom|exercises|languages
-  docker_image_pull "${2}"  # eg custom-start-points
+  local -r cep="${1}"   # custom|exercises|languages
+  local -r name="${2}"  # eg custom-start-points
+  docker_image_pull "cyberdojo/${name}"
   local -r sha=$(service_sha "${2}")
   local -r tag=${sha:0:7}
   printf "CYBER_DOJO_${1}_START_POINTS=$(cd_image_name "${2}" "${tag}")\n"
@@ -45,10 +57,11 @@ start_point_env_var()
 # ---------------------------------------------------
 start_points_base_env_var()
 {
-  docker_image_pull start-points-base
+  local -r image=$(untagged_image_name start-points-base)
+  docker_image_pull "${image}"
   local -r sha=$(service_base_sha start-points-base)
   local -r tag=${sha:0:7}
-  printf 'CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base\n'
+  printf "CYBER_DOJO_START_POINTS_BASE_IMAGE=${image}\n"
   printf "CYBER_DOJO_START_POINTS_BASE_SHA=${sha}\n"
   printf "CYBER_DOJO_START_POINTS_BASE_TAG=${tag}\n"
 }
@@ -61,11 +74,11 @@ service_base_sha()
 # ---------------------------------------------------
 sha_env_var()
 {
-  local name="${1}" # eg avatars, eg custom-start-points
-  docker_image_pull "${1}"
+  local -r image=$(untagged_image_name "${1}")
+  docker_image_pull "${image}"
   local -r sha=$(service_sha "${1}")
   local -r tag=${sha:0:7}
-  printf "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${1}\n"
+  printf "CYBER_DOJO_$(upper_case "${1}")_IMAGE=${image}\n"
   printf "CYBER_DOJO_$(upper_case "${1}")_SHA=${sha}\n"
   printf "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}\n"
   case "${1}" in
