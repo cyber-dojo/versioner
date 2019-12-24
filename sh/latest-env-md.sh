@@ -113,11 +113,11 @@ echo '### $ cyber-dojo commands delegate to commander'
 echo
 sha_env_var commander
 echo
-echo '### Base image tag used in: $ cyber-dojo start-point create'
+echo '### Base image used in: $ cyber-dojo start-point create'
 echo
 sha_env_var start-points-base
 echo
-echo '### Default start-points images used in: $ cyber-dojo up'
+echo '### Default start-points used in: $ cyber-dojo up'
 echo
 sha_env_var custom-start-points
 echo
@@ -125,7 +125,7 @@ sha_env_var exercises-start-points
 echo
 sha_env_var languages-start-points
 echo
-echo '### HTTP web services used in: $ cyber-dojo up'
+echo '### Microservices used in: $ cyber-dojo up'
 echo
 for svc in "${services[@]}";
 do
