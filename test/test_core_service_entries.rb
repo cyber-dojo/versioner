@@ -8,25 +8,9 @@ require 'minitest/autorun'
 class CoreServicesEntriesTest < MiniTest::Test
 
   def test_env_file_has_valid_core_service_entries
-    vars = env_vars.dup
-    vars.delete('CYBER_DOJO_PORT')
-    vars.delete('CYBER_DOJO_CUSTOM')
-    vars.delete('CYBER_DOJO_EXERCISES')
-    vars.delete('CYBER_DOJO_LANGUAGES')
-
-    vars.delete('CYBER_DOJO_START_POINTS_BASE_IMAGE')
-    vars.delete('CYBER_DOJO_START_POINTS_BASE_SHA')
-    vars.delete('CYBER_DOJO_START_POINTS_BASE_TAG')
-
-    vars.delete('CYBER_DOJO_CUSTOM_SHA') # todo
-    vars.delete('CYBER_DOJO_CUSTOM_TAG')
-    vars.delete('CYBER_DOJO_EXERCISES_SHA') # todo
-    vars.delete('CYBER_DOJO_EXERCISES_TAG')
-    vars.delete('CYBER_DOJO_LANGUAGES_SHA') # todo
-    vars.delete('CYBER_DOJO_LANGUAGES_TAG')
-    tags = vars.keys.select{ |name| name.end_with?('TAG') }
+    tags = env_vars.keys.select{ |name| name.end_with?('TAG') }
     tags.sort.each do |tag_env_name|
-      tag_value = vars[tag_env_name]
+      tag_value = env_vars[tag_env_name]
       name = image_name(tag_env_name)
       assert image_exists?(name), "#{tag_env_name}=#{tag_value} #{name} does not exist"
     end

@@ -3,7 +3,8 @@ module ImageName
 
   def image_name(tag_env_name)
     tag = dot_env(tag_env_name)
-    name = tag_env_name.split('_')[2].downcase
+    parts = tag_env_name.split('_').map(&:downcase)
+    name = parts[2..-2].join('-')
     "cyberdojo/#{name}:#{tag}"
   end
 
