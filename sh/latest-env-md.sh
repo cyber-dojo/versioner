@@ -67,14 +67,25 @@ sha_url()
 
 sha_env_var()
 {
-  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${1}"
+  if [ "${1}" == 'languages-start-points' ]; then
+    local -r name=languages-start-points-common
+  else
+    local -r name="${1}"
+  fi
+  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}"
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
   echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
   case "${1}" in
   creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+
   custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
   exercises ) printf 'CYBER_DOJO_EXERCISES_PORT=4535\n';;
   languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
+
+  custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
+  exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
+  languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
+
   avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
   nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
@@ -95,14 +106,18 @@ tag_var()
 
 tag_value()
 {
-  local name=$(sha_var ${1})
+  local name=$(tag_var ${1})
   echo ${!name:0:7}
 }
 
 tag_url()
 {
+  if [ "${1}" == 'languages-start-points' ]; then
+    local -r name=languages-start-points-common
+  else
+    local -r name="${1}" # eg runner
+  fi
   # Relies on :latest being pulled in latest-env.sh
-  local -r name="${1}" # eg runner
   local -r tag="$(tag_value ${1})"
   local digest=$(docker inspect --format='{{index .RepoDigests 0}}' cyberdojo/${name}:latest)
   echo "https://hub.docker.com/layers/cyberdojo/${name}/${tag}/images/sha256-${digest:(-64)}"
@@ -110,6 +125,9 @@ tag_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
+  custom-start-points
+  exercises-start-points
+  languages-start-points
   #creator
   #custom
   #exercises

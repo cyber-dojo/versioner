@@ -6,12 +6,16 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-upper_case() { printf "${1}" | tr [a-z] [A-Z]; }
+upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
 # ---------------------------------------------------
 cd_image_name()
 {
-  local -r name="${1}"
+  if [ "${name}" == 'languages-start-points' ]; then
+    local -r name='languages-start-points-common'
+  else
+    local -r name="${1}"
+  fi
   local -r tag="${2:-latest}"
   printf "cyberdojo/${name}:${tag}\n"
 }
@@ -57,6 +61,7 @@ service_base_sha()
 # ---------------------------------------------------
 sha_env_var()
 {
+  local name="${1}" # eg avatars, eg custom-start-points
   docker_image_pull "${1}"
   local -r sha=$(service_sha "${1}")
   local -r tag=${sha:0:7}
@@ -65,9 +70,15 @@ sha_env_var()
   printf "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}\n"
   case "${1}" in
   creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+
   custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
   exercises ) printf 'CYBER_DOJO_EXERCISES_PORT=4535\n';;
   languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
+
+  custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
+  exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
+  languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
+
   avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
   nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80\n';;
@@ -82,6 +93,9 @@ sha_env_var()
 
 # ---------------------------------------------------
 readonly services=(
+  custom-start-points
+  exercises-start-points
+  languages-start-points
   #creator
   #custom
   #exercises
