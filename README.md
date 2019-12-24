@@ -15,7 +15,7 @@ Using web=cyberdojo/web:05e89ee
 ...
 ```
 This means cyberdojo/versioner:`0.1.35` specifies a set of
-images for a cyber-dojo server's micro-services, as follows:
+images for a cyber-dojo server's micro-services:
 *  the cyberdojo/[runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image with the tag `f03228c`
 *  the cyberdojo/[web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image with the tag `05e89ee`
 * etc...
