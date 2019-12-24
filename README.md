@@ -4,7 +4,7 @@
 
 The [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
 uses a cyberdojo/versioner docker image when bringing up a cyber-dojo server.
-For example, suppose `cyberdojo/versioner:**latest**` is a tag for `cyberdojo/versioner:**0.1.35**`,
+For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.35`,
 and we bring up a cyber-dojo server:
 ```bash
 $ cyber-dojo up
