@@ -27,14 +27,6 @@ For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
 ...
-CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
-CYBER_DOJO_START_POINTS_BASE_SHA=b9c7459b07d337a890e5d22a9c805f372bda758f
-CYBER_DOJO_START_POINTS_BASE_TAG=b9c7459
-...
-CYBER_DOJO_CUSTOM_START_POINTS=cyberdojo/custom-start-points:f3020d2
-CYBER_DOJO_EXERCISES_START_POINTS=cyberdojo/exercises-start-points:ebdd09f
-CYBER_DOJO_LANGUAGES_START_POINTS=cyberdojo/languages-start-points-common:6604370
-...
 CYBER_DOJO_RUNNER_IMAGE=cyberdojo/runner
 CYBER_DOJO_RUNNER_SHA=f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815
 CYBER_DOJO_RUNNER_TAG=f03228c
@@ -46,10 +38,8 @@ CYBER_DOJO_WEB_TAG=ac9952b
 CYBER_DOJO_WEB_PORT=3000
 ...
 ```
-- The start-points-base entries specify the [cyber-dojo start-point create] base-image
-- The start-points entries are image names.
-- The remaining entries are image names, commit shas, image tags, and port numbers.
-- The tag is always the first seven chars of the sha (docker-compose yml files
+- Entries are image names, commit shas, image tags, and port numbers.
+- The image tag is always the first seven chars of the commit sha (docker-compose yml files
   can use `${TAG}` but cannot use `${SHA:0:7}`).
 - Integration tests can export `/app/.env` and use the env-vars in a docker-compose.yml file. For example:
   ```bash
