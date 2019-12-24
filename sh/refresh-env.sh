@@ -9,3 +9,6 @@ if [ "${PIPESTATUS[0]}" != '0' ]; then
 fi
 
 ${ROOT_DIR}/sh/latest-env-md.sh | tee ${ROOT_DIR}/.env.md
+if [ "${PIPESTATUS[0]}" != '0' ]; then
+  exit 42
+fi

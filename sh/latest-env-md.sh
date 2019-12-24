@@ -11,53 +11,20 @@ source "${ROOT_DIR}/.env"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
-sha()
-{
-  docker run --rm ${1} sh -c 'echo -n ${SHA}'
-}
-
-cel_var()
-{
-  echo "CYBER_DOJO_$(upper_case "${1}")"
-}
-
-cel_value()
-{
-  local -r name="${1}"
-  local -r env_var_name="$(cel_var ${name})"
-  echo ${!env_var_name}
-}
-
-cel_sha()
-{
-  local -r name="${1}" # eg languages-start-points
-  sha $(cel_value "${name}")
-}
-
-cel_url()
-{
-  local -r name="${1}" # eg languages-start-points
-  echo "https://github.com/cyber-dojo/${name}/commit/$(cel_sha ${name})"
-}
-
-cel_env_var()
-{
-  local -r name="${1}"  # eg languages-start-points
-  echo "$(cel_var "${name}")=[$(cel_value "${name}")]($(cel_url "${name}"))<br/>"
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_var()
 {
   echo "CYBER_DOJO_$(upper_case "${1}")_SHA"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_value()
 {
   local name=$(sha_var ${1})
   echo ${!name}
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_url()
 {
   local -r sha=$(sha_value ${1})
@@ -65,6 +32,7 @@ sha_url()
   echo "https://github.com/cyber-dojo/${name}/commit/${sha}"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_env_var()
 {
   if [ "${1}" == 'languages-start-points' ]; then
@@ -125,9 +93,6 @@ tag_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
-  custom-start-points
-  exercises-start-points
-  languages-start-points
   #creator
   #custom
   #exercises
@@ -154,9 +119,11 @@ sha_env_var start-points-base
 echo
 echo '### Default start-points images used in: $ cyber-dojo up'
 echo
-cel_env_var custom-start-points
-cel_env_var exercises-start-points
-cel_env_var languages-start-points
+sha_env_var custom-start-points
+echo
+sha_env_var exercises-start-points
+echo
+sha_env_var languages-start-points
 echo
 echo '### HTTP web services used in: $ cyber-dojo up'
 echo
