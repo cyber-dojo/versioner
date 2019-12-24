@@ -108,8 +108,6 @@ start_point_env_var CUSTOM    custom-start-points
 start_point_env_var EXERCISES exercises-start-points
 start_point_env_var LANGUAGES languages-start-points-common
 printf '\n'
-printf 'CYBER_DOJO_PORT=80\n'
-printf '\n'
 for service in "${services[@]}";
 do
   sha_env_var "${service}"

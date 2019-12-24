@@ -4,7 +4,7 @@
 
 The [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
 uses a cyberdojo/versioner docker image when bringing up a cyber-dojo server.
-For example, suppose cyberdojo/versioner:**latest** is a tag for cyberdojo/versioner:**0.1.35**,
+For example, suppose `cyberdojo/versioner:**latest**` is a tag for `cyberdojo/versioner:**0.1.35**`,
 and we bring up a cyber-dojo server:
 ```bash
 $ cyber-dojo up
@@ -14,15 +14,15 @@ Using runner=cyberdojo/runner:f03228c
 Using web=cyberdojo/web:05e89ee
 ...
 ```
-This means cyberdojo/versioner:```0.1.35``` specifies a consistent working set of
+This means cyberdojo/versioner:`0.1.35` specifies a consistent working set of
 image tags for a cyber-dojo server's micro-services, as follows:
-*  the cyberdojo/[runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image with the tag ```f03228c```
-*  the cyberdojo/[web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image with the tag ```05e89ee```
+*  the cyberdojo/[runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image with the tag `f03228c`
+*  the cyberdojo/[web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image with the tag `05e89ee`
 * etc...
 
 - - - -
 
-The ```/app/.env``` file holds a consistent set of image tags.
+The `/app/.env` file holds a consistent set of image tags.
 For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
@@ -50,8 +50,8 @@ CYBER_DOJO_WEB_PORT=3000
 - The start-points entries are image names.
 - The remaining entries are image names, commit shas, image tags, and port numbers.
 - The tag is always the first seven chars of the sha (docker-compose yml files
-  can use ```${TAG}``` but cannot use ```${SHA:0:7}```).
-- Integration tests can export ```/app/.env``` and use the env-vars in a docker-compose.yml file. For example:
+  can use `${TAG}` but cannot use `${SHA:0:7}`).
+- Integration tests can export `/app/.env` and use the env-vars in a docker-compose.yml file. For example:
   ```bash
   #!/bin/bash
   set -e

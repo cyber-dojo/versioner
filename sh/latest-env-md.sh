@@ -77,7 +77,7 @@ sha_env_var()
   languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
   avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
-  nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80\n';;  
+  nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
   puller    ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
   ragger    ) printf 'CYBER_DOJO_RAGGER_PORT=5537\n';;
   runner    ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
@@ -139,10 +139,6 @@ echo
 cel_env_var custom-start-points
 cel_env_var exercises-start-points
 cel_env_var languages-start-points
-echo
-echo '### Default port used in: $ cyber-dojo up'
-echo
-echo "CYBER_DOJO_PORT=${CYBER_DOJO_PORT}<br/>"
 echo
 echo '### HTTP web services used in: $ cyber-dojo up'
 echo
