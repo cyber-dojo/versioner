@@ -70,6 +70,7 @@ sha_env_var()
   languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
   avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
+  nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80\n';;
   puller    ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
   ragger    ) printf 'CYBER_DOJO_RAGGER_PORT=5537\n';;
   runner    ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
