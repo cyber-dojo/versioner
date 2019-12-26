@@ -99,7 +99,7 @@ build_image
 assert_equal SHA     "$(git_commit_sha)" "$(image_sha)"
 assert_equal RELEASE "$(release)"        "$(image_release)"
 tag_the_image
-if [ "${1}" != '--build-only' ]; then
+if [ "${1}" != '--no-test' ]; then
   ${ROOT_DIR}/test/run_all.sh
 fi
 on_ci_publish_tagged_images
