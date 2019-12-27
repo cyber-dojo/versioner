@@ -12,14 +12,16 @@ outside_container()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 from_outside_run_all_tests()
 {
+  local -r image=cyberdojo/docker-base # for [docker] cmd
   docker run \
     --env INSIDE_CONTAINER_UUID=yup \
+    --interactive \
     --rm \
     --tty \
     --volume /var/run/docker.sock:/var/run/docker.sock \
-    --volume "${ROOT_DIR}/.env:/app/.env:ro" \
+    --volume "${ROOT_DIR}/app/.env:/app/.env:ro" \
     --volume "${ROOT_DIR}/test:/app/test:ro" \
-    cyberdojo/docker-base \
+    ${image} \
       "/app/test/run_all.sh"
 }
 

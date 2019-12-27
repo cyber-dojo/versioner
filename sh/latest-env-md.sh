@@ -6,7 +6,7 @@ set -e
 # Use: $ ./sh/latest-env-md.sh | tee .env.md
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-source "${ROOT_DIR}/.env"
+source "${ROOT_DIR}/app/.env"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
