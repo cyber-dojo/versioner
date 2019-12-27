@@ -2,7 +2,7 @@
 
 require_relative 'dot_env'
 require_relative 'image_exists'
-require_relative 'image_name'
+require_relative 'image_name_from_tag'
 require 'minitest/autorun'
 
 class CoreServicesEntriesTest < MiniTest::Test
@@ -11,7 +11,7 @@ class CoreServicesEntriesTest < MiniTest::Test
     tags = env_vars.keys.select{ |name| name.end_with?('TAG') }
     tags.sort.each do |tag_env_name|
       tag_value = env_vars[tag_env_name]
-      name = image_name(tag_env_name)
+      name = image_name_from_tag(tag_env_name)
       assert image_exists?(name), "#{tag_env_name}=#{tag_value} #{name} does not exist"
     end
   end
@@ -65,6 +65,6 @@ class CoreServicesEntriesTest < MiniTest::Test
 
   include DotEnv
   include ImageExists
-  include ImageName
+  include ImageNameFromTag
 
 end

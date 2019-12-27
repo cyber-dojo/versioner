@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
 require_relative 'dot_env'
-require_relative 'image_name'
 require 'minitest/autorun'
 
 class StartPointEntriesTest < MiniTest::Test
@@ -12,33 +11,47 @@ class StartPointEntriesTest < MiniTest::Test
     # custom/exercises/languages
     # then the base-sha will not match.
     # So these tests WARN when there isn't a match.
-    sha = dot_env('CYBER_DOJO_START_POINTS_BASE_SHA')
+    base_sha = dot_env('CYBER_DOJO_START_POINTS_BASE_SHA')
 
-    image = image_name('CYBER_DOJO_CUSTOM_START_POINTS_TAG')
-    base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_CUSTOM_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
-    if sha != base_sha
-      puts "WARNING: #{diagnostic}"
+    image_name = cel_image_name('CUSTOM')
+    custom_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
+    if base_sha != custom_base_sha
+      puts 'WARNING: Out of date base-image'
+      puts "BASE_SHA=#{base_sha} #{base_image_name}"
+      puts "BASE_SHA=#{custom_base_sha} #{image_name}"
     end
 
-    image = image_name('CYBER_DOJO_EXERCISES_START_POINTS_TAG')
-    base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_EXERCISES_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
-    if sha != base_sha
-      puts "WARNING: #{diagnostic}"
+    image_name = cel_image_name('EXERCISES')
+    exercises_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
+    if base_sha != exercises_base_sha
+      puts 'WARNING: Out of date base-image'
+      puts "BASE_SHA=#{base_sha} #{base_image_name}"
+      puts "BASE_SHA=#{exercises_base_sha} #{image_name}"
     end
 
-    image = image_name('CYBER_DOJO_LANGUAGES_START_POINTS_TAG')
-    base_sha = `docker run --rm #{image} sh -c 'echo -n ${BASE_SHA}'`
-    diagnostic = "CYBER_DOJO_LANGUAGES_START_POINTS's BASE_SHA env-var does not match CYBER_DOJO_START_POINTS_BASE_SHA"
-    if sha != base_sha
-      puts "WARNING: #{diagnostic}"
+    image_name = cel_image_name('LANGUAGES')
+    languages_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
+    if base_sha != languages_base_sha
+      puts 'WARNING: Out of date base-image'
+      puts "BASE_SHA=#{base_sha} #{base_image_name}"
+      puts "BASE_SHA=#{languages_base_sha} #{image_name}"
     end
   end
 
   private
 
   include DotEnv
-  include ImageName
+
+  def base_image_name
+    image_name = dot_env('CYBER_DOJO_START_POINTS_BASE_IMAGE')
+    image_tag = dot_env('CYBER_DOJO_START_POINTS_BASE_TAG')
+    "#{image_name}:#{image_tag}"
+  end
+
+  def cel_image_name(cel)
+    image_name = dot_env("CYBER_DOJO_#{cel}_START_POINTS_IMAGE")
+    image_tag = dot_env("CYBER_DOJO_#{cel}_START_POINTS_TAG")
+    "#{image_name}:#{image_tag}"
+  end
 
 end
