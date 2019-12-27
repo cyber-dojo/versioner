@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Script to run the tests from inside a web container
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
