@@ -1,8 +1,12 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Ee
 
-readonly IMAGE=cyberdojo/versioner
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_name()
+{
+  echo cyberdojo/versioner
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_image()
@@ -10,26 +14,33 @@ build_image()
   docker build \
     --build-arg SHA="$(git_commit_sha)" \
     --build-arg RELEASE="$(release)" \
-    --tag ${IMAGE}:latest \
+    --tag $(image_name):latest \
     "${ROOT_DIR}/app"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" \
-    && git rev-parse HEAD)
+  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_msg()
 {
-  echo $(cd ${ROOT_DIR} \
-    && git log --oneline --format=%B -n 1 HEAD | head -n 1)
+  echo $(cd ${ROOT_DIR} && git log --oneline --format=%B -n 1 HEAD | head -n 1)
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 image_sha()
 {
-  docker run --rm ${IMAGE}:latest sh -c 'echo ${SHA}'
+  docker run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${SHA}'
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_tag()
+{
+  local -r sha="$(image_sha)"
+  echo "${sha:0:7}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,19 +52,18 @@ release()
 
 image_release()
 {
-  docker run --rm ${IMAGE}:latest sh -c 'echo ${RELEASE}'
+  docker run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${RELEASE}'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 assert_equal()
 {
-  local -r name="${1}"
-  local -r expected="${2}"
-  local -r actual="${3}"
-  echo "expected: ${name}='${expected}'"
-  echo "  actual: ${name}='${actual}'"
+  local -r expected="${1}"
+  local -r actual="${2}"
+  echo "expected: '${expected}'"
+  echo "  actual: '${actual}'"
   if [ "${expected}" != "${actual}" ]; then
-    echo "ERROR: unexpected ${name} inside image ${IMAGE}:latest"
+    echo "ERROR: inside image $(image_name):latest"
     exit 42
   fi
 }
@@ -61,13 +71,11 @@ assert_equal()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image()
 {
-  local -r SHA="$(image_sha)"
-  local -r RELEASE="$(image_release)"
-  docker tag ${IMAGE}:latest ${IMAGE}:${SHA:0:7}
-  if [ "${RELEASE}" != "" ]; then
-    docker tag ${IMAGE}:latest ${IMAGE}:${RELEASE}
+  docker tag $(image_name):latest $(image_name):$(image_tag)
+  if [ -n "$(image_release)" ]; then
+    docker tag $(image_name):latest $(image_name):$(image_release)
   else
-    docker tag ${IMAGE}:latest ${IMAGE}:dev_latest
+    docker tag $(image_name):latest $(image_name):dev_latest
   fi
 }
 
@@ -80,24 +88,22 @@ on_ci_publish_tagged_images()
   fi
   echo 'on CI so publishing tagged images'
   # requires DOCKER_USER, DOCKER_PASS in ci context
-  local -r SHA="$(image_sha)"
-  local -r RELEASE="$(image_release)"
   echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
-  docker push ${IMAGE}:${SHA:0:7}
-  if [ "${RELEASE}" != "" ]; then
-    docker push ${IMAGE}:${RELEASE}
-    docker push ${IMAGE}:latest
+  docker push $(image_name):$(image_tag)
+  if [ -n "$(image_release)" ]; then
+    docker push $(image_name):$(image_release)
+    docker push $(image_name):latest
   else
     # TODO: still used? in commander?
-    docker push ${IMAGE}:dev_latest
+    docker push $(image_name):dev_latest
   fi
   docker logout
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_image
-assert_equal SHA     "$(git_commit_sha)" "$(image_sha)"
-assert_equal RELEASE "$(release)"        "$(image_release)"
+assert_equal "SHA=$(git_commit_sha)" "SHA=$(image_sha)"
+assert_equal "RELEASE=$(release)"    "RELEASE=$(image_release)"
 tag_the_image
 if [ "${1}" != '--no-test' ]; then
   ${ROOT_DIR}/test/run_all.sh

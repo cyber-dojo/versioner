@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Update versioners Dockerfile with an ENTRYPOINT to allow
+#    docker run --rm cyberdojo/versioner
+# whilst also supporting older cyber-dojo scripts which do this...
+#    docker run --rm cyberdojo/versioner sh -c 'cat /app/.env'
+#
+# So the Dockerfile inserts this fake cat script into /usr/local/bin
+# (which is ahead of /bin in the PATH) which in turn calls the true cat.
+# Thus the older scripts ignore the trailing [sh -c ...] arguments
+# which would otherwise break the true cat.
+
+/bin/cat "${1}"

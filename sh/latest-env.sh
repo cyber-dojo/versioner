@@ -50,29 +50,29 @@ sha_env_var()
     local -r sha=$(service_sha "${image}")
   fi
   local -r tag=${sha:0:7}
-  printf "CYBER_DOJO_$(upper_case "${1}")_IMAGE=${image}\n"
-  printf "CYBER_DOJO_$(upper_case "${1}")_SHA=${sha}\n"
-  printf "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}\n"
+  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=${image}"
+  echo "CYBER_DOJO_$(upper_case "${1}")_SHA=${sha}"
+  echo "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}"
   case "${1}" in
-  creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+  creator   ) echo CYBER_DOJO_CREATOR_PORT=4523;;
 
-  custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
-  exercises ) printf 'CYBER_DOJO_EXERCISES_PORT=4535\n';;
-  languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
+  custom    ) echo CYBER_DOJO_CUSTOM_PORT=4536;;
+  exercises ) echo CYBER_DOJO_EXERCISES_PORT=4535;;
+  languages ) echo CYBER_DOJO_LANGUAGES_PORT=4534;;
 
-  custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
-  exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
-  languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
+  custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
+  exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
+  languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
 
-  avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
-  differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
-  nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80\n';;
-  puller    ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
-  ragger    ) printf 'CYBER_DOJO_RAGGER_PORT=5537\n';;
-  runner    ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
-  saver     ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
-  web       ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
-  zipper    ) printf 'CYBER_DOJO_ZIPPER_PORT=4587\n';;
+  avatars   ) echo CYBER_DOJO_AVATARS_PORT=5027;;
+  differ    ) echo CYBER_DOJO_DIFFER_PORT=4567;;
+  nginx     ) echo CYBER_DOJO_NGINX_PORT=80;;
+  puller    ) echo CYBER_DOJO_PULLER_PORT=5017;;
+  ragger    ) echo CYBER_DOJO_RAGGER_PORT=5537;;
+  runner    ) echo CYBER_DOJO_RUNNER_PORT=4597;;
+  saver     ) echo CYBER_DOJO_SAVER_PORT=4537;;
+  web       ) echo CYBER_DOJO_WEB_PORT=3000;;
+  zipper    ) echo CYBER_DOJO_ZIPPER_PORT=4587;;
   esac
 }
 
@@ -99,9 +99,9 @@ readonly services=(
 )
 
 # ---------------------------------------------------
-printf '\n'
+echo
 for service in "${services[@]}";
 do
   sha_env_var "${service}"
-  printf '\n'
+  echo
 done
