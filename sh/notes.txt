@@ -2,7 +2,7 @@
 Plan...
 split custom (and exercises/languages) services into two services...
 custom + custom-start-points
-the former will become a sinatra web server
+the former will become a sinatra web server offering custom choices in web page.
 the latter will stay a rack json-server and is what can be overridden
 
 
