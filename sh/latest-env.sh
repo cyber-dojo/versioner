@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Ee
 
 # Script to create .env file from pulled :latest images
 # Use: $ ./sh/latest-env.sh | tee .env
@@ -68,7 +67,6 @@ sha_env_var()
   differ    ) echo CYBER_DOJO_DIFFER_PORT=4567;;
   nginx     ) echo CYBER_DOJO_NGINX_PORT=80;;
   puller    ) echo CYBER_DOJO_PULLER_PORT=5017;;
-  ragger    ) echo CYBER_DOJO_RAGGER_PORT=5537;;
   runner    ) echo CYBER_DOJO_RUNNER_PORT=4597;;
   saver     ) echo CYBER_DOJO_SAVER_PORT=4537;;
   web       ) echo CYBER_DOJO_WEB_PORT=3000;;
@@ -91,7 +89,6 @@ readonly services=(
   differ
   nginx
   puller
-  ragger
   runner
   saver
   web
