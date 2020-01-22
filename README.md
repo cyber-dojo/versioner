@@ -54,7 +54,7 @@ services:
 
 - - - -
 Integration tests using the main `cyber-dojo` script may need to build
-a _fake_ `cyberdojo/versioner:latest` image. For example:
+a `cyberdojo/versioner:latest` _fake_ _image_. For example:
 ```bash
 #!/bin/bash -Eeu
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
@@ -120,7 +120,7 @@ current shell, by exporting inside the docker container. For example:
 #!/bin/bash -Eeu
 readonly runner_tag=$(docker run --entrypoint="" --rm cyberdojo/versioner:latest \
   sh -c 'export $(cat /app/.env) && echo ${CYBER_DOJO_RUNNER_TAG}')
-echo "${runner_tag}" # eg 3240bfb  
+echo "${runner_tag}" # eg a74c5bc  
 ```
 
 - - - -
