@@ -6,7 +6,7 @@ The `entrypoint` for a `cyberdojo/versioner` docker image prints a set of
 image-name, commit-sha, image-tag, and port-number, environment variables.
 For example:
 <pre>
-$ docker run --rm cyberdojo/versioner:0.1.89
+$ docker run --rm <b>cyberdojo/versioner:0.1.89</b>
 ...
 CYBER_DOJO_RUNNER_IMAGE=<b>cyberdojo/runner</b>
 CYBER_DOJO_RUNNER_SHA=a74c5bcbb43e8fcf497be997809ce1951979e7a0
@@ -20,26 +20,22 @@ CYBER_DOJO_WEB_PORT=3000
 ...
 </pre>
 
-The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
-uses these environment variables when bringing up a cyber-dojo server.
-For example:
-*  the cyberdojo/[runner](https://github.com/cyber-dojo/runner/tree/a74c5bcbb43e8fcf497be997809ce1951979e7a0) image with the tag `a74c5bc`
-*  the cyberdojo/[web](https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a0c450ce892b10e8389) image with the tag `05e89ee`
-
+The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo)
+bash script uses these environment variables.
 For example, if `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.89`,
 and we bring up a cyber-dojo server:
-```bash
+<pre>
 $ cyber-dojo up
-Using version=0.1.89 (public)
+Using version=<b>0.1.89</b> (public)
 ...
-Using runner=cyberdojo/runner:a74c5bc
-Using web=cyberdojo/web:333d9be
+Using runner=[cyberdojo/runner:a74c5bc](https://github.com/cyber-dojo/runner/tree/a74c5bcbb43e8fcf497be997809ce1951979e7a0)
+Using web=[cyberdojo/web:333d9be](https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a0c450ce892b10e8389)
 ...
-```
+</pre>
 
 - - - -
-Integration tests can `export` these environment variables, and use them in a docker-compose.yml file.
-For example:
+Integration tests can `export` these environment variables, and use them
+in a `docker-compose.yml` file. For example:
 ```bash
 #!/bin/bash -Eeu
 export $(docker run --rm cyberdojo/versioner:latest)
@@ -58,8 +54,7 @@ services:
 
 - - - -
 Integration tests using the main `cyber-dojo` script may need to build
-a _fake_ `cyberdojo/versioner:latest` image.
-For example:
+a _fake_ `cyberdojo/versioner:latest` image. For example:
 ```bash
 #!/bin/bash -Eeu
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
@@ -120,8 +115,7 @@ build_fake_versioner
 
 - - - -
 You can get the value of a single environment variable, without exporting to the
-current shell, by exporting inside the docker container.
-For example:
+current shell, by exporting inside the docker container. For example:
 ```bash
 #!/bin/bash -Eeu
 readonly runner_tag=$(docker run --entrypoint="" --rm cyberdojo/versioner:latest \
