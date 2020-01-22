@@ -58,7 +58,7 @@ a `cyberdojo/versioner:latest` _fake_ _image_. For example:
 ```bash
 #!/bin/bash -Eeu
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
-readonly TMP_DIR="$(mktemp -d /tmp/start-points-base.XXXXXXX)"
+readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
 # - - - - - - - - - - - - - - - - - - - - - - - -
