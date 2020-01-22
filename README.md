@@ -28,8 +28,8 @@ and we bring up a cyber-dojo server:
 $ cyber-dojo up
 Using version=<b>0.1.89</b> (public)
 ...
-Using runner=[cyberdojo/runner:a74c5bc](https://github.com/cyber-dojo/runner/tree/a74c5bcbb43e8fcf497be997809ce1951979e7a0)
-Using web=[cyberdojo/web:333d9be](https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a0c450ce892b10e8389)
+Using runner=<a href="https://github.com/cyber-dojo/runner/tree/a74c5bcbb43e8fcf497be997809ce1951979e7a0">cyberdojo/runner:a74c5bc</a>
+Using web=<a href="https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a0c450ce892b10e8389">cyberdojo/web:333d9be</a>
 ...
 </pre>
 
