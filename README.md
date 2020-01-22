@@ -2,7 +2,7 @@
 
 # cyberdojo/versioner docker image
 
-The [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
+The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
 uses a cyberdojo/versioner docker image when bringing up a cyber-dojo server.
 For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.35`,
 and we bring up a cyber-dojo server:
@@ -15,7 +15,7 @@ Using web=cyberdojo/web:05e89ee
 ...
 ```
 This means cyberdojo/versioner:`0.1.35` specifies a set of
-images for a cyber-dojo server's micro-services:
+images and tags for a cyber-dojo server's micro-services:
 *  the cyberdojo/[runner](https://github.com/cyber-dojo/runner/tree/f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815) image with the tag `f03228c`
 *  the cyberdojo/[web](https://github.com/cyber-dojo/web/tree/05e89eee29666e5474ddd486938f33127b0c2471) image with the tag `05e89ee`
 * etc...
@@ -25,7 +25,7 @@ images for a cyber-dojo server's micro-services:
 The `/app/.env` file holds the required environment variables.
 For example:
 ```bash
-$ docker run --rm cyberdojo/versioner:0.1.35 sh -c 'cat /app/.env'
+$ docker run --rm cyberdojo/versioner:0.1.35
 ...
 CYBER_DOJO_RUNNER_IMAGE=cyberdojo/runner
 CYBER_DOJO_RUNNER_SHA=f03228c8e7e2ebc02b30d4e0c79c25cb6a79e815
@@ -43,9 +43,8 @@ CYBER_DOJO_WEB_PORT=3000
   can use `${TAG}` but cannot use `${SHA:0:7}`).
 - Integration tests can export `/app/.env` and use the env-vars in a docker-compose.yml file. For example:
   ```bash
-  #!/bin/bash
-  set -e
-  export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
+  #!/bin/bash -Eeu
+  export $(docker run --rm cyberdojo/versioner:latest)
   docker-compose --file my-docker-compose.yml up --detach
   # ...wait for all services to be ready
   # ...run your tests which depend on, eg, runner...
@@ -57,6 +56,71 @@ CYBER_DOJO_WEB_PORT=3000
     runner:
       image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
       ...
+  ```
+- Integration tests that use the main `cyber-dojo` script may need to build
+  a fake versioner image:
+  ```bash
+  #!/bin/bash -Eeu
+  readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
+  readonly TMP_DIR="$(mktemp -d /tmp/start-points-base.XXXXXXX)"
+  remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
+  trap remove_TMP_DIR INT EXIT
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  build_fake_versioner()
+  {
+    # Build a fake cyberdojo/versioner:latest image that serves
+    # CYBER_DOJO_START_POINTS_BASE SHA/TAG values for the local
+    # start-points-base repo.
+    local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
+    local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
+
+    local -r fake_sha="$(git_commit_sha)"
+    local -r fake_tag="${fake_sha:0:7}"
+
+    local env_vars="$(docker run --rm cyberdojo/versioner:latest)"
+    env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
+    env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
+
+    echo "${env_vars}" > ${TMP_DIR}/.env
+    local -r fake_image=cyberdojo/versioner:latest
+    {
+      echo 'FROM alpine:latest'
+      echo 'COPY . /app'
+      echo 'ARG SHA'
+      echo 'ENV SHA=${SHA}'
+      echo 'ARG RELEASE'
+      echo 'ENV RELEASE=${RELEASE}'
+      echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
+    } > ${TMP_DIR}/Dockerfile
+    docker build \
+      --build-arg SHA="${fake_sha}" \
+      --build-arg RELEASE=999.999.999 \
+      --tag "${fake_image}" \
+      "${TMP_DIR}"
+  }
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  replace_with()
+  {
+    local -r env_vars="${1}"
+    local -r name="${2}"
+    local -r fake_value="${3}"
+    local -r all_except=$(echo "${env_vars}" | grep --invert-match "${name}")
+    printf "${all_except}\n${name}=${fake_value}\n"
+  }
+  # - - - - - - - - - - - - - - - - - - - - - - - -  
+  git_commit_sha()
+  {
+    echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  }
+  # - - - - - - - - - - - - - - - - - - - - - - - -  
+  build_fake_versioner
+  ```
+- To get the value of a single environment variable:
+  ```bash
+  #!/bin/bash -Eeu
+  readonly runner_tag=$(docker run --entrypoint="" --rm cyberdojo/versioner:latest \
+    sh -c 'export $(cat /app/.env) && echo ${CYBER_DOJO_RUNNER_TAG}')
+  3240bfb  
   ```
 
 - - - -
