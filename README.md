@@ -18,7 +18,7 @@ CYBER_DOJO_WEB_SHA=333d9be4f64d3950c0bc5a0c450ce892b10e8389
 CYBER_DOJO_WEB_TAG=<b>333d9be</b>
 CYBER_DOJO_WEB_PORT=3000
 ...
-<pre>
+</pre>
 
 The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
 uses these environment variables when bringing up a cyber-dojo server.
