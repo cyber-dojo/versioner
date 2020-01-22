@@ -57,8 +57,8 @@ CYBER_DOJO_WEB_PORT=3000
       image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
       ...
   ```
-- Integration tests that use the main `cyber-dojo` script may need to build
-  a fake versioner image:
+- Integration tests using the main `cyber-dojo` script may need to build
+  a _fake_ `cyberdojo/versioner:latest` image:
   ```bash
   #!/bin/bash -Eeu
   readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
