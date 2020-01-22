@@ -3,7 +3,7 @@
 # cyberdojo/versioner docker image
 
 The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) bash script
-uses a cyberdojo/versioner docker image when bringing up a cyber-dojo server.
+uses the `cyberdojo/versioner:latest` docker image when bringing up a cyber-dojo server.
 For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.35`,
 and we bring up a cyber-dojo server:
 ```bash
@@ -21,9 +21,8 @@ images and tags for a cyber-dojo server's micro-services:
 * etc...
 
 - - - -
-
-The `/app/.env` file holds the required environment variables.
-For example:
+The entrypoint for a `cyberdojo/versioner` docker image prints a set of
+environment variables. For example:
 ```bash
 $ docker run --rm cyberdojo/versioner:0.1.35
 ...
@@ -38,10 +37,11 @@ CYBER_DOJO_WEB_TAG=ac9952b
 CYBER_DOJO_WEB_PORT=3000
 ...
 ```
-- Entries are image names, commit shas, image tags, and port numbers.
-- The image tag is always the first seven chars of the commit sha (docker-compose yml files
+- Entries are image names, commit-shas, image-tags, and port-numbers.
+- The image-tag is always the first seven chars of the commit-sha (docker-compose yml files
   can use `${TAG}` but cannot use `${SHA:0:7}`).
-- Integration tests can export `/app/.env` and use the env-vars in a docker-compose.yml file. For example:
+- Integration tests can export `/app/.env` and use the env-vars in a docker-compose.yml file.
+  For example:
   ```bash
   #!/bin/bash -Eeu
   export $(docker run --rm cyberdojo/versioner:latest)
@@ -58,7 +58,7 @@ CYBER_DOJO_WEB_PORT=3000
       ...
   ```
 - Integration tests using the main `cyber-dojo` script may need to build
-  a _fake_ `cyberdojo/versioner:latest` image:
+  a _fake_ `cyberdojo/versioner:latest` image. For example:
   ```bash
   #!/bin/bash -Eeu
   readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
@@ -110,6 +110,7 @@ CYBER_DOJO_WEB_PORT=3000
   # - - - - - - - - - - - - - - - - - - - - - - - -  
   git_commit_sha()
   {
+    # eg 3240bfbcf3f02a9625e1ce55d054126c1a1c2cf1
     echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
   }
   # - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -120,7 +121,7 @@ CYBER_DOJO_WEB_PORT=3000
   #!/bin/bash -Eeu
   readonly runner_tag=$(docker run --entrypoint="" --rm cyberdojo/versioner:latest \
     sh -c 'export $(cat /app/.env) && echo ${CYBER_DOJO_RUNNER_TAG}')
-  3240bfb  
+  echo "${runner_tag}" # eg 3240bfb  
   ```
 
 - - - -
