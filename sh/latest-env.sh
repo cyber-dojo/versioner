@@ -1,4 +1,4 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 # Script to create .env file from pulled :latest images
 # Use: $ ./sh/latest-env.sh | tee .env
@@ -81,11 +81,11 @@ readonly services=(
   custom-start-points
   exercises-start-points
   languages-start-points
-  #creator
   #custom
   #exercises
   #languages
   avatars
+  creator
   differ
   nginx
   puller

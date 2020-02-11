@@ -1,4 +1,4 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 # Script to create .env.md as a hyperlinked version of .env
 # Used by .git/hooks/pre-push
@@ -91,11 +91,11 @@ tag_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
-  #creator
   #custom
   #exercises
   #languages
   avatars
+  creator
   differ
   nginx
   puller
