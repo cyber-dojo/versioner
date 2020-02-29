@@ -42,16 +42,17 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}"
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
   echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
+
   case "${1}" in
   creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
-
-  custom    ) printf 'CYBER_DOJO_CUSTOM_PORT=4536\n';;
-  exercises ) printf 'CYBER_DOJO_EXERCISES_PORT=4535\n';;
-  languages ) printf 'CYBER_DOJO_LANGUAGES_PORT=4534\n';;
 
   custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
   exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
   languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
+
+  custom-chooser    ) printf 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536\n';;
+  exercises-chooser ) printf 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535\n';;
+  languages-chooser ) printf 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534\n';;
 
   avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
@@ -91,9 +92,9 @@ tag_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
-  #custom
-  #exercises
-  #languages
+  custom-chooser
+  #exercises-chooser
+  #languages-chooser
   avatars
   creator
   differ

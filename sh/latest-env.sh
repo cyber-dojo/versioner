@@ -55,13 +55,13 @@ sha_env_var()
   case "${1}" in
   creator   ) echo CYBER_DOJO_CREATOR_PORT=4523;;
 
-  custom    ) echo CYBER_DOJO_CUSTOM_PORT=4536;;
-  exercises ) echo CYBER_DOJO_EXERCISES_PORT=4535;;
-  languages ) echo CYBER_DOJO_LANGUAGES_PORT=4534;;
-
   custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
   exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
+
+  custom-chooser    ) echo CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536;;
+  exercises-chooser ) echo CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535;;
+  languages-chooser ) echo CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534;;
 
   avatars   ) echo CYBER_DOJO_AVATARS_PORT=5027;;
   differ    ) echo CYBER_DOJO_DIFFER_PORT=4567;;
@@ -81,9 +81,9 @@ readonly services=(
   custom-start-points
   exercises-start-points
   languages-start-points
-  #custom
-  #exercises
-  #languages
+  custom-chooser
+  #exercises-chooser
+  #languages-chooser
   avatars
   creator
   differ
