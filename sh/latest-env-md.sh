@@ -4,7 +4,7 @@
 # Used by .git/hooks/pre-push
 # Use: $ ./sh/latest-env-md.sh | tee .env.md
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
 source "${ROOT_DIR}/app/.env"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -93,7 +93,7 @@ tag_url()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
   custom-chooser
-  #exercises-chooser
+  exercises-chooser
   #languages-chooser
   avatars
   creator

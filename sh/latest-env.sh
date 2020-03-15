@@ -3,7 +3,7 @@
 # Script to create .env file from pulled :latest images
 # Use: $ ./sh/latest-env.sh | tee .env
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
 
 upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
@@ -82,7 +82,7 @@ readonly services=(
   exercises-start-points
   languages-start-points
   custom-chooser
-  #exercises-chooser
+  exercises-chooser
   #languages-chooser
   avatars
   creator
