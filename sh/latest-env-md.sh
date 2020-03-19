@@ -94,7 +94,7 @@ tag_url()
 readonly services=(
   custom-chooser
   exercises-chooser
-  #languages-chooser
+  languages-chooser
   avatars
   creator
   differ

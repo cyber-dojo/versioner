@@ -83,7 +83,7 @@ readonly services=(
   languages-start-points
   custom-chooser
   exercises-chooser
-  #languages-chooser
+  languages-chooser
   avatars
   creator
   differ
