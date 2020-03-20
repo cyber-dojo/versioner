@@ -76,7 +76,7 @@ you will need to create a fake `cyberdojo/versioner:latest`
 which prints `CYBER_DOJO_RUNNER_SHA` and `CYBER_DOJO_RUNNER_TAG` values
 matching the git-sha for the work in your local `runner` git repo.
 
-You can automate this using a bash script:
+You can automate this using a script:
 ```bash
 #!/bin/bash -Eeu
 readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
@@ -137,8 +137,8 @@ build_fake_versioner
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and build a local `cyberdojo/versioner:latest` image.
 ```bash
-cd versioner
-./build_test_tag_publish --no-test
+$ cd versioner
+$ ./build_test_tag_publish --no-test
 ```
 
 - - - -
