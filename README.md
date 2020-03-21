@@ -33,13 +33,20 @@ Using web=<a href="https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a
 ...
 </pre>
 
+- Note the runner service identity is ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+- Note the web service identity is ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
+- The TAG is always the first seven chars of the SHA.
+- This is because you cannot use the bash-style ${VAR:0:7} syntax in a docker-compose.yml file
+  so the TAG has to be in its own environment variable.
+
 - - - -
 Integration tests `export` these environment variables, and use them
 in a `docker-compose.yml` file to bring up dependent services.
 For example:
 ```bash
 #!/bin/bash -Eeu
-export $(docker run --rm cyberdojo/versioner:latest)
+versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
+export $(versioner_env_vars)
 docker-compose --file my-docker-compose.yml up --detach
 # ...wait for all services to be ready
 # ...run your tests which depend on, eg, runner...
@@ -65,36 +72,40 @@ echo "${runner_tag}" # eg a74c5bc
 ```
 
 - - - -
-If you are working on cyber-dojo, from source, locally,
+If you are working on cyber-dojo, from source,
 and you want to run a cyber-dojo server which uses your
 locally built image(s) you will need to build
 a `cyberdojo/versioner:latest` _fake_ _image_
-which prints env-vars for your locally built images.
+which prints SHA/TAG values for your locally built images.
 
 For example, if you are working on a local `runner` service,
 you will need to create a fake `cyberdojo/versioner:latest`
 which prints `CYBER_DOJO_RUNNER_SHA` and `CYBER_DOJO_RUNNER_TAG` values
-matching the git-sha for the work in your local `runner` git repo.
+matching the git-sha for the work in your local `runner` git repo
+(on `master` at `HEAD`).
 
 You can automate this using a script:
 ```bash
 #!/bin/bash -Eeu
+#
+# Builds a fake cyberdojo/versioner:latest image that serves
+# CYBER_DOJO_RUNNER SHA/TAG values for a local runner image
+# whose repo's dir/ contains this script.
 readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
+versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_fake_versioner()
+build_fake_versioner_with_local_runner()
 {
-  # Build a fake cyberdojo/versioner:latest image that serves
-  # CYBER_DOJO_RUNNER SHA/TAG values for the local runner repo.
   local -r sha_var_name=CYBER_DOJO_RUNNER_SHA
   local -r tag_var_name=CYBER_DOJO_RUNNER_TAG
 
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
 
-  local env_vars="$(docker run --rm cyberdojo/versioner:latest)"
+  local env_vars="$(versioner_env_vars)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
 
@@ -115,6 +126,7 @@ build_fake_versioner()
     --tag "${fake_image}" \
     "${TMP_DIR}"
 }
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
 replace_with()
 {
@@ -131,14 +143,14 @@ git_commit_sha()
   echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
 }
 # - - - - - - - - - - - - - - - - - - - - - - - -  
-build_fake_versioner
+build_fake_versioner_with_local_runner
 ```
 
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and build a local `cyberdojo/versioner:latest` image.
 ```bash
 $ cd versioner
-$ ./build_test_tag_publish --no-test
+$ ./build_test_tag_publish.sh --no-test
 ```
 
 - - - -
