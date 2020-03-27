@@ -78,10 +78,10 @@ locally built image(s) you will need to build
 a `cyberdojo/versioner:latest` _fake_ _image_
 which prints SHA/TAG values for your locally built images.
 
-For example, if you are working on a local `runner` service,
+For example, if you are working on a local `web` service,
 you will need to create a fake `cyberdojo/versioner:latest`
-which prints `CYBER_DOJO_RUNNER_SHA` and `CYBER_DOJO_RUNNER_TAG` values
-matching the git-sha for the work in your local `runner` git repo
+which prints `CYBER_DOJO_WEB_SHA` and `CYBER_DOJO_WEB_TAG` values
+matching the git-sha for `cyberdojo/web:TAG` image built from your local `web` git repo
 (on `master` at `HEAD`).
 
 You can automate this using a script:
@@ -97,10 +97,10 @@ remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
 versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_fake_versioner_with_local_runner()
+build_fake_versioner_with_sha_and_tag_for_local_web()
 {
-  local -r sha_var_name=CYBER_DOJO_RUNNER_SHA
-  local -r tag_var_name=CYBER_DOJO_RUNNER_TAG
+  local -r sha_var_name=CYBER_DOJO_WEB_SHA
+  local -r tag_var_name=CYBER_DOJO_WEB_TAG
 
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
@@ -143,7 +143,7 @@ git_commit_sha()
   echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
 }
 # - - - - - - - - - - - - - - - - - - - - - - - -  
-build_fake_versioner_with_local_runner
+build_fake_versioner_with_sha_and_tag_for_local_web
 ```
 
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
