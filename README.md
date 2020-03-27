@@ -90,7 +90,7 @@ You can automate creating a fake `cyberdojo/versioner:latest` using a bash scrip
 # Builds a fake cyberdojo/versioner:latest image that serves
 # CYBER_DOJO_WEB SHA/TAG values for a local web image
 # whose repo's dir/ contains this script.
-readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
