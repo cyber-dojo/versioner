@@ -86,7 +86,6 @@ For example, if you are working on a local `web` service, you will need to
 You can automate creating a fake `cyberdojo/versioner:latest` using a bash script:
 ```bash
 #!/bin/bash -Eeu
-#
 # Builds a fake cyberdojo/versioner:latest image that serves
 # CYBER_DOJO_WEB SHA/TAG values for a local web image
 # whose repo's dir/ contains this script.
@@ -100,14 +99,11 @@ build_fake_versioner_with_sha_and_tag_for_local_web()
 {
   local -r sha_var_name=CYBER_DOJO_WEB_SHA
   local -r tag_var_name=CYBER_DOJO_WEB_TAG
-
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
-
   local env_vars="$(versioner_env_vars)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
-
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
   {
@@ -125,7 +121,6 @@ build_fake_versioner_with_sha_and_tag_for_local_web()
     --tag "${fake_image}" \
     "${TMP_DIR}"
 }
-
 # - - - - - - - - - - - - - - - - - - - - - - - -
 replace_with()
 {
