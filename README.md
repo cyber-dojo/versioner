@@ -40,7 +40,7 @@ Using web=<a href="https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a
   so the TAG has to be in its own environment variable.
 
 - - - -
-Integration tests `export` these environment variables, and use them
+Integration tests can `export` these environment variables, and use them
 in a `docker-compose.yml` file to bring up dependent services.
 For example:
 ```bash
@@ -76,20 +76,19 @@ If you are working on cyber-dojo, from source,
 and you want to run a cyber-dojo server which uses your
 locally built image(s) you will need to build
 a `cyberdojo/versioner:latest` _fake_ _image_
-which prints SHA/TAG values for your locally built images.
+which prints SHA/TAG values for your locally built image(s).
 
-For example, if you are working on a local `web` service,
-you will need to create a fake `cyberdojo/versioner:latest`
-which prints `CYBER_DOJO_WEB_SHA` and `CYBER_DOJO_WEB_TAG` values
-matching the git-sha for `cyberdojo/web:TAG` image built from your local `web` git repo
+For example, if you are working on a local `web` service, you will need to
+- create a fake `cyberdojo/versioner:latest` which prints `CYBER_DOJO_WEB_SHA` and `CYBER_DOJO_WEB_TAG` values matching the git-sha for `cyberdojo/web:TAG` image built from your local `web` git repo
 (on `master` at `HEAD`).
+- reissue the `cyber-dojo up ...` command.
 
-You can automate this using a script:
+You can automate creating a fake `cyberdojo/versioner:latest` using a bash script:
 ```bash
 #!/bin/bash -Eeu
 #
 # Builds a fake cyberdojo/versioner:latest image that serves
-# CYBER_DOJO_RUNNER SHA/TAG values for a local runner image
+# CYBER_DOJO_WEB SHA/TAG values for a local web image
 # whose repo's dir/ contains this script.
 readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
@@ -147,7 +146,7 @@ build_fake_versioner_with_sha_and_tag_for_local_web
 ```
 
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
-into `versioner/app/.env` and build a local `cyberdojo/versioner:latest` image.
+into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
 $ cd versioner
 $ ./build_test_tag_publish.sh --no-test
