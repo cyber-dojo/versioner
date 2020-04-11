@@ -14,7 +14,7 @@ upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_var()
 {
-  echo "CYBER_DOJO_$(upper_case "${1}")_SHA  "
+  echo "CYBER_DOJO_$(upper_case "${1}")_SHA"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,7 +69,7 @@ sha_env_var()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_var()
 {
-  echo "CYBER_DOJO_$(upper_case "${1}")_TAG  "
+  echo "CYBER_DOJO_$(upper_case "${1}")_TAG"
 }
 
 tag_value()
