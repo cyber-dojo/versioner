@@ -1,6 +1,7 @@
 #!/bin/bash -Eeu
 
 # Script to create .env.md as a hyperlinked version of .env
+# The echos append two spaces to force a .md file newline.
 # Used by .git/hooks/pre-push
 # Use: $ ./sh/latest-env-md.sh | tee .env.md
 
@@ -13,7 +14,7 @@ upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_var()
 {
-  echo "CYBER_DOJO_$(upper_case "${1}")_SHA"
+  echo "CYBER_DOJO_$(upper_case "${1}")_SHA  "
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,36 +40,36 @@ sha_env_var()
   else
     local -r name="${1}"
   fi
-  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}"
-  echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))"
-  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))"
+  echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}  "
+  echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))  "
+  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))  "
 
   case "${1}" in
-  creator   ) echo 'CYBER_DOJO_CREATOR_PORT=4523';;
+  creator   ) echo 'CYBER_DOJO_CREATOR_PORT=4523  ';;
 
-  custom-start-points    ) echo 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526';;
-  exercises-start-points ) echo 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525';;
-  languages-start-points ) echo 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524';;
+  custom-start-points    ) echo 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526  ';;
+  exercises-start-points ) echo 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525  ';;
+  languages-start-points ) echo 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524  ';;
 
-  custom-chooser    ) echo 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536';;
-  exercises-chooser ) echo 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535';;
-  languages-chooser ) echo 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534';;
+  custom-chooser    ) echo 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536  ';;
+  exercises-chooser ) echo 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535  ';;
+  languages-chooser ) echo 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534  ';;
 
-  avatars   ) echo 'CYBER_DOJO_AVATARS_PORT=5027';;
-  differ    ) echo 'CYBER_DOJO_DIFFER_PORT=4567';;
-  nginx     ) echo 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up';;
-  puller    ) echo 'CYBER_DOJO_PULLER_PORT=5017';;
-  runner    ) echo 'CYBER_DOJO_RUNNER_PORT=4597';;
-  saver     ) echo 'CYBER_DOJO_SAVER_PORT=4537';;
-  web       ) echo 'CYBER_DOJO_WEB_PORT=3000';;
-  zipper    ) echo 'CYBER_DOJO_ZIPPER_PORT=4587';;
+  avatars   ) echo 'CYBER_DOJO_AVATARS_PORT=5027  ';;
+  differ    ) echo 'CYBER_DOJO_DIFFER_PORT=4567  ';;
+  nginx     ) echo 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up  ';;
+  puller    ) echo 'CYBER_DOJO_PULLER_PORT=5017  ';;
+  runner    ) echo 'CYBER_DOJO_RUNNER_PORT=4597  ';;
+  saver     ) echo 'CYBER_DOJO_SAVER_PORT=4537  ';;
+  web       ) echo 'CYBER_DOJO_WEB_PORT=3000  ';;
+  zipper    ) echo 'CYBER_DOJO_ZIPPER_PORT=4587  ';;
   esac
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_var()
 {
-  echo "CYBER_DOJO_$(upper_case "${1}")_TAG"
+  echo "CYBER_DOJO_$(upper_case "${1}")_TAG  "
 }
 
 tag_value()
