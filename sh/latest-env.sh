@@ -1,9 +1,9 @@
 #!/bin/bash -Eeu
 
 # Script to create .env file from pulled :latest images
-# Use: $ ./sh/latest-env.sh | tee .env
+# Use: $ ./sh/latest-env.sh | tee ./app/.env
 
-readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
 
@@ -92,12 +92,11 @@ readonly services=(
   runner
   saver
   web
-  zipper
 )
 
 # ---------------------------------------------------
 echo
-for service in "${services[@]}";
+for service in "${services[@]}"
 do
   sha_env_var "${service}"
   echo
