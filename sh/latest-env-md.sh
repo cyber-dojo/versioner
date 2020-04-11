@@ -44,24 +44,24 @@ sha_env_var()
   echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))"
 
   case "${1}" in
-  creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+  creator   ) echo 'CYBER_DOJO_CREATOR_PORT=4523';;
 
-  custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
-  exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
-  languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
+  custom-start-points    ) echo 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526';;
+  exercises-start-points ) echo 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525';;
+  languages-start-points ) echo 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524';;
 
-  custom-chooser    ) printf 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536\n';;
-  exercises-chooser ) printf 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535\n';;
-  languages-chooser ) printf 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534\n';;
+  custom-chooser    ) echo 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536';;
+  exercises-chooser ) echo 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535';;
+  languages-chooser ) echo 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534';;
 
-  avatars   ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
-  differ    ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
-  nginx     ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
-  puller    ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
-  runner    ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
-  saver     ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
-  web       ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
-  zipper    ) printf 'CYBER_DOJO_ZIPPER_PORT=4587\n';;
+  avatars   ) echo 'CYBER_DOJO_AVATARS_PORT=5027';;
+  differ    ) echo 'CYBER_DOJO_DIFFER_PORT=4567';;
+  nginx     ) echo 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up';;
+  puller    ) echo 'CYBER_DOJO_PULLER_PORT=5017';;
+  runner    ) echo 'CYBER_DOJO_RUNNER_PORT=4597';;
+  saver     ) echo 'CYBER_DOJO_SAVER_PORT=4537';;
+  web       ) echo 'CYBER_DOJO_WEB_PORT=3000';;
+  zipper    ) echo 'CYBER_DOJO_ZIPPER_PORT=4587';;
   esac
 }
 
