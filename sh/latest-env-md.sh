@@ -40,8 +40,8 @@ sha_env_var()
     local -r name="${1}"
   fi
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}"
-  echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))<br/>"
-  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))<br/>"
+  echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))"
+  echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))"
 
   case "${1}" in
   creator   ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
