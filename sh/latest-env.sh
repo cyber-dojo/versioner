@@ -67,6 +67,7 @@ sha_env_var()
   differ    ) echo CYBER_DOJO_DIFFER_PORT=4567;;
   nginx     ) echo CYBER_DOJO_NGINX_PORT=80;;
   puller    ) echo CYBER_DOJO_PULLER_PORT=5017;;
+  repler    ) echo CYBER_DOJO_REPLER_PORT=4657;;
   runner    ) echo CYBER_DOJO_RUNNER_PORT=4597;;
   saver     ) echo CYBER_DOJO_SAVER_PORT=4537;;
   web       ) echo CYBER_DOJO_WEB_PORT=3000;;
@@ -89,6 +90,7 @@ readonly services=(
   differ
   nginx
   puller
+  repler
   runner
   saver
   web
