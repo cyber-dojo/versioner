@@ -105,7 +105,7 @@ build_image
 assert_equal "SHA=$(git_commit_sha)" "SHA=$(image_sha)"
 assert_equal "RELEASE=$(release)"    "RELEASE=$(image_release)"
 tag_the_image
-if [ "${1:-}" == '--build-only' ] || [ "${1:-}" == '-b' ] ; then
+if [ "${1:-}" == '--build-only' ] || [ "${1:-}" == '-bo' ] ; then
   exit 0
 fi
 ${ROOT_DIR}/test/run_all.sh
