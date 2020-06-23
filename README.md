@@ -2,7 +2,7 @@
 
 # cyberdojo/versioner docker image
 
-The docker `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
+The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
 set of image-name, commit-sha, image-tag, and port-number, environment variables.
 For example:
 <pre>
@@ -74,11 +74,25 @@ echo "${runner_tag}" # eg a74c5bc
 - - - -
 If you are working on cyber-dojo, from source,
 and you want to run a cyber-dojo server which uses your
-locally built image(s) you will need to build
-a `cyberdojo/versioner:latest` _fake_ _image_
+locally built image(s) one option is to explicitly replace
+specific environment variables.
+For example:
+```bash
+#!/bin/bash -Eeu
+versioner_env_vars()
+{
+  docker run --rm cyberdojo/versioner:latest
+  echo CYBER_DOJO_WEB_SHA=c93a9c650a8c4e7cc83545ce3f9108c2c76746d8
+  echo CYBER_DOJO_WEB_TAG=c93a9c6
+}
+export $(versioner_env_vars)
+```
+
+- - - -
+Alternatively you can build a `cyberdojo/versioner:latest` _fake_ _image_
 which prints SHA/TAG values for your locally built image(s).
 
-For example, if you are working on a local `web` service, you will need to
+For example, if you are working on a local `web` service, you could
 - create a fake `cyberdojo/versioner:latest` which prints `CYBER_DOJO_WEB_SHA` and `CYBER_DOJO_WEB_TAG` values matching the git-sha for `cyberdojo/web:TAG` image built from your local `web` git repo
 (on `master` at `HEAD`).
 - reissue the `cyber-dojo up ...` command.
@@ -144,7 +158,7 @@ Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
 $ cd versioner
-$ ./build_test_tag_publish.sh --no-test
+$ ./build_test_tag_publish.sh --build-only
 ```
 
 - - - -
