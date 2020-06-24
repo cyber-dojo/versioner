@@ -16,7 +16,7 @@ class PortEntryTest < MiniTest::Test
       assert_equal name.strip, name, "#{name} has leading/trailing whitespace"
       value = parts[1]
       assert_equal value.lstrip, value, "#{value} has leading whitespace"
-      assert name.match(/^[A-Z_]+$/), "#{name} can contain only A-Z and underscore"
+      assert name.match(/^[A-Z_0-9]+$/), "#{name} can contain only A-Z 0-9 and underscore"
       assert value.match(/^[a-z0-9\:\-\/]+$/), "#{value} can contain only a-z 0-9 colon hyphen forwardSlash"
     end
   end
