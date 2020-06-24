@@ -4,8 +4,15 @@
 # Use: $ ./sh/latest-env.sh | tee ./app/.env
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
+remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
+trap remove_tmp_dir EXIT
 
-upper_case() { printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]; }
+# ---------------------------------------------------
+upper_case()
+{
+  printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]
+}
 
 # ---------------------------------------------------
 untagged_image_name()
@@ -32,6 +39,7 @@ service_sha()
   docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}'
 }
 
+# ---------------------------------------------------
 service_base_sha()
 {
   local -r image="${1}"
@@ -77,6 +85,14 @@ sha_env_var()
 }
 
 # ---------------------------------------------------
+k8s_install_env_var()
+{
+  git clone "https://github.com/cyber-dojo/k8s-install.git" "${TMP_DIR}" > /dev/null 2>&1
+  local -r sha="$(cd ${TMP_DIR} && git rev-parse HEAD)"
+  echo "CYBER_DOJO_K8S_INSTALL_SHA=${sha}"
+}
+
+# ---------------------------------------------------
 readonly services=(
   commander
   start-points-base
@@ -105,3 +121,4 @@ do
   sha_env_var "${service}"
   echo
 done
+k8s_install_env_var

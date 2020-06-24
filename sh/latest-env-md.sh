@@ -74,12 +74,14 @@ tag_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_TAG"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_value()
 {
   local name=$(tag_var ${1})
   echo ${!name:0:7}
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_url()
 {
   if [ "${1}" == 'languages-start-points' ]; then
@@ -91,6 +93,13 @@ tag_url()
   local -r tag="$(tag_value ${1})"
   local digest=$(docker inspect --format='{{index .RepoDigests 0}}' cyberdojo/${name}:latest)
   echo "https://hub.docker.com/layers/cyberdojo/${name}/${tag}/images/sha256-${digest:(-64)}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+k8s_install_env_var()
+{
+  local -r name='k8s_install'
+  echo "$(sha_var ${name})=[$(sha_value ${name})]($(sha_url ${name}))  "
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -134,3 +143,5 @@ do
   sha_env_var ${svc}
   echo
 done
+echo '### Kubernetes install scripts'
+k8s_install_env_var
