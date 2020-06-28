@@ -77,7 +77,7 @@ sha_env_var()
   puller     ) echo CYBER_DOJO_PULLER_PORT=5017;;
   repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
   runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
-  runner-set ) echo CYBER_DOJO_RUNNER_PORT=4599;;  
+  runner-set ) echo CYBER_DOJO_RUNNER_SET_PORT=4599;;  
   saver      ) echo CYBER_DOJO_SAVER_PORT=4537;;
   shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
   web        ) echo CYBER_DOJO_WEB_PORT=3000;;

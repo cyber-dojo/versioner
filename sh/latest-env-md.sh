@@ -61,7 +61,7 @@ sha_env_var()
   puller     ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
   repler     ) printf 'CYBER_DOJO_REPLER_PORT=4657\n';;
   runner     ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
-  runner-set ) printf 'CYBER_DOJO_RUNNER_PORT=4599\n';;
+  runner-set ) printf 'CYBER_DOJO_RUNNER_SET_PORT=4599\n';;
   saver      ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
   shas       ) printf 'CYBER_DOJO_SHAS_PORT=4522\n';;
   web        ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
