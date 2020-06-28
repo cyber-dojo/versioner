@@ -71,16 +71,17 @@ sha_env_var()
   exercises-chooser ) echo CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535;;
   languages-chooser ) echo CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534;;
 
-  avatars   ) echo CYBER_DOJO_AVATARS_PORT=5027;;
-  differ    ) echo CYBER_DOJO_DIFFER_PORT=4567;;
-  nginx     ) echo CYBER_DOJO_NGINX_PORT=80;;
-  puller    ) echo CYBER_DOJO_PULLER_PORT=5017;;
-  repler    ) echo CYBER_DOJO_REPLER_PORT=4657;;
-  runner    ) echo CYBER_DOJO_RUNNER_PORT=4597;;
-  saver     ) echo CYBER_DOJO_SAVER_PORT=4537;;
-  shas      ) echo CYBER_DOJO_SHAS_PORT=4522;;
-  web       ) echo CYBER_DOJO_WEB_PORT=3000;;
-  zipper    ) echo CYBER_DOJO_ZIPPER_PORT=4587;;
+  avatars    ) echo CYBER_DOJO_AVATARS_PORT=5027;;
+  differ     ) echo CYBER_DOJO_DIFFER_PORT=4567;;
+  nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
+  puller     ) echo CYBER_DOJO_PULLER_PORT=5017;;
+  repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
+  runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
+  runner-set ) echo CYBER_DOJO_RUNNER_PORT=4599;;  
+  saver      ) echo CYBER_DOJO_SAVER_PORT=4537;;
+  shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
+  web        ) echo CYBER_DOJO_WEB_PORT=3000;;
+  zipper     ) echo CYBER_DOJO_ZIPPER_PORT=4587;;
   esac
 }
 
@@ -109,6 +110,7 @@ readonly services=(
   puller
   repler
   runner
+  runner-set
   saver
   shas
   web
