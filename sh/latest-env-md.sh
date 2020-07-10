@@ -58,10 +58,8 @@ sha_env_var()
   avatars    ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   differ     ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
   nginx      ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
-  puller     ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
   repler     ) printf 'CYBER_DOJO_REPLER_PORT=4657\n';;
   runner     ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
-  runner-set ) printf 'CYBER_DOJO_RUNNER_SET_PORT=4599\n';;
   saver      ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
   shas       ) printf 'CYBER_DOJO_SHAS_PORT=4522\n';;
   web        ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
@@ -112,10 +110,8 @@ readonly services=(
   creator
   differ
   nginx
-  puller
   repler
   runner
-  runner-set
   saver
   shas
   web
