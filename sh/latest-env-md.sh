@@ -34,11 +34,7 @@ sha_url()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_env_var()
 {
-  if [ "${1}" == 'languages-start-points' ]; then
-    local -r name=languages-start-points-common
-  else
-    local -r name="${1}"
-  fi
+  local -r name="${1}" # eg runner
   # Need two end-of-line spaces to force a .md file newline
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}  "
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))  "
@@ -83,11 +79,7 @@ tag_value()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 tag_url()
 {
-  if [ "${1}" == 'languages-start-points' ]; then
-    local -r name=languages-start-points-common
-  else
-    local -r name="${1}" # eg runner
-  fi
+  local -r name="${1}" # eg runner
   # Relies on :latest being pulled in latest-env.sh
   local -r tag="$(tag_value ${1})"
   local digest=$(docker inspect --format='{{index .RepoDigests 0}}' cyberdojo/${name}:latest)

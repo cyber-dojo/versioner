@@ -17,11 +17,7 @@ upper_case()
 # ---------------------------------------------------
 untagged_image_name()
 {
-  if [ "${1}" == 'languages-start-points' ]; then
-    local -r name='languages-start-points-common'
-  else
-    local -r name="${1}"
-  fi
+  local -r name="${1}" # eg runner
   echo "cyberdojo/${name}"
 }
 
