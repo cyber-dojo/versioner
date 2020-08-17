@@ -72,7 +72,7 @@ sha_env_var()
   nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
   repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
   runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
-  puller     ) echo CYBER_DOJO_RUNNER_PORT=5017;;
+  puller     ) echo CYBER_DOJO_PULLER_PORT=5017;;
   saver      ) echo CYBER_DOJO_SAVER_PORT=4537;;
   shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
   web        ) echo CYBER_DOJO_WEB_PORT=3000;;
