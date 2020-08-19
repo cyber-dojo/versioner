@@ -47,7 +47,6 @@ sha_env_var()
   exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
   languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
 
-  custom-chooser    ) printf 'CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536\n';;
   exercises-chooser ) printf 'CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535\n';;
   languages-chooser ) printf 'CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534\n';;
 
@@ -96,7 +95,6 @@ k8s_install_env_var()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
-  custom-chooser
   exercises-chooser
   languages-chooser
   avatars

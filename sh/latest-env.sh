@@ -63,7 +63,6 @@ sha_env_var()
   exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
 
-  custom-chooser    ) echo CYBER_DOJO_CUSTOM_CHOOSER_PORT=4536;;
   exercises-chooser ) echo CYBER_DOJO_EXERCISES_CHOOSER_PORT=4535;;
   languages-chooser ) echo CYBER_DOJO_LANGUAGES_CHOOSER_PORT=4534;;
 
@@ -95,7 +94,6 @@ readonly services=(
   custom-start-points
   exercises-start-points
   languages-start-points
-  custom-chooser
   exercises-chooser
   languages-chooser
   avatars
