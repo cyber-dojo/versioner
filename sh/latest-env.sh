@@ -3,7 +3,6 @@
 # Script to create .env file from pulled :latest images
 # Use: $ ./sh/latest-env.sh | tee ./app/.env
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
 trap remove_tmp_dir EXIT

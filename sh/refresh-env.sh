@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
 
 ${ROOT_DIR}/sh/latest-env.sh    | tee ${ROOT_DIR}/app/.env
 if [ "${PIPESTATUS[0]}" != '0' ]; then
