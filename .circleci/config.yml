@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-publish-trigger:
+  build-publish:
 
     machine:
       image: ubuntu-1604:201903-01
@@ -13,13 +13,13 @@ jobs:
           name: Build docker image, test it, tag it, publish it
           command: |
             set -e
-            ./build_test_tag_publish.sh
+            ./build_test_publish.sh
 
 workflows:
   version: 2
-  build-publish-trigger:
+  build-publish:
     jobs:
-      - build-publish-trigger:
+      - build-publish:
           context: cyberdojo-context
           filters:
             branches:
