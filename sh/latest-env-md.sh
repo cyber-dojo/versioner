@@ -51,7 +51,6 @@ sha_env_var()
   differ     ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
   model      ) printf 'CYBER_DOJO_MODEL_PORT=4528\n';;
   nginx      ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
-  puller     ) printf 'CYBER_DOJO_PULLER_PORT=5017\n';;
   repler     ) printf 'CYBER_DOJO_REPLER_PORT=4657\n';;
   runner     ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
   saver      ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
@@ -98,7 +97,6 @@ readonly services=(
   differ
   model
   nginx
-  puller
   repler
   runner
   saver
