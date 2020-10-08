@@ -50,6 +50,7 @@ release()
      && echo ${BASH_REMATCH[1]}
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 image_release()
 {
   docker run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${RELEASE}'
