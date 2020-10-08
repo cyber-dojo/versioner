@@ -88,8 +88,6 @@ on_ci_publish_tagged_images()
     return
   fi
   echo 'on CI so publishing tagged images'
-  # requires DOCKER_USER, DOCKER_PASS in ci context
-  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker push $(image_name):$(image_tag)
   if [ -n "$(image_release)" ]; then
     docker push $(image_name):$(image_release)
@@ -98,7 +96,6 @@ on_ci_publish_tagged_images()
     # TODO: still used? in commander?
     docker push $(image_name):dev_latest
   fi
-  docker logout
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
