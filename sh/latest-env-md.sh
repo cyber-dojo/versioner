@@ -3,6 +3,7 @@
 # Script to create .env.md as a hyperlinked version of .env
 # Used by .git/hooks/pre-push
 # Use: $ ./sh/latest-env-md.sh | tee ./app/.env.md
+# Must be run after ./sh/latest-env.sh
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/app/.env"
@@ -49,7 +50,6 @@ sha_env_var()
   avatars    ) printf 'CYBER_DOJO_AVATARS_PORT=5027\n';;
   creator    ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
   differ     ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
-  home       ) printf 'CYBER_DOJO_HOME_PORT=4527\n';;  
   model      ) printf 'CYBER_DOJO_MODEL_PORT=4528\n';;
   nginx      ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
   repler     ) printf 'CYBER_DOJO_REPLER_PORT=4657\n';;
@@ -96,7 +96,6 @@ readonly services=(
   avatars
   creator
   differ
-  home
   model
   nginx
   repler

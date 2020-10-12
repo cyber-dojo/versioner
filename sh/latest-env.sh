@@ -64,7 +64,6 @@ sha_env_var()
   avatars    ) echo CYBER_DOJO_AVATARS_PORT=5027;;
   creator    ) echo CYBER_DOJO_CREATOR_PORT=4523;;
   differ     ) echo CYBER_DOJO_DIFFER_PORT=4567;;
-  home       ) echo CYBER_DOJO_HOME_PORT=4527;;
   model      ) echo CYBER_DOJO_MODEL_PORT=4528;;
   nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
   repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
@@ -93,7 +92,6 @@ readonly services=(
   languages-start-points
   avatars
   creator
-  home
   model
   differ
   nginx
