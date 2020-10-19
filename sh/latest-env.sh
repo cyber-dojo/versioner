@@ -61,7 +61,6 @@ sha_env_var()
   exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
 
-  avatars    ) echo CYBER_DOJO_AVATARS_PORT=5027;;
   creator    ) echo CYBER_DOJO_CREATOR_PORT=4523;;
   differ     ) echo CYBER_DOJO_DIFFER_PORT=4567;;
   model      ) echo CYBER_DOJO_MODEL_PORT=4528;;
@@ -90,7 +89,6 @@ readonly services=(
   custom-start-points
   exercises-start-points
   languages-start-points
-  avatars
   creator
   model
   differ
