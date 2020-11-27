@@ -48,6 +48,7 @@ sha_env_var()
   languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
 
   creator    ) printf 'CYBER_DOJO_CREATOR_PORT=4523\n';;
+  dashboard  ) printf 'CYBER_DOJO_DASHBOARD_PORT=4527\n';;  
   differ     ) printf 'CYBER_DOJO_DIFFER_PORT=4567\n';;
   model      ) printf 'CYBER_DOJO_MODEL_PORT=4528\n';;
   nginx      ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
@@ -93,6 +94,7 @@ k8s_install_env_var()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
   creator
+  dashboard
   differ
   model
   nginx
