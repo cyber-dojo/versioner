@@ -158,7 +158,7 @@ Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
 $ cd versioner
-$ ./build_test_tag_publish.sh --build-only
+$ ./build_test_publish.sh --build-only
 ```
 
 - - - -
