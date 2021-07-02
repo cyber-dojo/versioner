@@ -62,9 +62,8 @@ sha_env_var()
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
 
   creator    ) echo CYBER_DOJO_CREATOR_PORT=4523;;
-  dashboard  ) echo CYBER_DOJO_DASHBOARD_PORT=4527;;  
+  dashboard  ) echo CYBER_DOJO_DASHBOARD_PORT=4527;;
   differ     ) echo CYBER_DOJO_DIFFER_PORT=4567;;
-  model      ) echo CYBER_DOJO_MODEL_PORT=4528;;
   nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
   repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
   runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
@@ -93,7 +92,6 @@ readonly services=(
   creator
   dashboard
   differ
-  model
   nginx
   repler
   runner
