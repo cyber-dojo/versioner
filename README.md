@@ -66,7 +66,7 @@ current shell, you can export inside the docker container and echo.
 For example:
 ```bash
 #!/bin/bash -Eeu
-readonly runner_tag=$(docker run --entrypoint="" --rm cyberdojo/versioner:latest \
+readonly runner_tag=$(docker run --rm cyberdojo/versioner:latest \
   sh -c 'export $(cat /app/.env) && echo ${CYBER_DOJO_RUNNER_TAG}')
 echo "${runner_tag}" # eg a74c5bc  
 ```
