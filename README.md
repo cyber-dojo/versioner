@@ -33,10 +33,10 @@ Using web=<a href="https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a
 ...
 </pre>
 
-- Note the runner service identity is \${CYBER_DOJO_RUNNER_IMAGE}:\${CYBER_DOJO_RUNNER_TAG}
-- Note the web service identity is \${CYBER_DOJO_WEB_IMAGE}:\${CYBER_DOJO_WEB_TAG}
+- Note the runner service identity is `${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}`
+- Note the web service identity is `${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}`
 - The TAG is always the first seven chars of the SHA.
-- This is because you cannot use the bash-style \${VAR:0:7} syntax in a docker-compose.yml file
+- This is because you cannot use the bash-style `${VAR:0:7}` syntax in a docker-compose.yml file
   so the TAG has to be in its own environment variable.
 
 - - - -
