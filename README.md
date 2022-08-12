@@ -61,17 +61,6 @@ services:
 ```
 
 - - - -
-To get the value of a single environment variable, without exporting to the
-current shell, you can export inside the docker container and echo.
-For example:
-```bash
-#!/bin/bash -Eeu
-readonly runner_tag=$(docker run --rm cyberdojo/versioner:latest \
-  sh -c 'export $(cat /app/.env) && echo ${CYBER_DOJO_RUNNER_TAG}')
-echo "${runner_tag}" # eg a74c5bc  
-```
-
-- - - -
 If you are working on cyber-dojo, from source,
 and you want to run a cyber-dojo server which uses your
 locally built image(s) one option is to explicitly replace
