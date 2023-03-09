@@ -81,13 +81,20 @@ tag_the_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
+on_CI()
+{
+  [ "${CI:-}" == true ]
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
 {
-  if [ -z "${CIRCLECI}" ]; then
+  if ! on_CI; then
     echo 'not on CI so not publishing tagged images'
     return
   fi
   echo 'on CI so publishing tagged images'
+  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker push $(image_name):$(image_tag)
   if [ -n "$(image_release)" ]; then
     docker push $(image_name):$(image_release)
@@ -96,6 +103,7 @@ on_ci_publish_tagged_images()
     # TODO: still used? in commander?
     docker push $(image_name):dev_latest
   fi
+  docker logout
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
