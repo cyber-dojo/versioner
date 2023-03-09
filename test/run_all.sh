@@ -17,7 +17,6 @@ from_outside_run_all_tests()
     --env INSIDE_CONTAINER_UUID=yup \
     --interactive \
     --rm \
-    --tty \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "${ROOT_DIR}/app/.env:/app/.env:ro" \
     --volume "${ROOT_DIR}/test:/app/test:ro" \
