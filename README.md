@@ -21,9 +21,10 @@ CYBER_DOJO_WEB_PORT=3000
 </pre>
 
 The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo)
-bash script uses these environment variables.
-For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.89`,
-and we bring up a cyber-dojo server:
+bash script uses these environment variables to control the image identity and port number 
+of the cyber-dojo microservice containers.
+For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.89`
+(which we can see a fragment of above), and we bring up a cyber-dojo server:
 <pre>
 $ cyber-dojo up
 Using version=<b>0.1.89</b> (public)
