@@ -3,7 +3,7 @@
 require_relative 'dot_env'
 require 'minitest/autorun'
 
-class StartPointEntriesTest < MiniTest::Test
+class StartPointEntriesTest < Minitest::Test
 
   def test_all_start_points_were_created_from_named_start_points_base
     # If we have updated only CYBER_DOJO_START_POINTS_BASE_SHA

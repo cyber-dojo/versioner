@@ -4,7 +4,7 @@ require_relative 'dot_env'
 require_relative 'image_exists'
 require 'minitest/autorun'
 
-class CoreServicesEntriesTest < MiniTest::Test
+class CoreServicesEntriesTest < Minitest::Test
 
   def test_env_file_has_valid_core_service_entries
     tags = env_vars.keys.select{ |name| name.end_with?('TAG') }

@@ -2,7 +2,7 @@
 
 require 'minitest/autorun'
 
-class PortEntryTest < MiniTest::Test
+class PortEntryTest < Minitest::Test
 
   def test_dot_env_file_sourceability
     lines = IO.read('/app/.env').lines
