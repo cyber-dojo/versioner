@@ -65,7 +65,6 @@ sha_env_var()
   dashboard  ) echo CYBER_DOJO_DASHBOARD_PORT=4527;;
   differ     ) echo CYBER_DOJO_DIFFER_PORT=4567;;
   nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
-  repler     ) echo CYBER_DOJO_REPLER_PORT=4657;;
   runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
   saver      ) echo CYBER_DOJO_SAVER_PORT=4537;;
   shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
