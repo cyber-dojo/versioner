@@ -95,7 +95,6 @@ readonly services=(
   dashboard
   differ
   nginx
-  repler
   runner
   saver
   shas
