@@ -2,6 +2,8 @@ ARG BASE_IMAGE=alpine:3.18.4
 FROM ${BASE_IMAGE}
 LABEL maintainer=jon@jaggersoft.com
 
+RUN apk upgrade
+
 COPY . /app
 
 ARG SHA
