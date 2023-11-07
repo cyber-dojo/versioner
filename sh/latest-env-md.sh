@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # Script to create .env.md as a hyperlinked version of .env
 # Used by .git/hooks/pre-push
@@ -43,6 +44,9 @@ sha_env_var()
 
   case "${1}" in
 
+  shas       ) printf 'CYBER_DOJO_SHAS_PORT=4522\n';;
+  version-reporter ) printf 'CYBER_DOJO_VERSION_REPORTER_PORT=4528\n';;
+
   custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
   exercises-start-points ) printf 'CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525\n';;
   languages-start-points ) printf 'CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524\n';;
@@ -53,9 +57,7 @@ sha_env_var()
   nginx      ) printf 'CYBER_DOJO_NGINX_PORT=80 # Default in: $ cyber-dojo up\n';;
   runner     ) printf 'CYBER_DOJO_RUNNER_PORT=4597\n';;
   saver      ) printf 'CYBER_DOJO_SAVER_PORT=4537\n';;
-  shas       ) printf 'CYBER_DOJO_SHAS_PORT=4522\n';;
   web        ) printf 'CYBER_DOJO_WEB_PORT=3000\n';;
-  zipper     ) printf 'CYBER_DOJO_ZIPPER_PORT=4587\n';;
   esac
 }
 
@@ -98,6 +100,7 @@ readonly services=(
   runner
   saver
   shas
+  version-reporter
   web
 )
 

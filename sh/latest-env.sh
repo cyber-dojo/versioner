@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # Script to create .env file from pulled :latest images
 # Use: $ ./sh/latest-env.sh | tee ./app/.env
@@ -57,6 +58,9 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}"
   case "${1}" in
 
+  shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
+  version-reporter ) echo CYBER_DOJO_VERSION_REPORTER_PORT=4528;;
+
   custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
   exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
@@ -67,9 +71,7 @@ sha_env_var()
   nginx      ) echo CYBER_DOJO_NGINX_PORT=80;;
   runner     ) echo CYBER_DOJO_RUNNER_PORT=4597;;
   saver      ) echo CYBER_DOJO_SAVER_PORT=4537;;
-  shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
   web        ) echo CYBER_DOJO_WEB_PORT=3000;;
-  zipper     ) echo CYBER_DOJO_ZIPPER_PORT=4587;;
   esac
 }
 
@@ -84,6 +86,7 @@ k8s_install_env_var()
 # ---------------------------------------------------
 readonly services=(
   commander
+  version-reporter
   start-points-base
   custom-start-points
   exercises-start-points
