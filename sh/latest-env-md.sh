@@ -44,7 +44,6 @@ sha_env_var()
 
   case "${1}" in
 
-  shas       ) printf 'CYBER_DOJO_SHAS_PORT=4522\n';;
   version-reporter ) printf 'CYBER_DOJO_VERSION_REPORTER_PORT=4528\n';;
 
   custom-start-points    ) printf 'CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526\n';;
@@ -99,7 +98,6 @@ readonly services=(
   nginx
   runner
   saver
-  shas
   version-reporter
   web
 )

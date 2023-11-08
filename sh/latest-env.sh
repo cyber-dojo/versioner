@@ -58,7 +58,6 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}"
   case "${1}" in
 
-  shas       ) echo CYBER_DOJO_SHAS_PORT=4522;;
   version-reporter ) echo CYBER_DOJO_VERSION_REPORTER_PORT=4528;;
 
   custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
@@ -97,7 +96,6 @@ readonly services=(
   nginx
   runner
   saver
-  shas
   web
 )
 
