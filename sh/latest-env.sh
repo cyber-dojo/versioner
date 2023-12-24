@@ -58,8 +58,6 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}"
   case "${1}" in
 
-  version-reporter ) echo CYBER_DOJO_VERSION_REPORTER_PORT=4528;;
-
   custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
   exercises-start-points ) echo CYBER_DOJO_EXERCISES_START_POINTS_PORT=4525;;
   languages-start-points ) echo CYBER_DOJO_LANGUAGES_START_POINTS_PORT=4524;;
@@ -85,7 +83,6 @@ k8s_install_env_var()
 # ---------------------------------------------------
 readonly services=(
   commander
-  version-reporter
   start-points-base
   custom-start-points
   exercises-start-points
