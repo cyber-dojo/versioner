@@ -71,10 +71,13 @@ For example:
 #!/bin/bash -Eeu
 versioner_env_vars()
 {
+  # Echo all current service env-vars. See above
   docker run --rm cyberdojo/versioner:latest
+  # Now override specific env-vars for local work-in-progress
   echo CYBER_DOJO_WEB_SHA=c93a9c650a8c4e7cc83545ce3f9108c2c76746d8
   echo CYBER_DOJO_WEB_TAG=c93a9c6
 }
+# Now export all echoed env-vars
 export $(versioner_env_vars)
 ```
 
