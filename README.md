@@ -45,7 +45,8 @@ Integration tests can `export` these environment variables, and use them
 in a `docker-compose.yml` file to bring up dependent services.
 For example:
 ```bash
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 export $(versioner_env_vars)
 docker-compose --file my-docker-compose.yml up --detach
@@ -68,7 +69,8 @@ locally built image(s) one option is to explicitly replace
 specific environment variables.
 For example:
 ```bash
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 versioner_env_vars()
 {
   # Echo all current service env-vars. See above
@@ -92,7 +94,8 @@ For example, if you are working on a local `web` service, you could
 
 You can automate creating a fake `cyberdojo/versioner:latest` using a bash script:
 ```bash
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 # Builds a fake cyberdojo/versioner:latest image that serves
 # CYBER_DOJO_WEB SHA/TAG values for a local web image
 # whose repo's dir/ contains this script.
