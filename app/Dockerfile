@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=alpine:3.18.4
+ARG BASE_IMAGE=alpine:3.19
 FROM ${BASE_IMAGE}
 LABEL maintainer=jon@jaggersoft.com
 
