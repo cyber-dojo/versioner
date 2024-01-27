@@ -47,8 +47,8 @@ For example:
 ```bash
 #!/usr/bin/env bash
 set -Eeu
-versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
-export $(versioner_env_vars)
+echo_versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
+export $(echo_versioner_env_vars)
 docker-compose --file my-docker-compose.yml up --detach
 # ...wait for all services to be ready
 # ...run your tests which depend on, eg, runner...
@@ -71,7 +71,7 @@ For example:
 ```bash
 #!/usr/bin/env bash
 set -Eeu
-versioner_env_vars()
+echo_versioner_env_vars()
 {
   # Echoes all current service env-vars. See above.
   docker run --rm cyberdojo/versioner:latest
@@ -84,7 +84,7 @@ versioner_env_vars()
   # ...
 }
 # Now export all echoed env-vars
-export $(versioner_env_vars)
+export $(echo_versioner_env_vars)
 ```
 
 - - - -
@@ -107,7 +107,7 @@ readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
-versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
+echo_versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner_with_sha_and_tag_for_local_web()
 {
@@ -115,7 +115,7 @@ build_fake_versioner_with_sha_and_tag_for_local_web()
   local -r tag_var_name=CYBER_DOJO_WEB_TAG
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
-  local env_vars="$(versioner_env_vars)"
+  local env_vars="$(echo_versioner_env_vars)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
   echo "${env_vars}" > ${TMP_DIR}/.env
