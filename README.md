@@ -3,7 +3,7 @@
 # cyberdojo/versioner docker image
 
 The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
-set of image-name, commit-sha, image-tag, and port-number, environment variables.
+self-consistent, working set of image-name, commit-sha, image-tag, and port-number, environment variables.
 For example:
 <pre>
 $ docker run --rm <b>cyberdojo/versioner:0.1.89</b>
@@ -148,7 +148,7 @@ replace_with()
 git_commit_sha()
 {
   # eg 3240bfbcf3f02a9625e1ce55d054126c1a1c2cf1
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  git rev-parse HEAD
 }
 # - - - - - - - - - - - - - - - - - - - - - - - -  
 build_fake_versioner_with_sha_and_tag_for_local_web
