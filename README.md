@@ -49,7 +49,7 @@ For example:
 set -Eeu
 echo_versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 export $(echo_versioner_env_vars)
-docker-compose --file my-docker-compose.yml up --detach
+docker compose --file my-docker-compose.yml up --detach
 # ...wait for all services to be ready
 # ...run your tests which depend on, eg, runner...
 #
@@ -96,7 +96,7 @@ For example, if you are working on a local `web` service, you could
 (on `master` at `HEAD`).
 - reissue the `cyber-dojo up ...` command.
 
-You can automate creating a fake `cyberdojo/versioner:latest` using a bash script:
+You can automate creating a fake `cyberdojo/versioner:latest` using this bash script:
 ```bash
 #!/usr/bin/env bash
 set -Eeu
