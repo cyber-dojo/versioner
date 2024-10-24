@@ -2,6 +2,13 @@
 
 # cyberdojo/versioner docker image
 
+To create a new versioner image, after updating one or more of the microservice images (eg runner, web, etc), simply
+- `./sh/refresh-env/sh`
+- `git add .`
+- `git commit -m "[RELEASE=0.1.397] Patch level updates"` (assuming 0.1.396 was the current latest)
+- `git push`
+
+
 The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
 self-consistent, working set of image-name, commit-sha, image-tag, and port-number, environment variables.
 For example:
