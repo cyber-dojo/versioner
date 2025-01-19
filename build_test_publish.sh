@@ -13,7 +13,6 @@ image_name()
 build_image()
 {
   docker build \
-    --build-arg BASE_IMAGE=alpine:3.19 \
     --build-arg SHA="$(git_commit_sha)" \
     --build-arg RELEASE="$(release)" \
     --tag $(image_name):latest \

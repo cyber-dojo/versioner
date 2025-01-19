@@ -108,10 +108,6 @@ echo '### Base image used in: $ cyber-dojo start-point create'
 echo
 sha_env_var start-points-base
 echo
-echo '### Base image'
-echo
-sha_env_var sinatra-base
-echo
 echo '### Default start-points used in: $ cyber-dojo up'
 echo
 sha_env_var custom-start-points

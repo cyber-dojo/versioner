@@ -83,7 +83,6 @@ k8s_install_env_var()
 # ---------------------------------------------------
 readonly services=(
   commander
-  sinatra-base
   start-points-base
   custom-start-points
   exercises-start-points
