@@ -41,6 +41,7 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=cyberdojo/${name}  "
   echo "$(sha_var ${1})=[$(sha_value ${1})]($(sha_url ${1}))  "
   echo "$(tag_var ${1})=[$(tag_value ${1})]($(tag_url ${1}))  "
+  echo "CYBER_DOJO_$(upper_case "${1}")_DIGEST=$(echo_digest "${name}")  "
 
   case "${1}" in
 
@@ -75,10 +76,17 @@ tag_value()
 tag_url()
 {
   local -r name="${1}" # eg runner
-  # Relies on :latest being pulled in latest-env.sh
   local -r tag="$(tag_value ${1})"
-  local digest=$(docker inspect --format='{{index .RepoDigests 0}}' cyberdojo/${name}:latest)
-  echo "https://hub.docker.com/layers/cyberdojo/${name}/${tag}/images/sha256-${digest:(-64)}"
+  local -r digest="$(echo_digest "${name}")"
+  echo "https://hub.docker.com/layers/cyberdojo/${name}/${tag}/images/sha256-${digest}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo_digest()
+{
+  local -r name="${1}" # eg runner
+  local -r full_name=$(docker inspect --format='{{index .RepoDigests 0}}' "cyberdojo/${name}:latest")
+  echo "${full_name:(-64)}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

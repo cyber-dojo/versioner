@@ -29,6 +29,14 @@ docker_image_pull()
 }
 
 # ---------------------------------------------------
+echo_digest()
+{
+  local -r image="${1}" # eg cyberdojo/runner:latest
+  local -r full_name=$(docker inspect --format='{{index .RepoDigests 0}}' "${image}")
+  echo "${full_name:(-64)}"
+}
+
+# ---------------------------------------------------
 service_sha()
 {
   local -r image="${1}"
@@ -47,6 +55,9 @@ sha_env_var()
 {
   local -r image=$(untagged_image_name "${1}")
   docker_image_pull "${image}"
+  #local -r full_name="$(docker inspect --format='{{index .RepoDigests 0}}' "${image}")"
+  local -r digest="$(echo_digest "${image}")"
+
   if [ "${1}" == 'start-points-base' ]; then
     local -r sha=$(service_base_sha "${image}")
   else
@@ -56,6 +67,7 @@ sha_env_var()
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=${image}"
   echo "CYBER_DOJO_$(upper_case "${1}")_SHA=${sha}"
   echo "CYBER_DOJO_$(upper_case "${1}")_TAG=${tag}"
+  echo "CYBER_DOJO_$(upper_case "${1}")_DIGEST=${digest}"
   case "${1}" in
 
   custom-start-points    ) echo CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526;;
