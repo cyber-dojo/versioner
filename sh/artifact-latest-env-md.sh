@@ -6,7 +6,6 @@ set -Eeu
 # Use: $ ./sh/latest-env-md.sh | tee ./app/.env.md
 # Must be run after ./sh/latest-env.sh
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/app/.env"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

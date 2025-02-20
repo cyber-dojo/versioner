@@ -4,26 +4,28 @@
 
 To create a new versioner image, after updating one or more of the microservice images 
 (eg runner, web, start-points-base, etc), simply:
-- `./sh/refresh-env/sh`
+- `./sh/refresh-env.sh`
 - `git add .`
-- `git commit -m "[RELEASE=0.1.397] Patch level updates"` (assuming 0.1.396 was the current latest)
+- `git commit -m "[RELEASE=0.1.409] Patch level updates"` (assuming 0.1.408 was the current latest)
 - `git push`
 
 
 The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
-self-consistent, working set of image-name, commit-sha, image-tag, and port-number, environment variables.
+self-consistent, working set of image-name, commit-sha, image-tag, image-digest, and port-number, environment variables.
 For example:
 <pre>
-$ docker run --rm <b>cyberdojo/versioner:0.1.89</b>
+$ docker run --rm <b>cyberdojo/versioner:latest</b>
 ...
 CYBER_DOJO_RUNNER_IMAGE=<b>cyberdojo/runner</b>
-CYBER_DOJO_RUNNER_SHA=a74c5bcbb43e8fcf497be997809ce1951979e7a0
-CYBER_DOJO_RUNNER_TAG=<b>a74c5bc</b>
+CYBER_DOJO_RUNNER_SHA=c31ef46df438c57268be5356e2717eaa822e8334
+CYBER_DOJO_RUNNER_TAG=<b>c31ef46</b>
+CYBER_DOJO_RUNNER_DIGEST=42fb72727fd50a0c1127be2ef036f2ee0a6aa9be9df5838055e65e55a37cd7ea
 CYBER_DOJO_RUNNER_PORT=4597
 ...
 CYBER_DOJO_WEB_IMAGE=<b>cyberdojo/web</b>
-CYBER_DOJO_WEB_SHA=333d9be4f64d3950c0bc5a0c450ce892b10e8389
-CYBER_DOJO_WEB_TAG=<b>333d9be</b>
+CYBER_DOJO_WEB_SHA=2498759f03851b85e85de2611a3a3742d54f3a6e
+CYBER_DOJO_WEB_TAG=<b>2498759</b>
+CYBER_DOJO_WEB_DIGEST=dbc41524d532e74b01f4da90ff15b737ac0e33132bf7338b4e20bb027e79d456
 CYBER_DOJO_WEB_PORT=3000
 ...
 </pre>
@@ -33,20 +35,20 @@ bash script uses these environment variables to:
 - control the [START_POINTS_BASE](https://github.com/cyber-dojo/start-points-base/actions) identity when running `cyber-dojo start-point create ...`
 - control the image identity and port number of the cyber-dojo microservice containers.
 
-For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.89`
+For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.409`
 (which we can see a fragment of above), and we bring up a cyber-dojo server:
 <pre>
 $ cyber-dojo up
-Using version=<b>0.1.89</b> (public)
+Using version=<b>0.1.409</b> (public)
 ...
-Using runner=<a href="https://github.com/cyber-dojo/runner/tree/a74c5bcbb43e8fcf497be997809ce1951979e7a0">cyberdojo/runner:a74c5bc</a>
-Using web=<a href="https://github.com/cyber-dojo/web/tree/333d9be4f64d3950c0bc5a0c450ce892b10e8389">cyberdojo/web:333d9be</a>
+Using runner=<a href="https://github.com/cyber-dojo/runner/tree/c31ef46df438c57268be5356e2717eaa822e8334">cyberdojo/runner:c31ef46</a>
+Using web=<a href="https://github.com/cyber-dojo/web/tree/2498759f03851b85e85de2611a3a3742d54f3a6e">cyberdojo/web:2498759</a>
 ...
 </pre>
 
-- Note the runner service identity is `${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}`
-- Note the web service identity is `${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}`
-- The TAG is currently always the first seven chars of the SHA (but in the future the tag could be based on the image digest).
+- Note: the runner service identity is `${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}`
+- Note: the web service identity is `${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}`
+- Note: The TAG is currently always the first seven chars of the SHA
 
 - - - -
 Integration tests can `export` these environment variables, and use them

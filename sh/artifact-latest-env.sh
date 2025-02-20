@@ -40,14 +40,14 @@ echo_digest()
 service_sha()
 {
   local -r image="${1}"
-  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}'
+  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}' 2> /dev/null
 }
 
 # ---------------------------------------------------
 service_base_sha()
 {
   local -r image="${1}"
-  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${BASE_SHA}'
+  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${BASE_SHA}' 2> /dev/null
 }
 
 # ---------------------------------------------------
