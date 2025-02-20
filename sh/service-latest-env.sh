@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# Script to create .env file from pulled :latest images
-# Use: $ ./sh/artifact-latest-env.sh | tee ./app/.env
+# Script to create .env file from Artifacts running in prod.
+# Use: $ ./sh/service-latest-env.sh | tee ./app/.env
+
+# TODO: exit_non_zero_if_not_installed kosli docker
+# TODO: a CI workflow could create the :latest docker images and push them to dockerhub
+# TODO:    it would need ECR auth credentials to pull the image.
 
 readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
@@ -100,10 +104,40 @@ readonly services=(
 )
 
 # ---------------------------------------------------
+
+snapshot="$(kosli get snapshot aws-prod --org=cyber-dojo --api-token=dummy-unused --output=json)"
+# "artifacts": [
+#   {"name": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/runner:c31ef46@sha256:42fb72727fd50a0c1127be2ef036f2ee0a6aa9be9df5838055e65e55a37cd7ea"},
+#   {},
+#   ...
+#   ]
+artifacts_length=$(echo "${snapshot}" | jq -r '.artifacts | length')
+for a in $(seq 0 $(( ${artifacts_length} - 1 )))
+do
+    artifact="$(echo "${snapshot}" | jq -r ".artifacts[$a]")"
+    annotation_type="$(echo "${artifact}" | jq -r ".annotation.type")"
+    if [ "${annotation_type}" != "exited" ] ; then
+      artifact_name="$(echo "${artifact}" | jq -r ".name")"
+      echo "${artifact_name}"
+   fi
+done
+
+# TODO: I do not have auth credentials to docker pull...
+#   But I don't need to do a docker pull
+#   244531986313.dkr.ecr.eu-central-1.amazonaws.com/runner:c31ef46@sha256:42fb72727fd50a0c1127be2ef036f2ee0a6aa9be9df5838055e65e55a37cd7ea
+#   Gives me the tag, digest, and I can get the sha with a CURL call...
+#   curl --fail --silent --request GET https://cyber-dojo.org/differ/sha | jq '.sha'
+
+# TODO: how do I get the BASE_SHA for start-points-base?
+#   I need an API end-point for that...
+
+exit 42
+
 echo
 for service in "${services[@]}"
 do
-  sha_tag_digest_port_env_var "${service}"
-  echo
+  #sha_tag_digest_port_env_var "${service}"
+  echo "${service}"
+  #echo
 done
-k8s_install_env_var
+#k8s_install_env_var

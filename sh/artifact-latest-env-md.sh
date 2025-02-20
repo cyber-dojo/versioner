@@ -3,8 +3,8 @@ set -Eeu
 
 # Script to create .env.md as a hyperlinked version of .env
 # Used by .git/hooks/pre-push
-# Use: $ ./sh/latest-env-md.sh | tee ./app/.env.md
-# Must be run after ./sh/latest-env.sh
+# Use: $ ./sh/artifact-latest-env-md.sh | tee ./app/.env.md
+# Must be run after ./sh/artifact-latest-env.sh
 
 source "${ROOT_DIR}/app/.env"
 
