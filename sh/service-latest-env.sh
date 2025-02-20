@@ -129,7 +129,34 @@ done
 #   curl --fail --silent --request GET https://cyber-dojo.org/differ/sha | jq '.sha'
 
 # TODO: how do I get the BASE_SHA for start-points-base?
-#   I need an API end-point for that...
+#   Do I need an API end-point for that?
+#   Suppose
+#      curl --fail --silent --request GET https://cyber-dojo.org/custom-start-points/sha | jq '.sha'
+#   Gives
+#      1889f63226f4dcaadc7a5270212fa099458c6358
+#
+# This would equate to [docker run --rm -it cyberdojo/versioner] giving
+#   CYBER_DOJO_CUSTOM_START_POINTS_IMAGE=cyberdojo/custom-start-points
+#   CYBER_DOJO_CUSTOM_START_POINTS_SHA=1889f63226f4dcaadc7a5270212fa099458c6358
+#   CYBER_DOJO_CUSTOM_START_POINTS_TAG=1889f63
+#   CYBER_DOJO_CUSTOM_START_POINTS_DIGEST=0b0f77cdcdac61f9465174928f328cd107521227eb62e6cc279a6a0134ae3c65
+#   CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526
+#
+#   CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
+#   CYBER_DOJO_START_POINTS_BASE_SHA=07292391023dff901e6a7a42f7ab639f29855579
+#   CYBER_DOJO_START_POINTS_BASE_TAG=0729239
+#   CYBER_DOJO_START_POINTS_BASE_DIGEST=873077616665f4d1391a0c011cd6570814b866c00d04f62be611a8e60b58ee77
+#
+#  Now if I do [docker run --rm -it --entrypoint="" cyberdojo/custom-start-points:1889f63 env
+#  I get
+#     BASE_SHA=fec4aaf95a00ec9be252eec2b12fb1dbad5df970
+#     IMAGE_TYPE=custom
+#     BASE_IMAGE=cyberdojo/start-points-base:fec4aaf
+#
+# So I need to expose base_sha as an end-point.
+# And cyberdojo/custom-start-points:1889f63 is not in ECR, so I can docker pull it and get its digest
+# Would be better if the BASE_IMAGE included the digest...
+# That should be possible, since commander should have access to all env-vars...
 
 exit 42
 
