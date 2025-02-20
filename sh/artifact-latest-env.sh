@@ -8,27 +8,23 @@ readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
 trap remove_tmp_dir EXIT
 
-# ---------------------------------------------------
 upper_case()
 {
   printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]
 }
 
-# ---------------------------------------------------
 untagged_image_name()
 {
   local -r name="${1}" # eg runner
   echo "cyberdojo/${name}"
 }
 
-# ---------------------------------------------------
 docker_image_pull()
 {
   local -r image="${1}"
   docker pull "${image}" > /dev/null 2>&1
 }
 
-# ---------------------------------------------------
 echo_digest()
 {
   local -r image="${1}" # eg cyberdojo/runner:latest
@@ -36,21 +32,18 @@ echo_digest()
   echo "${full_name:(-64)}"
 }
 
-# ---------------------------------------------------
 service_sha()
 {
   local -r image="${1}"
   docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}' 2> /dev/null
 }
 
-# ---------------------------------------------------
 service_base_sha()
 {
   local -r image="${1}"
   docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${BASE_SHA}' 2> /dev/null
 }
 
-# ---------------------------------------------------
 sha_env_var()
 {
   local -r image=$(untagged_image_name "${1}")
@@ -84,7 +77,6 @@ sha_env_var()
   esac
 }
 
-# ---------------------------------------------------
 k8s_install_env_var()
 {
   git clone "https://github.com/cyber-dojo/k8s-install.git" "${TMP_DIR}" > /dev/null 2>&1
@@ -92,7 +84,6 @@ k8s_install_env_var()
   echo "CYBER_DOJO_K8S_INSTALL_SHA=${sha}"
 }
 
-# ---------------------------------------------------
 readonly services=(
   commander
   start-points-base
