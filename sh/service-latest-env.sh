@@ -8,6 +8,7 @@ exit_non_zero_unless_installed kosli docker jq
 # Workflow script to create .env file content by inspecting json file produced from Kosli aws-prod snapshpt
 # Use: $ ./sh/service-latest-env.sh
 
+echo Taking snapshot of aws-prod Environment...
 KOSLI_AWS_PROD=aws-prod
 SNAPSHOT="$(kosli get snapshot "${KOSLI_AWS_PROD}" --org=cyber-dojo --api-token=dummy-unused --output=json)"
 
@@ -131,7 +132,7 @@ create_json_file()
   local -r filename="${service}.json"
 
   mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
-  echo "Creating ${filename}"
+  echo "  ${filename}"
   {
     echo "{"
     sha_tag_digest_port_env_var "${service}"
@@ -159,6 +160,28 @@ echo_env()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo_env_md()
+{
+  local -r service="${1}"
+  local -r filename="${service}.json"
+  local -r prefix="CYBER_DOJO_$(upper_case "${service}")"
+  local -r json="$(cat "${ROOT_DIR}/app/json/${filename}")"
+  local -r sha="$(echo "${json}" | jq -r '.sha')"
+  local -r tag="$(echo "${json}" | jq -r '.tag')"
+  local -r digest="$(echo "${json}" | jq -r '.digest')"
+  local -r port="$(echo "${json}" | jq -r '.port')"
+
+  echo
+  echo "${prefix}_IMAGE=cyberdojo/${service}  "
+  echo "${prefix}_SHA=${sha}  "
+  echo "${prefix}_TAG=${tag}  "
+  echo "${prefix}_DIGEST=[${digest}](https://hub.docker.com/layers/cyberdojo/${service}/${tag}/images/sha256-${digest})  "
+  if [ "${port}" != "0" ]; then
+    echo "${prefix}_PORT=${port}  "
+  fi
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
   commander
   start-points-base
@@ -174,13 +197,14 @@ readonly services=(
   web
 )
 
+echo "Creating json files..."
 mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
-
 for service in "${services[@]}"
 do
   create_json_file "${service}"
 done
 
+echo Creating .env file
 dot_env_filename="${ROOT_DIR}/app/.env"
 rm "${dot_env_filename}" 2> /dev/null || true
 for service in "${services[@]}"
@@ -188,15 +212,17 @@ do
   echo_env "${service}" >> "${dot_env_filename}"
 done
 
+echo Creating .env.md file
+dot_env_md_filename="${ROOT_DIR}/app/.env.md"
+rm "${dot_env_md_filename}" 2> /dev/null || true
+for service in "${services[@]}"
+do
+  echo_env_md "${service}" >> "${dot_env_md_filename}"
+done
 
-# TODO:
-#   - Run scripts to create json files with needed contents from live aws-prod
-#       DONE: one json file PER service, eg saver.json, with keys "image", "sha", "tag", "digest", "port"
-#       DONE: create .env from json files
-#       TODO: create .env.md from json files
-#
-#   After commit and push
-#
+
+
+# TODO: After commit and push
 #   Workflow job:
 #   step: [Configure AWS credentials]
 #   step: [Login to Amazon ECR]
