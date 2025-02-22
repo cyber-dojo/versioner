@@ -58,8 +58,8 @@ sha_tag_digest_port_env_var()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 via_docker()
 {
-  local -r service_name="${1}"                       # eg commander
-  local -r image_name="cyberdojo/${service_name}"    # eg cyberdojo/commander   (:latest default tag)
+  local -r tool_name="${1}"                       # eg commander
+  local -r image_name="cyberdojo/${tool_name}"    # eg cyberdojo/commander   (:latest default tag)
 
   docker --log-level=ERROR pull "${image_name}" > /dev/null 2>&1
 
@@ -87,8 +87,8 @@ via_curl()
   local -r digest="$(echo_digest "${service_name}" "${image_name}")"
   local -r port="$(echo_port "${service_name}")"
 
-  # TODO: check tag    matches the one in the image_name
-  # TODO: check digest matches the one in the image_name
+  # TODO: check tag matches the one in the image_name
+
   echo "  \"image\": \"${image_name}\","
   echo "  \"sha\": \"${sha}\","
   echo "  \"tag\": \"${tag}\","
