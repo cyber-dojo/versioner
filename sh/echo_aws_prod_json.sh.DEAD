@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -Eeu
+
+# TODO: exit_non_zero_if_not_installed kosli
+
+SNAPSHOT="$(kosli get snapshot aws-prod --org=cyber-dojo --api-token=dummy-unused --output=json)"
+
+echo_json_entries()
+{
+  local -r sep="${1}"
+  local -r service_name="${2}"  # eg saver
+  artifacts_length=$(echo "${SNAPSHOT}" | jq -r '.artifacts | length')
+  for a in $(seq 0 $(( ${artifacts_length} - 1 )))
+  do
+      artifact="$(echo "${SNAPSHOT}" | jq -r ".artifacts[$a]")"
+      annotation_type="$(echo "${artifact}" | jq -r ".annotation.type")"
+      if [ "${annotation_type}" != "exited" ] ; then
+        image_name="$(echo "${artifact}" | jq -r ".name")"
+        if [[ ${image_name} == *${service_name}* ]]; then
+          echo "  \"image_name\": \"${image_name}\"${sep}"
+        fi
+     fi
+  done
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+readonly services=(
+  custom-start-points
+  exercises-start-points
+  languages-start-points
+  creator
+  dashboard
+  differ
+  nginx
+  runner
+  saver
+  web
+)
+
+echo "{"
+for service in "${services[@]}"
+do
+  echo_json_entries "${service}"
+done
+echo "}"

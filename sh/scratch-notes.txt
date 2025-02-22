@@ -1,0 +1,63 @@
+
+# ---------------------------------------------------
+# TODO: I do not have auth credentials to docker pull... unless I run script from workflow...
+#   But I don't need to do a docker pull
+#   244531986313.dkr.ecr.eu-central-1.amazonaws.com/runner:c31ef46@sha256:42fb72727fd50a0c1127be2ef036f2ee0a6aa9be9df5838055e65e55a37cd7ea
+#   Gives me the tag, digest, and I can get the sha with a CURL call...
+#   curl --fail --silent --request GET https://cyber-dojo.org/differ/sha | jq '.sha'
+# TODO: how do I get the BASE_SHA for start-points-base?
+#   Do I need an API end-point for that?
+#   Suppose
+#      curl --fail --silent --request GET https://cyber-dojo.org/custom-start-points/sha | jq '.sha'
+#   Gives
+#      1889f63226f4dcaadc7a5270212fa099458c6358
+#
+# This would equate to [docker run --rm -it cyberdojo/versioner] giving
+#   CYBER_DOJO_CUSTOM_START_POINTS_IMAGE=cyberdojo/custom-start-points
+#   CYBER_DOJO_CUSTOM_START_POINTS_SHA=1889f63226f4dcaadc7a5270212fa099458c6358
+#   CYBER_DOJO_CUSTOM_START_POINTS_TAG=1889f63
+#   CYBER_DOJO_CUSTOM_START_POINTS_DIGEST=0b0f77cdcdac61f9465174928f328cd107521227eb62e6cc279a6a0134ae3c65
+#   CYBER_DOJO_CUSTOM_START_POINTS_PORT=4526
+#
+#   CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
+#   CYBER_DOJO_START_POINTS_BASE_SHA=07292391023dff901e6a7a42f7ab639f29855579
+#   CYBER_DOJO_START_POINTS_BASE_TAG=0729239
+#   CYBER_DOJO_START_POINTS_BASE_DIGEST=873077616665f4d1391a0c011cd6570814b866c00d04f62be611a8e60b58ee77
+#
+#  Now if I do [docker run --rm -it --entrypoint="" cyberdojo/custom-start-points:1889f63 env
+#  I get
+#     BASE_SHA=fec4aaf95a00ec9be252eec2b12fb1dbad5df970
+#     IMAGE_TYPE=custom
+#     BASE_IMAGE=cyberdojo/start-points-base:fec4aaf
+#
+# So I need to expose base_sha as an end-point.
+# And cyberdojo/custom-start-points:1889f63 is not in ECR, so I can docker pull it and get its digest
+# Would be better if the BASE_IMAGE included the digest...
+# That should be possible, since commander should have access to all env-vars...
+
+
+#k8s_install_env_var()
+#{
+#  git clone "https://github.com/cyber-dojo/k8s-install.git" "${TMP_DIR}" > /dev/null 2>&1
+#  local -r sha="$(cd ${TMP_DIR} && git rev-parse HEAD)"
+#  echo "CYBER_DOJO_K8S_INSTALL_SHA=${sha}"
+#}
+
+#echo_digest()
+#{
+#  local -r image="${1}" # eg cyberdojo/runner:latest
+#  local -r full_name=$(docker inspect --format='{{index .RepoDigests 0}}' "${image}")
+#  echo "${full_name:(-64)}"
+#}
+
+#service_sha()
+#{
+#  local -r image="${1}"
+#  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}' 2> /dev/null
+#}
+
+#service_base_sha()
+#{
+#  local -r image="${1}"
+#  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${BASE_SHA}' 2> /dev/null
+#}

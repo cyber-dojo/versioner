@@ -1,0 +1,12 @@
+{
+  "custom-start-points": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:f3236b7@sha256:9eb2b276b8420d867344dfadff5e02beedab84d812df4214d6bacf81d4804db3",
+  "exercises-start-points": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/exercises-start-points:bf7f53a@sha256:42d7cc92b4625a3459e5671b7aac73dcbd51e1da73a379f688a4d1a9733a5707",
+  "languages-start-points": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/languages-start-points:1066233@sha256:702363e2a59bcdcc652c5fa76aae1ab60c1f9f7be6be2023ad8b0655ab2286ed",
+  "creator": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:ceff002",
+  "dashboard": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/dashboard:550c13b@sha256:8fed4e81b299d4cd1478ca30375463b4fab7465831ae6c2fcb8ce226a5ce94b3",
+  "differ": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/differ:ee5efb8@sha256:a8f5075d17cf27b75fe5831a250fb56d87d6ed87fd471232f4a0a24f9c1f1228",
+  "nginx": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:c98901f@sha256:665b7184379cbdaf2466be134a656b19878b362882e1f7b5a4032f9d5f257646",
+  "runner": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/runner:a7ab3ca@sha256:a87d51d0b57d8aaeaf7afe2eb05567cde8c1e4dd4f5fde961d6420971ef901ee",
+  "saver": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec",
+  "web": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:a54f5d3@sha256:0f4c7f78dd412350739da491fbb24fdfc80800241d9e8e10b2b1958f46b7675d"
+}

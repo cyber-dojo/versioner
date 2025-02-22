@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -Eeu
+
+echo_port_entry()
+{
+  local -r sep="${1}"
+  local -r service_name="${2}"
+  echo "  \"${service}\": $(echo_port "${service_name}")${sep}"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo_port()
+{
+  local -r service_name="${1}"
+  case "${service_name}" in
+    custom-start-points    ) echo 4526;;
+    exercises-start-points ) echo 4525;;
+    languages-start-points ) echo 4524;;
+
+    creator    ) echo 4523;;
+    dashboard  ) echo 4527;;
+    differ     ) echo 4567;;
+    nginx      ) echo 80;;
+    runner     ) echo 4597;;
+    saver      ) echo 4537;;
+    web        ) echo 3000;;
+  esac
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+readonly services=(
+  custom-start-points
+  exercises-start-points
+  languages-start-points
+  creator
+  dashboard
+  differ
+  nginx
+  runner
+  saver
+  web
+)
+
+echo "{"
+for service in "${services[@]}"
+do
+  if [ "${service}" == "web" ]; then
+    sep=""
+  else
+    sep=","
+  fi
+  echo_port_entry "${sep}" "${service}"
+done
+echo "}"
