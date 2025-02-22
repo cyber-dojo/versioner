@@ -46,7 +46,8 @@ sha_tag_digest_port_env_var()
       annotation_type="$(echo "${artifact}" | jq -r ".annotation.type")"
       if [ "${annotation_type}" != "exited" ] ; then
         image_name="$(echo "${artifact}" | jq -r ".name")"
-        if [[ ${image_name} == *${service_name}* ]]; then
+        # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
+        if [[ ${image_name} == */${service_name}:* ]]; then
           via_curl "${service_name}" "${image_name}"
           return
         fi
