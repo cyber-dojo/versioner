@@ -109,12 +109,7 @@ echo_digest()
 {
   local -r service_name="${1}"  # eg saver
   local -r image_name="${2}"    # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
-  if [ "${service_name}" == "creator" ]; then
-    #TODO: can't get digest from creator's image_name yet...
-    echo TODO
-  else
-     echo "${image_name:(-64)}"
-  fi
+  echo "${image_name:(-64)}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -153,7 +148,7 @@ readonly xservices=(
 )
 
 readonly services=(
-  nginx
+  creator
 )
 
 # TODO: each of these needs to be redirected to create a json file for each service
