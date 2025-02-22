@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -Eeu
 
+export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${ROOT_DIR}/sh/lib.sh"
+exit_non_zero_unless_installed kosli docker jq
+
+# Workflow script to print .env file content by inspecting json file produced from aws-prod
+# Use: $ ./sh/service-latest-env.sh
+
 # TODO:
 #   - Run scripts to create json files with needed contents from live aws-prod
 #       one json file PER service
@@ -11,16 +18,6 @@ set -Eeu
 #     1. export $(cat .env)
 #     2. run script create dockerhub tagged (non :latest) images
 #     3. run script to create versioner images with .env inside
-
-
-# Workflow script to print .env file content by inspecting json file produced from aws-prod
-# Use: $ ./sh/service-latest-env.sh
-
-readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
-remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
-trap remove_tmp_dir EXIT
-
-# TODO: exit_non_zero_if_not_installed kosli docker jq
 
 SNAPSHOT="$(kosli get snapshot aws-prod --org=cyber-dojo --api-token=dummy-unused --output=json)"
 
@@ -152,9 +149,9 @@ readonly services=(
 )
 
 # TODO: each of these needs to be redirected to create a json file for each service
-echo "{"
 for service in "${services[@]}"
 do
+  echo "{"
   sha_tag_digest_port_env_var "${service}"
+  echo "}"
 done
-echo "}"
