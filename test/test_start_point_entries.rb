@@ -16,7 +16,7 @@ class StartPointEntriesTest < Minitest::Test
     image_name = cel_image_name('CUSTOM')
     custom_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
     if base_sha != custom_base_sha
-      puts 'WARNING: Out of date base-image'
+      puts 'WARNING: Out of date base-image'
       puts "BASE_SHA=#{base_sha} #{base_image_name}"
       puts "BASE_SHA=#{custom_base_sha} #{image_name}"
     end
@@ -24,7 +24,7 @@ class StartPointEntriesTest < Minitest::Test
     image_name = cel_image_name('EXERCISES')
     exercises_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
     if base_sha != exercises_base_sha
-      puts 'WARNING: Out of date base-image'
+      puts 'WARNING: Out of date base-image'
       puts "BASE_SHA=#{base_sha} #{base_image_name}"
       puts "BASE_SHA=#{exercises_base_sha} #{image_name}"
     end
@@ -32,7 +32,7 @@ class StartPointEntriesTest < Minitest::Test
     image_name = cel_image_name('LANGUAGES')
     languages_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
     if base_sha != languages_base_sha
-      puts 'WARNING: Out of date base-image'
+      puts 'WARNING: Out of date base-image'
       puts "BASE_SHA=#{base_sha} #{base_image_name}"
       puts "BASE_SHA=#{languages_base_sha} #{image_name}"
     end

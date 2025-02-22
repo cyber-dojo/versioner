@@ -22,13 +22,13 @@ build_image()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  cd "${ROOT_DIR}" && git rev-parse HEAD
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_msg()
 {
-  echo $(cd ${ROOT_DIR} && git log --oneline --format=%B -n 1 HEAD | head -n 1)
+  cd ${ROOT_DIR} && git log --oneline --format=%B -n 1 HEAD | head -n 1
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

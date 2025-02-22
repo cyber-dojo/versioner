@@ -147,13 +147,16 @@ echo_env()
   local -r filename="${service}.json"
   local -r prefix="CYBER_DOJO_$(upper_case "${service}")"
   local -r json="$(cat "${ROOT_DIR}/app/json/${filename}")"
+  local -r sha="$(echo "${json}" | jq -r '.sha')"
+  local -r tag="$(echo "${json}" | jq -r '.tag')"
+  local -r digest="$(echo "${json}" | jq -r '.digest')"
   local -r port="$(echo "${json}" | jq -r '.port')"
 
   echo
   echo "${prefix}_IMAGE=cyberdojo/${service}"
-  echo "${prefix}_SHA=$(echo "${json}" | jq -r '.sha')"
-  echo "${prefix}_TAG=$(echo "${json}" | jq -r '.tag')"
-  echo "${prefix}_DIGEST=$(echo "${json}" | jq -r '.digest')"
+  echo "${prefix}_SHA=${sha}"
+  echo "${prefix}_TAG=${tag}"
+  echo "${prefix}_DIGEST=${digest}"
   if [ "${port}" != "0" ]; then
     echo "${prefix}_PORT=${port}"
   fi
@@ -197,7 +200,7 @@ readonly services=(
   web
 )
 
-echo "Creating json files..."
+echo Creating json files...
 mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
 for service in "${services[@]}"
 do
@@ -219,14 +222,3 @@ for service in "${services[@]}"
 do
   echo_env_md "${service}" >> "${dot_env_md_filename}"
 done
-
-
-
-# TODO: After commit and push
-#   Workflow job:
-#   step: [Configure AWS credentials]
-#   step: [Login to Amazon ECR]
-#   step: [docker/login-action@v3]
-#   step:
-#     1. run script to create dockerhub tagged (non :latest) images
-#     2. run script to create versioner images with .env inside (see build_test_publish.sh)
