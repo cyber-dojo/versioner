@@ -2,7 +2,7 @@
 set -Eeu
 
 # Script to create .env file from pulled :latest images
-# Use: $ ./sh/artifact-latest-env.sh | tee ./app/.env
+# Use: $ ./sh/latest-env.sh | tee ./app/.env
 
 readonly TMP_DIR=$(mktemp -d ~/tmp.cyber-dojo.versioner.XXXXXX)
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
