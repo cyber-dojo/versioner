@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:a54f5d3@sha256:0f4c7f78dd412350739da491fbb24fdfc80800241d9e8e10b2b1958f46b7675d",
+  "sha": "a54f5d3a1a93191c1f7b015d3788ec7c507230bb",
+  "tag": "a54f5d3",
+  "digest": "0f4c7f78dd412350739da491fbb24fdfc80800241d9e8e10b2b1958f46b7675d",
+  "port": 3000
+}

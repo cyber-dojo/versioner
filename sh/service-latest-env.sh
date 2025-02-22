@@ -5,21 +5,11 @@ export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
-# Workflow script to print .env file content by inspecting json file produced from aws-prod
+# Workflow script to create .env file content by inspecting json file produced from Kosli aws-prod snapshpt
 # Use: $ ./sh/service-latest-env.sh
 
-# TODO:
-#   - Run scripts to create json files with needed contents from live aws-prod
-#       one json file PER service
-#           eg saver.json, with keys "image", "sha", "tag", "digest", "port"
-#       one .env file created from the json files
-#   - commit and push
-#   Workflow steps
-#     1. export $(cat .env)
-#     2. run script create dockerhub tagged (non :latest) images
-#     3. run script to create versioner images with .env inside
-
-SNAPSHOT="$(kosli get snapshot aws-prod --org=cyber-dojo --api-token=dummy-unused --output=json)"
+KOSLI_AWS_PROD=aws-prod
+SNAPSHOT="$(kosli get snapshot "${KOSLI_AWS_PROD}" --org=cyber-dojo --api-token=dummy-unused --output=json)"
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sha_tag_digest_port_env_var()
@@ -80,7 +70,6 @@ via_curl()
   local -r image_name="${2}"    # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
 
   local -r sha="$(echo_sha "${service_name}")"
-  local -r tag=${sha:0:7}
   local -r digest="$(echo_digest "${service_name}" "${image_name}")"
   local -r port="$(echo_port "${service_name}")"
 
@@ -88,7 +77,7 @@ via_curl()
 
   echo "  \"image\": \"${image_name}\","
   echo "  \"sha\": \"${sha}\","
-  echo "  \"tag\": \"${tag}\","
+  echo "  \"tag\": \"${sha:0:7}\","
   echo "  \"digest\": \"${digest}\","
   echo "  \"port\": ${port}"
 }
@@ -113,6 +102,7 @@ echo_digest()
 echo_port()
 {
   local -r service_name="${1}"
+
   case "${service_name}" in
     custom-start-points    ) echo 4526;;
     exercises-start-points ) echo 4525;;
@@ -129,7 +119,47 @@ echo_port()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-readonly xservices=(
+upper_case()
+{
+  printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+create_json_file()
+{
+  local -r service="${1}"
+  local -r filename="${service}.json"
+
+  mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
+  echo "Creating ${filename}"
+  {
+    echo "{"
+    sha_tag_digest_port_env_var "${service}"
+    echo "}"
+  } > "${ROOT_DIR}/app/json/${filename}"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo_env()
+{
+  local -r service="${1}"
+  local -r filename="${service}.json"
+  local -r prefix="CYBER_DOJO_$(upper_case "${service}")"
+  local -r json="$(cat "${ROOT_DIR}/app/json/${filename}")"
+  local -r port="$(echo "${json}" | jq -r '.port')"
+
+  echo
+  echo "${prefix}_IMAGE=cyberdojo/${service}"
+  echo "${prefix}_SHA=$(echo "${json}" | jq -r '.sha')"
+  echo "${prefix}_TAG=$(echo "${json}" | jq -r '.tag')"
+  echo "${prefix}_DIGEST=$(echo "${json}" | jq -r '.digest')"
+  if [ "${port}" != "0" ]; then
+    echo "${prefix}_PORT=${port}"
+  fi
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+readonly services=(
   commander
   start-points-base
   custom-start-points
@@ -144,14 +174,33 @@ readonly xservices=(
   web
 )
 
-readonly services=(
-  creator
-)
+mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
 
-# TODO: each of these needs to be redirected to create a json file for each service
 for service in "${services[@]}"
 do
-  echo "{"
-  sha_tag_digest_port_env_var "${service}"
-  echo "}"
+  create_json_file "${service}"
 done
+
+dot_env_filename="${ROOT_DIR}/app/.env"
+rm "${dot_env_filename}" 2> /dev/null || true
+for service in "${services[@]}"
+do
+  echo_env "${service}" >> "${dot_env_filename}"
+done
+
+
+# TODO:
+#   - Run scripts to create json files with needed contents from live aws-prod
+#       DONE: one json file PER service, eg saver.json, with keys "image", "sha", "tag", "digest", "port"
+#       DONE: create .env from json files
+#       TODO: create .env.md from json files
+#
+#   After commit and push
+#
+#   Workflow job:
+#   step: [Configure AWS credentials]
+#   step: [Login to Amazon ECR]
+#   step: [docker/login-action@v3]
+#   step:
+#     1. run script to create dockerhub tagged (non :latest) images
+#     2. run script to create versioner images with .env inside (see build_test_publish.sh)

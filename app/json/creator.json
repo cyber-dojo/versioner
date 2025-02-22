@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:35751f2@sha256:1f6376411985a98d00c837c7250f54bd19e6487625dd9a47cfcf52fdc24f6a52",
+  "sha": "35751f248b166cb289633082a29f6b9ec93fce28",
+  "tag": "35751f2",
+  "digest": "1f6376411985a98d00c837c7250f54bd19e6487625dd9a47cfcf52fdc24f6a52",
+  "port": 4523
+}

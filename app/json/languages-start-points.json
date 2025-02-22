@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/languages-start-points:1066233@sha256:702363e2a59bcdcc652c5fa76aae1ab60c1f9f7be6be2023ad8b0655ab2286ed",
+  "sha": "106623375892bf665c412106a52adf954394049e",
+  "tag": "1066233",
+  "digest": "702363e2a59bcdcc652c5fa76aae1ab60c1f9f7be6be2023ad8b0655ab2286ed",
+  "port": 4524
+}

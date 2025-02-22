@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/exercises-start-points:bf7f53a@sha256:42d7cc92b4625a3459e5671b7aac73dcbd51e1da73a379f688a4d1a9733a5707",
+  "sha": "bf7f53a4379e2c8cfb221fe87762a2468967dfd9",
+  "tag": "bf7f53a",
+  "digest": "42d7cc92b4625a3459e5671b7aac73dcbd51e1da73a379f688a4d1a9733a5707",
+  "port": 4525
+}

@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:a72e01d@sha256:c2034a102cd87ae7a71a01414d842219d337142cd2a4df856c0fc792b3b469db",
+  "sha": "a72e01d80b75b02fe7078bc7bec52bf3e54cd09b",
+  "tag": "a72e01d",
+  "digest": "c2034a102cd87ae7a71a01414d842219d337142cd2a4df856c0fc792b3b469db",
+  "port": 80
+}
