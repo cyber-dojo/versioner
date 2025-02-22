@@ -100,12 +100,8 @@ via_curl()
 echo_sha()
 {
   local -r service_name="${1}"  # eg saver
-  if [ "${service_name}" == "nginx" ]; then
-    # TODO: curl of https://beta.cyber-dojo.org/nginx/sha does not yet work
-    echo TODO
-  else
-    curl --fail --silent --request GET "https://beta.cyber-dojo.org/${service_name}/sha" | jq -r '.sha'
-  fi
+  # TODO: don't fail silently
+  curl --fail --silent --request GET "https://cyber-dojo.org/${service_name}/sha" | jq -r '.sha'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -156,9 +152,9 @@ readonly xservices=(
   web
 )
 
-#readonly services=(
-#  creator
-#)
+readonly services=(
+  nginx
+)
 
 # TODO: each of these needs to be redirected to create a json file for each service
 echo "{"
