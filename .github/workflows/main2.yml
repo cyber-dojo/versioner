@@ -39,6 +39,14 @@ jobs:
     needs: [setup]
     steps:
 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Create versioner image
+        run:
+          make image test
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -57,14 +65,11 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
       - name: Create dockerhub images
         run:
-          ./sh/create_dockerhub_images.sh
+          ./sh/push_dockerhub_images.sh
 
-      - name: Create versioner tagged image
+      - name: Push versioner image to dockerhub
         run:
-          ./sh/create_versioner_image.sh
+          make publish
+

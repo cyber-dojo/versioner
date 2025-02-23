@@ -5,7 +5,7 @@ export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
-# Workflow script to create .env file content by inspecting json file produced from Kosli aws-prod snapshpt
+# Workflow script to create .env file content by inspecting json file produced from Kosli aws-prod snapshot
 # Use: $ ./sh/service-latest-env.sh
 
 echo Taking snapshot of aws-prod Environment...
@@ -23,7 +23,7 @@ sha_tag_digest_port_env_var()
   fi
 
   if [ "${service_name}" == "start-points-base" ]; then
-    via_docker "${service_name}"
+    via_base_image "${service_name}"
     return
   fi
 
@@ -65,6 +65,22 @@ via_docker()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+via_base_image()
+{
+  local -r service_name="${1}"                                                    # eg start-points-base
+  local -r base_image="$(echo_base_image "custom-start-points")"                  # eg cyberdojo/start-points-base:0729239
+  local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${BASE_SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
+  local -r base_tag="${base_sha:0:7}"
+  local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=docker --debug=false)"
+
+  echo "  \"image\": \"${base_image}\","
+  echo "  \"sha\": \"${base_sha}\","
+  echo "  \"tag\": \"${base_tag}\","
+  echo "  \"digest\": \"${base_digest}\","
+  echo "  \"port\": 0"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 via_curl()
 {
   local -r service_name="${1}"  # eg saver
@@ -97,6 +113,14 @@ echo_digest()
   local -r service_name="${1}"  # eg saver
   local -r image_name="${2}"    # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
   echo "${image_name:(-64)}"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo_base_image()
+{
+  local -r service_name="${1}"  # eg custom-start-points
+  # TODO: don't fail silently
+  curl --fail --silent --request GET "https://cyber-dojo.org/${service_name}/base_image" | jq -r '.base_image'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -176,7 +200,7 @@ echo_env_md()
 
   echo
   echo "${prefix}_IMAGE=cyberdojo/${service}  "
-  echo "${prefix}_SHA=${sha}  "
+  echo "${prefix}_SHA=[${sha}](https://github.com/cyber-dojo/${service}/commit/${sha})  "
   echo "${prefix}_TAG=${tag}  "
   echo "${prefix}_DIGEST=[${digest}](https://hub.docker.com/layers/cyberdojo/${service}/${tag}/images/sha256-${digest})  "
   if [ "${port}" != "0" ]; then
@@ -222,3 +246,7 @@ for service in "${services[@]}"
 do
   echo_env_md "${service}" >> "${dot_env_md_filename}"
 done
+
+# TODO: checks are in subshells so cant exit
+#   could output XXXXXX
+#   and then look for that in the .env file?

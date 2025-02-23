@@ -5,6 +5,7 @@
 To create a new versioner image, after updating one or more of the microservice images 
 (eg runner, web, start-points-base, etc), simply:
 - `./sh/refresh-env.sh`
+- `./build_test_publish.sh`
 - `git add .`
 - `git commit -m "[RELEASE=0.1.409] Patch level updates"` (assuming 0.1.408 was the current latest)
 - `git push`
@@ -32,8 +33,8 @@ CYBER_DOJO_WEB_PORT=3000
 
 The main [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo)
 bash script uses these environment variables to:
+- control the image identity and port number of all cyber-dojo microservice containers.
 - control the [START_POINTS_BASE](https://github.com/cyber-dojo/start-points-base/actions) identity when running `cyber-dojo start-point create ...`
-- control the image identity and port number of the cyber-dojo microservice containers.
 
 For example, suppose `cyberdojo/versioner:latest` is a tag for `cyberdojo/versioner:0.1.409`
 (which we can see a fragment of above), and we bring up a cyber-dojo server:
@@ -57,8 +58,8 @@ For example:
 ```bash
 #!/usr/bin/env bash
 set -Eeu
-echo_versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
-export $(echo_versioner_env_vars)
+echo_env_vars() { docker run --rm cyberdojo/versioner:latest; }
+export $(echo_env_vars)
 docker compose --file my-docker-compose.yml up --detach
 # ...wait for all services to be ready
 # ...run your tests which depend on, eg, runner...
@@ -81,10 +82,10 @@ For example:
 ```bash
 #!/usr/bin/env bash
 set -Eeu
-echo_versioner_env_vars()
+echo_env_vars()
 {
   # Echoes all current service env-vars. See above.
-  docker run --rm cyberdojo/versioner:latest
+  docker --log-level=ERROR run --rm cyberdojo/versioner:latest
   # Now override specific env-vars for local work-in-progress
   echo CYBER_DOJO_RUNNER_SHA=c93a9c650a8c4e7cc83545ce3f9108c2c76746d8
   echo CYBER_DOJO_RUNNER_TAG=c93a9c6
@@ -94,7 +95,7 @@ echo_versioner_env_vars()
   # ...
 }
 # Now export all echoed env-vars
-export $(echo_versioner_env_vars)
+export $(echo_env_vars)
 ```
 
 - - - -
@@ -117,7 +118,7 @@ readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
-echo_versioner_env_vars() { docker run --rm cyberdojo/versioner:latest; }
+echo_env_vars() { docker --log-level=ERROR run --rm cyberdojo/versioner:latest; }
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner_with_sha_and_tag_for_local_web()
 {
@@ -125,18 +126,18 @@ build_fake_versioner_with_sha_and_tag_for_local_web()
   local -r tag_var_name=CYBER_DOJO_WEB_TAG
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
-  local env_vars="$(echo_versioner_env_vars)"
+  local env_vars="$(echo_env_vars)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
   {
     echo 'FROM alpine:latest'
-    echo 'COPY . /app'
     echo 'ARG SHA'
     echo 'ENV SHA=${SHA}'
     echo 'ARG RELEASE'
     echo 'ENV RELEASE=${RELEASE}'
+    echo 'COPY . /app'
     echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
   } > ${TMP_DIR}/Dockerfile
   docker build \
@@ -157,8 +158,7 @@ replace_with()
 # - - - - - - - - - - - - - - - - - - - - - - - -  
 git_commit_sha()
 {
-  # eg 3240bfbcf3f02a9625e1ce55d054126c1a1c2cf1
-  git rev-parse HEAD
+  git rev-parse HEAD  # eg 3240bfbcf3f02a9625e1ce55d054126c1a1c2cf1
 }
 # - - - - - - - - - - - - - - - - - - - - - - - -  
 build_fake_versioner_with_sha_and_tag_for_local_web
@@ -167,7 +167,6 @@ build_fake_versioner_with_sha_and_tag_for_local_web
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
-$ cd versioner
 $ ./build_test_publish.sh --build-only
 ```
 

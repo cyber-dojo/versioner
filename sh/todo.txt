@@ -1,0 +1,20 @@
+
+Fix build error for start-points-base
+Dont fail silently on sha curl
+Add tag test
+Create makefile with targets for: build test publish
+In main2.yml make last step: make build test publish
+
+Edit dashboard's main.yml so it no longer pushes its dockerhub image.
+Deploy dahsboard to staging and to prod
+
+Rename versioner's main2.yml to main.yml and run it on main  (s/wibble/main)
+Rename versioner's sh/service-latest-env.sh to sh/refresh-env.sh
+
+Try new versioner:
+  $ ./sh/refresh-env.sh
+  $ make build test
+
+Upgrade base image in Dockerfile
+Move Dockerfile to root of repo
+Delete build_test_publish.sh
