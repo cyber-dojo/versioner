@@ -67,9 +67,9 @@ via_docker()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 via_base_image()
 {
-  local -r service_name="${1}"                                                    # eg start-points-base
-  local -r base_image="$(echo_base_image "custom-start-points")"                  # eg cyberdojo/start-points-base:0729239
-  local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${BASE_SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
+  local -r service_name="${1}"                                               # eg start-points-base
+  local -r base_image="$(echo_base_image "custom-start-points")"             # eg cyberdojo/start-points-base:0729239
+  local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
   local -r base_tag="${base_sha:0:7}"
   local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=docker --debug=false)"
 

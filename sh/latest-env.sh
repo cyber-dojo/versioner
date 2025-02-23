@@ -32,16 +32,10 @@ echo_digest()
   echo "${full_name:(-64)}"
 }
 
-service_sha()
+echo_sha()
 {
   local -r image="${1}"
   docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${SHA}' 2> /dev/null
-}
-
-service_base_sha()
-{
-  local -r image="${1}"
-  docker run --rm --entrypoint="" "${image}" sh -c 'echo -n ${BASE_SHA}' 2> /dev/null
 }
 
 sha_tag_digest_port_env_var()
@@ -50,12 +44,7 @@ sha_tag_digest_port_env_var()
   docker_image_pull "${image}"
   #local -r full_name="$(docker inspect --format='{{index .RepoDigests 0}}' "${image}")"
   local -r digest="$(echo_digest "${image}")"
-
-  if [ "${1}" == 'start-points-base' ]; then
-    local -r sha=$(service_base_sha "${image}")
-  else
-    local -r sha=$(service_sha "${image}")
-  fi
+  local -r sha=$(echo_sha "${image}")
   local -r tag=${sha:0:7}
   echo "CYBER_DOJO_$(upper_case "${1}")_IMAGE=${image}"
   echo "CYBER_DOJO_$(upper_case "${1}")_SHA=${sha}"
