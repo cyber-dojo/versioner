@@ -47,7 +47,7 @@ jobs:
 
       - name: Create versioner image
         run:
-          make build_image run_tests
+          make build_image
 
       - uses: docker/login-action@v3
         with:
@@ -70,6 +70,10 @@ jobs:
       - name: Push service images to dockerhub
         run:
           ./sh/push_service_images_to_dockerhub.sh
+
+      - name: Run tests
+        run:
+          make run_tests
 
       - name: Push versioner image to dockerhub
         run:
