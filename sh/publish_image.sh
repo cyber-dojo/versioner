@@ -22,7 +22,7 @@ release()
 
 image_release()
 {
-  docker --log-level=ERRROR run --rm --entrypoint="" $(image_name):latest sh -c 'echo ${RELEASE}' 2> /dev/null
+  docker --log-level=ERROR run --rm --entrypoint="" $(image_name):latest sh -c 'echo ${RELEASE}' 2> /dev/null
 }
 
 assert_equal()
