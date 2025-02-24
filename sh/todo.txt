@@ -8,6 +8,12 @@ DONE Delete build_test_publish.sh
 DONE Try new versioner:
   $ ./sh/refresh-env.sh
   $ make build test
+DONE: Edit CSP's main.yml so it no longer pushes its dockerhub image.
+DONE: Deploy CSP to staging and to prod
+
+Run versioner update and check
+- get new CSP sha/tag/digest
+- new versioner image has these
 
 
 Fix WARNINGS from [make run_tests]
@@ -17,9 +23,6 @@ Add tag test
 Dont fail silently on sha curl
   checks are in subshells so cant exit.
   could output XXXXXX and then look for that in the .env file?
-
-Edit dashboard's main.yml so it no longer pushes its dockerhub image.
-Deploy dahsboard to staging and to prod
 
 Upgrade base image in Dockerfile
 Move Dockerfile to root of repo
