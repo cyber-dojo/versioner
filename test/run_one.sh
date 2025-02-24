@@ -2,7 +2,7 @@
 set -e
 
 # Script to run the tests from outside a web container
-ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 run_one_test()

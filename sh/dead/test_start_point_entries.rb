@@ -14,7 +14,7 @@ class StartPointEntriesTest < Minitest::Test
     base_sha = dot_env('CYBER_DOJO_START_POINTS_BASE_SHA')
 
     image_name = cel_image_name('CUSTOM')
-    custom_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}'`
+    custom_base_sha = `docker run --rm #{image_name} sh -c 'printf ${BASE_SHA}' 2> /dev/null`
     if base_sha != custom_base_sha
       puts 'WARNING: Out of date base-image'
       puts "BASE_SHA=#{base_sha} #{base_image_name}"
