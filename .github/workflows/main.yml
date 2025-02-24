@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test-oidc-creds
 
 env:
   AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
@@ -64,11 +65,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Push service images to dockerhub
-        run:
-          ./sh/push_service_images_to_dockerhub.sh
+      # - name: Push service images to dockerhub
+      #   run:
+      #     ./sh/push_service_images_to_dockerhub.sh
 
-      - name: Push versioner image to dockerhub
-        run:
-          make publish
+      # - name: Push versioner image to dockerhub
+      #   run:
+      #     make publish
 
