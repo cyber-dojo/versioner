@@ -16,9 +16,13 @@ push_dockerhub_image()
 
   local -r tagged_image="cyberdojo/${service}:${tag}"  # eg cyberdojo/dashboard:550c13b
   echo "  Creating ${tagged_image}"
-  docker pull "${image}"
-  docker tag "${image}" "${tagged_image}"
-  docker push "${tagged_image}"
+  #docker pull "${image}"
+  #docker tag "${image}" "${tagged_image}"
+  #docker push "${tagged_image}"
+
+  echo "docker pull ${image}"
+  echo "docker tag ${image} ${tagged_image}"
+  echo "docker push ${tagged_image}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
