@@ -35,8 +35,7 @@ Create extra tests under /test dir, for each json file
 DONE: Update tests into two: pre_service_build and post_service_build
 DONE: Update run_tests makefile target so that it runs tests it can when not in CI workflow.
 
-Upgrade base image in Dockerfile
-
-Move Dockerfile to root of repo
+DONE: Upgrade base image in Dockerfile
+DONE: Move Dockerfile to root of repo
 
 

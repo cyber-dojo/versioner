@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=alpine:3.19
+ARG BASE_IMAGE=alpine:3.21
 FROM ${BASE_IMAGE}
 LABEL maintainer=jon@jaggersoft.com
 
@@ -13,6 +13,7 @@ ARG RELEASE
 ENV RELEASE=${RELEASE}
 
 RUN apk upgrade
-COPY . /app
+WORKDIR /app
+COPY app/ .
 RUN mv /app/cat /usr/local/bin/cat
 ENTRYPOINT [ "/usr/local/bin/cat", "/app/.env" ]

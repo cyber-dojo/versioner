@@ -11,7 +11,7 @@ build_image()
     --build-arg SHA="$(git_commit_sha)" \
     --build-arg RELEASE="$(release)" \
     --tag $(image_name):latest \
-    "${ROOT_DIR}/app"
+    "${ROOT_DIR}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
