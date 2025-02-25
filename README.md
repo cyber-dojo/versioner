@@ -4,7 +4,7 @@
 
 To create a new versioner image, after updating one or more of the microservice images in prod
 (eg runner, web, start-points-base, etc), simply:
-- `make refresh_env build_image`
+- `make all_local`
 - `git add .`
 - `git commit -m "[RELEASE=0.1.409] Patch level updates"` (assuming 0.1.408 was the current latest)
 - `git push`

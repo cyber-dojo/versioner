@@ -41,18 +41,6 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-#      - name: Run pre-build tests
-#        run:
-#          make pre_build_tests
-
-      - name: Create versioner image
-        run:
-          make build_image
-
       - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USER }}
@@ -71,16 +59,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Push service images to dockerhub
-        run:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run pre-build tests
+        run: |
+          make pre_service_image_tests 
+          make build_versioner_image 
           make publish_service_images
-
-      - name: Run tests
-        run:
-          make run_tests
-#          make post_publish_tests
-
-      - name: Push versioner image to dockerhub
-        run:
+          make post_service_image_tests
           make publish_versioner_image
-

@@ -1,40 +1,44 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
-outside_container()
-{
-  [ -z "${INSIDE_CONTAINER_UUID}" ]
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 from_outside_run_all_tests()
 {
   local -r image=cyberdojo/docker-base # for [docker] cmd
   docker run \
     --env INSIDE_CONTAINER_UUID=yup \
     --interactive \
+    --read-only \
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "${ROOT_DIR}/app/.env:/app/.env:ro" \
+    --volume "${ROOT_DIR}/app/json:/app/json:ro" \
     --volume "${ROOT_DIR}/test:/app/test:ro" \
     ${image} \
-      "/app/test/run_all.sh"
+      "/app/test/pre_service_image_tests.sh"
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 from_inside_run_all_tests()
 {
   cd "${ROOT_DIR}/test"
-  TEST_FILES=(test_*.rb)
+  TEST_FILES=(test_pre_*.rb)
   ruby -W2 -e "%w( ${TEST_FILES[*]} ).shuffle.map{ |file| require './'+file }"
 }
 
+outside_container()
+{
+  [ -z "${INSIDE_CONTAINER_UUID:-}" ]
+}
+
+pre_service_image_tests()
+{
+  if outside_container; then
+    from_outside_run_all_tests
+  else
+    from_inside_run_all_tests
+  fi
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
-if outside_container; then
-  from_outside_run_all_tests
-else
-  from_inside_run_all_tests
-fi
+pre_service_image_tests

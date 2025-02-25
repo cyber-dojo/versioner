@@ -17,23 +17,23 @@ DONE: Run versioner update, commit, finished workflow, pull new versioner image,
   - can run web demo
 
 DONE: Fix WARNINGS from [make run_tests]
-
 DONE: Add [in CI] check to publish_service_images, add makefile target, use in main.yml
-
 DONE: Don't fail curls silently.
   checks are in subshells so cant exit.
   output XXXXXX and then look for that in the .json files
 
+DONE: Update readme to do [make refresh_env build_image run_tests]
+
 Create extra tests under /test dir, for each json file
-  check no XXXX entries produced from curls. This could be a local test, run before workflow
-  check tag matches the one in the image_name. This could be a local test, run before workflow
-  check digest of dockerhub image matches suffix from aws-prod snapshot. This can only run in workflow
+  Pre service images
+  DONE:  - check no XXXX entries produced from curls. This could be a local test, run before workflow
+  DONE:  - check tag matches the one in the image_name. This could be a local test, run before workflow
 
-Update tests into two: pre_service_build and post_service_build
-Update run_tests makefile target so that it runs tests it can when not in CI workflow.
-Update readme to do [make refresh_env build_image run_tests]
+  Post service images
+  DONE:  - check digest of dockerhub image matches suffix from aws-prod snapshot. This can only run in workflow
 
-Make makefile all target that runs all scripts in sequence and skips later ones unless on CI
+DONE: Update tests into two: pre_service_build and post_service_build
+DONE: Update run_tests makefile target so that it runs tests it can when not in CI workflow.
 
 Upgrade base image in Dockerfile
 
