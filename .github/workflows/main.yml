@@ -45,6 +45,10 @@ jobs:
         with:
           fetch-depth: 1
 
+#      - name: Run pre-build tests
+#        run:
+#          make pre_build_tests
+
       - name: Create versioner image
         run:
           make build_image
@@ -74,6 +78,7 @@ jobs:
       - name: Run tests
         run:
           make run_tests
+#          make post_publish_tests
 
       - name: Push versioner image to dockerhub
         run:

@@ -96,13 +96,36 @@ echo_entries()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 echo_sha()
 {
-  curl --fail --silent --request GET "https://cyber-dojo.org/${1}/sha" | jq -r '.sha'
+  local -r service_name="${1}"
+  xxx_curl "https://cyber-dojo.org/${service_name}/sha" | jq -r '.sha'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 echo_base_image()
 {
-  curl --fail --silent --request GET "https://cyber-dojo.org/${1}/base_image" | jq -r '.base_image'
+  local -r service_name="${1}"
+  xxx_curl "https://cyber-dojo.org/${service_name}/base_image" | jq -r '.base_image'
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+xxx_curl()
+{
+  local -r url="${1}"
+  local -r output_file=$(mktemp)
+
+  http_code=$(curl --request GET \
+       --output "${output_file}" \
+       --write-out "%{http_code}" \
+       --silent \
+       "${url}")
+
+  if [[ "${http_code}" -eq "200" ]] ; then
+    cat "${output_file}"
+    rm "${output_file}"
+  else
+    rm "${output_file}"
+    echo '{"base_image": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "sha": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}'
+  fi
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -129,6 +152,8 @@ echo_port()
     runner     ) echo 4597;;
     saver      ) echo 4537;;
     web        ) echo 3000;;
+
+    *) echo 0
   esac
 }
 
@@ -197,7 +222,6 @@ echo_env_md()
   fi
 }
 
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly services=(
   commander
   start-points-base
@@ -213,25 +237,36 @@ readonly services=(
   web
 )
 
-echo Creating json files...
-mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
-for service in "${services[@]}"
-do
-  create_json_file "${service}"
-done
+readonly xservices=(
+  runner
+)
 
-echo Creating .env file
-dot_env_filename="${ROOT_DIR}/app/.env"
-rm "${dot_env_filename}" 2> /dev/null || true
-for service in "${services[@]}"
-do
-  echo_env "${service}" >> "${dot_env_filename}"
-done
+refresh_env()
+{
+  echo Creating json files...
+  mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
+  for service in "${services[@]}"
+  do
+    create_json_file "${service}"
+  done
 
-echo Creating .env.md file
-dot_env_md_filename="${ROOT_DIR}/app/.env.md"
-rm "${dot_env_md_filename}" 2> /dev/null || true
-for service in "${services[@]}"
-do
-  echo_env_md "${service}" >> "${dot_env_md_filename}"
-done
+  echo Creating .env file
+  dot_env_filename="${ROOT_DIR}/app/.env"
+  rm "${dot_env_filename}" 2> /dev/null || true
+  for service in "${services[@]}"
+  do
+    echo_env "${service}" >> "${dot_env_filename}"
+  done
+
+  echo Creating .env.md file
+  dot_env_md_filename="${ROOT_DIR}/app/.env.md"
+  rm "${dot_env_md_filename}" 2> /dev/null || true
+  for service in "${services[@]}"
+  do
+    echo_env_md "${service}" >> "${dot_env_md_filename}"
+  done
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+refresh_env
+

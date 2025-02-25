@@ -20,7 +20,7 @@ DONE: Fix WARNINGS from [make run_tests]
 
 DONE: Add [in CI] check to publish_service_images, add makefile target, use in main.yml
 
-Don't fail curls silently.
+DONE: Don't fail curls silently.
   checks are in subshells so cant exit.
   output XXXXXX and then look for that in the .json files
 
@@ -29,8 +29,11 @@ Create extra tests under /test dir, for each json file
   check tag matches the one in the image_name. This could be a local test, run before workflow
   check digest of dockerhub image matches suffix from aws-prod snapshot. This can only run in workflow
 
+Update tests into two: pre_service_build and post_service_build
 Update run_tests makefile target so that it runs tests it can when not in CI workflow.
 Update readme to do [make refresh_env build_image run_tests]
+
+Make makefile all target that runs all scripts in sequence and skips later ones unless on CI
 
 Upgrade base image in Dockerfile
 
