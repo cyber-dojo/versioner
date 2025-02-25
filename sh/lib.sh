@@ -42,3 +42,8 @@ git_commit_msg()
   # shellcheck disable=SC2005
   echo "$(cd "${ROOT_DIR}" && git log --oneline --format=%B -n 1 HEAD | head -n 1)"
 }
+
+on_CI()
+{
+  [ "${CI:-}" == true ]
+}

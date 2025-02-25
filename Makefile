@@ -8,5 +8,8 @@ build_image:
 run_tests:
 	@${PWD}/test/run_all.sh
 
-publish:
-	@${PWD}/sh/publish_image.sh
+publish_service_images:
+	@${PWD}/sh/publish_service_images.sh
+
+publish_versioner_image:
+	@${PWD}/sh/publish_versioner_image.sh

@@ -5,7 +5,10 @@ export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
-# Workflow script to create .env file content by inspecting json file produced from Kosli aws-prod snapshot
+# Workflow script to create:
+#   json file from Kosli aws-prod snapshot
+#   .env file content by inspecting json files
+#
 # Use: $ ./sh/service-latest-env.sh
 
 echo Taking snapshot of aws-prod Environment...
@@ -232,7 +235,3 @@ for service in "${services[@]}"
 do
   echo_env_md "${service}" >> "${dot_env_md_filename}"
 done
-
-# TODO: don't fail curl silently
-# TODO: loop and check each json file
-# TODO: check tag matches the one in the image_name

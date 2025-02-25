@@ -45,18 +45,13 @@ tag_the_image()
   fi
 }
 
-on_CI()
-{
-  [ "${CI:-}" == true ]
-}
-
-on_ci_publish_tagged_images()
+on_ci_publish_versioner_image()
 {
   if ! on_CI; then
-    echo 'not in CI Workflow so not publishing image'
+    echo 'not in CI Workflow so not publishing versioner image'
     return
   fi
-  echo 'on CI Workflow so publishing image'
+  echo 'in CI Workflow so publishing versioner image'
   # Workflow has done docker login
   docker push $(image_name):$(image_tag)
   if [ -n "$(image_release)" ]; then
@@ -66,4 +61,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci_publish_tagged_images
+on_ci_publish_versioner_image

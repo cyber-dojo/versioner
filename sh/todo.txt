@@ -11,20 +11,29 @@ DONE Try new versioner:
 DONE: Edit CSP's main.yml so it no longer pushes its dockerhub image.
 DONE: Deploy CSP to staging and to prod
 
-Run versioner update and check
-- get new CSP sha/tag/digest
-- new versioner image has these
+DONE: Run versioner update, commit, finished workflow, pull new versioner image, check
+  - get new CSP sha/tag/digest
+  - new versioner image has these
+  - can run web demo
 
+DONE: Fix WARNINGS from [make run_tests]
 
-Fix WARNINGS from [make run_tests]
+DONE: Add [in CI] check to publish_service_images, add makefile target, use in main.yml
 
-Add tag test
-
-Dont fail silently on sha curl
+Don't fail curls silently.
   checks are in subshells so cant exit.
-  could output XXXXXX and then look for that in the .env file?
+  output XXXXXX and then look for that in the .json files
+
+Create extra tests under /test dir, for each json file
+  check no XXXX entries produced from curls. This could be a local test, run before workflow
+  check tag matches the one in the image_name. This could be a local test, run before workflow
+  check digest of dockerhub image matches suffix from aws-prod snapshot. This can only run in workflow
+
+Update run_tests makefile target so that it runs tests it can when not in CI workflow.
+Update readme to do [make refresh_env build_image run_tests]
 
 Upgrade base image in Dockerfile
+
 Move Dockerfile to root of repo
 
 
