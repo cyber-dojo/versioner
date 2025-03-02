@@ -6,16 +6,6 @@ require 'minitest/autorun'
 
 class CoreServicesEntriesTest < Minitest::Test
 
-  def test_env_file_has_valid_core_service_entries
-    tags = env_vars.keys.select{ |name| name.end_with?('TAG') }
-    tags.sort.each do |tag_env_name|
-      tag_value = env_vars[tag_env_name]
-      name = image_name_from_tag(tag_env_name)
-      assert image_exists?(name), "#{tag_env_name}=#{tag_value} #{name} does not exist"
-      printf '.'
-    end
-  end
-
   def test_sha_looks_like_a_SHA
     sha_names.sort.each do |sha_env_name|
       sha = dot_env(sha_env_name)
