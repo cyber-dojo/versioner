@@ -52,7 +52,7 @@ via_docker()
   local -r tool_name="${1}"                       # eg commander
   local -r image_name="cyberdojo/${tool_name}"    # eg cyberdojo/commander   (:latest default tag)
   local -r sha="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}' 2> /dev/null)"
-  local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=docker --debug=false)"
+  local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=oci)"
   local -r port=0
   echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
 }
@@ -63,7 +63,7 @@ via_base_image()
   local -r service_name="${1}"                                               # eg start-points-base
   local -r base_image="$(echo_base_image "custom-start-points")"             # eg cyberdojo/start-points-base:0729239
   local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
-  local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=docker --debug=false)"
+  local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=oci)"
   local -r port=0
   echo_entries "${base_image}" "${base_sha}" "${base_digest}" "${port}"
 }

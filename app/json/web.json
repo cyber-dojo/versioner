@@ -1,7 +1,7 @@
 {
-  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:59ba013@sha256:02cfa72b7907e22c3ff2dd66138f307945a28e26519077f5770eb6ce176f41c4",
-  "sha": "59ba013400d06f9fe56b3ff516271bca2523c5c2",
-  "tag": "59ba013",
-  "digest": "02cfa72b7907e22c3ff2dd66138f307945a28e26519077f5770eb6ce176f41c4",
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:85a9a3e@sha256:642174d0440f810193fb1f0a750ca2adbc28cc7a4b08de8a96579476db3ebb78",
+  "sha": "85a9a3ef46d7ad765c5fa4a043ca4c75ab84e681",
+  "tag": "85a9a3e",
+  "digest": "642174d0440f810193fb1f0a750ca2adbc28cc7a4b08de8a96579476db3ebb78",
   "port": 3000
 }
