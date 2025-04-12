@@ -5,6 +5,7 @@
 To create a new versioner image, after updating one or more of the microservice images in prod
 (eg runner, web, start-points-base, etc), simply:
 - `make all_local`
+- `git diff`
 - `git add .`
 - `git commit -m "[RELEASE=0.1.409] Patch level updates"` (assuming 0.1.408 was the current latest)
 - `git push`
@@ -16,15 +17,15 @@ For example:
 <pre>
 $ docker run --rm <b>cyberdojo/versioner:latest</b>
 ...
-CYBER_DOJO_RUNNER_IMAGE=<b>cyberdojo/runner</b>
+CYBER_DOJO_RUNNER_IMAGE=cyberdojo/runner
+CYBER_DOJO_RUNNER_TAG=c31ef46
 CYBER_DOJO_RUNNER_SHA=c31ef46df438c57268be5356e2717eaa822e8334
-CYBER_DOJO_RUNNER_TAG=<b>c31ef46</b>
 CYBER_DOJO_RUNNER_DIGEST=42fb72727fd50a0c1127be2ef036f2ee0a6aa9be9df5838055e65e55a37cd7ea
 CYBER_DOJO_RUNNER_PORT=4597
 ...
-CYBER_DOJO_WEB_IMAGE=<b>cyberdojo/web</b>
+CYBER_DOJO_WEB_IMAGE=cyberdojo/web
+CYBER_DOJO_WEB_TAG=2498759
 CYBER_DOJO_WEB_SHA=2498759f03851b85e85de2611a3a3742d54f3a6e
-CYBER_DOJO_WEB_TAG=<b>2498759</b>
 CYBER_DOJO_WEB_DIGEST=dbc41524d532e74b01f4da90ff15b737ac0e33132bf7338b4e20bb027e79d456
 CYBER_DOJO_WEB_PORT=3000
 ...
