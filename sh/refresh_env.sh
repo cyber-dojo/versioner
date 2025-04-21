@@ -51,6 +51,7 @@ via_docker()
 {
   local -r tool_name="${1}"                       # eg commander
   local -r image_name="cyberdojo/${tool_name}"    # eg cyberdojo/commander   (:latest default tag)
+  docker pull "${image_name}" &> /dev/null        # in case there is a local image
   local -r sha="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}' 2> /dev/null)"
   local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=oci)"
   local -r port=0
@@ -235,10 +236,6 @@ readonly services=(
   runner
   saver
   web
-)
-
-readonly xservices=(
-  runner
 )
 
 refresh_env()
