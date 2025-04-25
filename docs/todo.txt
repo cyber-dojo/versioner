@@ -1,0 +1,49 @@
+
+The .env file contains the current env-vars for a cyber-dojo deployment.
+
+It contains DIGEST entries, eg
+CYBER_DOJO_CUSTOM_START_POINTS_DIGEST=d843afb875821b609342c2a1a04d3b8989fb15f3880fabde1756e51158d2da91
+
+These are not correct.
+They are the digests for the images on the private ECR registry.
+They need to be the digests for the public images on dockerhub.
+This will get fixed at some point.
+
+One possibility is to use a workflow to:
+- get Kosli snapshot of aws-prod
+- docker tag each image ready for dockerhub push
+- do docker push for each image and collect the digest
+- create a local (inside the workflow) .env file
+- create a versioner image containing the .env file
+- push the versioner image to dockerhub
+
+This would mean that the .env file was no longer in the repo, but was only in the image.
+Viz, to get the information you would have to do a:
+   docker run --rm cyberdojo/versioner
+
+# .env.md
+This would have to be created by piping the output of `docker run --rm cyberdojo/versioner`
+into a tool. We should have two makefile targets:
+   make show_env
+   make show_env_md
+
+
+
+# Misc
+- bin/refresh_env.sh
+Creates JSON files which includes digest info from the private ECR
+The info in this is correct, except the digest.
+
+- bin/publish_service_images.sh
+This pulls the image from the ECR and pushes it to dockerhub.
+It could then do a docker-pull, the output of which is:
+
+        03b8aa5: Pulling from cyberdojo/web
+        Digest: sha256:4f54a0b30fe8898ba1e5f225978feabf4921b54fbeff67d890386b5588feb8c6
+        Status: Image is up-to-date for cyberdojo/web:03b8aa5
+        docker.io/cyberdojo/web:03b8aa5
+
+It could also use the Kosli CLI. That would be simpler.
+Should work as it is immediately after a docker pull.
+
+- Have to also consider COMMANDER, and START_POINTS_BASE
