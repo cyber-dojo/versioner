@@ -35,11 +35,17 @@ create_json_files_for_all_micro_services()
   mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
   for service in "${services[@]}"
   do
-    create_json_file_for_one_micro_service "${service}"
+    filename="${service}.json"
+    echo "  ${filename}"
+    {
+      echo "{"
+      echo_json_content_for_one_micro_service "${service}"
+      echo "}"
+    } > "${ROOT_DIR}/app/json/${filename}"
   done
 }
 
-create_json_file_for_one_micro_service()
+echo_json_content_for_one_micro_service()
 {
   local -r service_name="${1}"  # eg saver
   local -r artifacts_length=$(echo "${SNAPSHOT}" | jq -r '.artifacts | length')
@@ -124,21 +130,6 @@ echo_entries()
   echo "  \"digest\": \"${digest}\","
   echo "  \"port\": ${port}"
 }
-
-create_json_file_for_one_micro_service()
-{
-  local -r service="${1}"
-  local -r filename="${service}.json"
-
-  mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
-  echo "  ${filename}"
-  {
-    echo "{"
-    create_json_file_for_service "${service}"
-    echo "}"
-  } > "${ROOT_DIR}/app/json/${filename}"
-}
-
 
 create_json_file_for_commander
 create_json_file_for_start_points_base
