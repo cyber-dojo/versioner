@@ -6,7 +6,7 @@ source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
 # Script to push private images (web, runner, saver, etc) in AWS ECR, as public images to dockerhub.
-# Also creates json files for each image.
+# Also creates json files for each image. Relies on ECR and dockerhub login in workflow.
 #
 # Use: make json_files
 # Use: $ ./sh/make_json_files.sh
@@ -94,7 +94,7 @@ echo_digest()
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
   echo "  Creating ${public_image}"
   docker pull "${public_image}" &> /dev/null
-  docker tag "${image}" "${public_image}" &> /dev/null
+  docker tag "${image_name}" "${public_image}" &> /dev/null
   docker push "${public_image}" &> /dev/null
   local -r digest="$(kosli fingerprint "${public_image}" --artifact-type=docker --debug=false)"
   echo "${digest}"
