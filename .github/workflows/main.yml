@@ -73,11 +73,6 @@ jobs:
           make json_files
           make dot_env_file
           make dot_env_md_file              
-          make publish_service_images
-          echo XXXXXXXXXXXXXXXXXX
-          echo XXXXXXXXXXXXXXXXXX
-          echo XXXXXXXXXXXXXXXXXX
-          echo XXXXXXXXXXXXXXXXXX
           make service_image_tests          
-          make build_versioner_image 
-          make publish_versioner_image
+          make build_image 
+          make publish_image

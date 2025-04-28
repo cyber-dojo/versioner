@@ -2,9 +2,6 @@
 
 # These all require credentials and can run only in the CI workflow
 
-publish_service_images:
-	@${PWD}/sh/publish_service_images.sh
-
 json_files:
 	@${PWD}/sh/make_json_files.sh
 
@@ -17,6 +14,8 @@ dot_env_md_file:
 service_image_tests:
 	@${PWD}/test/service_image_tests.sh
 
-build_versioner_image:
+build_image:
 	@${PWD}/sh/build_image.sh
 
+publish_image:
+	@${PWD}/sh/publish_image.sh

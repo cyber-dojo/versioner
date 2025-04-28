@@ -5,9 +5,8 @@ export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
-# Script to create json files from json output of `kosli get snapshot aws-prod`
-# Relies on the CI workflow having already pushed each private ECR image as a public dockerhub image.
-# This ensures the json has the digest for the public dockerhub image.
+# Script to push private images (web, runner, saver, etc) in AWS ECR, as public images to dockerhub.
+# Also creates json files for each image.
 #
 # Use: make json_files
 # Use: $ ./sh/make_json_files.sh
@@ -59,7 +58,7 @@ echo_json_content_for_one_micro_service()
         # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
         if [[ ${image_name} == */${service_name}:* ]]; then
           sha="$(echo "${artifact}" | jq -r ".git_commit")"
-          digest="$(echo_digest "${service_name}" "${sha}")"
+          digest="$(echo_digest "${image_name}" "${service_name}" "${sha}")"
           port="$(echo_port "${service_name}")"
           echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
           return
@@ -88,12 +87,16 @@ create_json_file_for_start_points_base()
 
 echo_digest()
 {
-  local -r service_name="${1}" # eg saver
-  local -r sha="${2}"          # eg a0f337d93ee93f38e89182c49012fb3f8a9915d8
+  local -r image_name="${1}"   # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
+  local -r service_name="${2}" # eg saver
+  local -r sha="${3}"          # eg a0f337d93ee93f38e89182c49012fb3f8a9915d8
   local -r tag="${sha:0:7}"    # eg a0f337d
-  local -r image_name="cyberdojo/${service_name}:${tag}"
-  docker pull "${image_name}"
-  local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=docker --debug=false)"
+  local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
+  echo "  Creating ${public_image}"
+  docker pull "${public_image}" &> /dev/null
+  docker tag "${image}" "${public_image}" &> /dev/null
+  docker push "${public_image}" &> /dev/null
+  local -r digest="$(kosli fingerprint "${public_image}" --artifact-type=docker --debug=false)"
   echo "${digest}"
 }
 
