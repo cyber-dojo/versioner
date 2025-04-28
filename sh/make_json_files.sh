@@ -54,15 +54,6 @@ create_public_image()
   local -r private_image="$(echo "${artifact}" | jq -r ".name")"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
 
-  echo "-------------------"
-  echo "Create ${service_name}"
-  #echo "${artifact}" | jq .
-  #echo "-------------------"
-  echo "sha=:${sha}:"
-  echo "tag=:${tag}:"
-  echo "private_image=:${private_image}:"
-  echo "  Creating ${public_image}"
-
   docker pull "${private_image}"
   docker tag "${private_image}" "${public_image}"
   docker push "${public_image}"
