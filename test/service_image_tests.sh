@@ -10,7 +10,6 @@ from_outside_run_all_tests()
     --env CI \
     --env INSIDE_CONTAINER_UUID=yup \
     --interactive \
-    --read-only \
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "${ROOT_DIR}/app/.env:/app/.env:ro" \
