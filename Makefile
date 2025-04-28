@@ -1,26 +1,22 @@
 
-# These can run locally, before commit and CI workflow run
 
-refresh_env:
-	@${PWD}/sh/refresh_env.sh
-
-pre_service_image_tests:
-	@${PWD}/test/pre_service_image_tests.sh
-
-build_versioner_image:
-	@${PWD}/sh/build_image.sh
-
-all_local: refresh_env pre_service_image_tests build_versioner_image
-
-# These require credentials and can run only in the CI workflow
+# These all require credentials and can run only in the CI workflow
 
 publish_service_images:
 	@${PWD}/sh/publish_service_images.sh
 
-post_service_image_tests:
-	@${PWD}/test/post_service_image_tests.sh
+json_files:
+	@${PWD}/sh/make_json_files.sh
 
-publish_versioner_image:
-	@${PWD}/sh/publish_versioner_image.sh
+dot_env_file:
+	@${PWD}/sh/make_dot_env_file.sh
 
+dot_env_md_file:
+	@${PWD}/sh/make_dot_env_md_file.sh
+
+service_image_tests:
+	@${PWD}/test/service_image_tests.sh
+
+build_versioner_image:
+	@${PWD}/sh/build_image.sh
 

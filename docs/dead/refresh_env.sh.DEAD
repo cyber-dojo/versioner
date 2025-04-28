@@ -9,7 +9,7 @@ exit_non_zero_unless_installed kosli docker jq
 #   json file from Kosli aws-prod snapshot
 #   .env file content by inspecting json files
 #
-# Use: $ ./sh/service-latest-env.sh
+# Use: $ ./sh/refresh_env.sh
 
 echo Taking snapshot of aws-prod Environment...
 KOSLI_AWS_PROD=aws-prod

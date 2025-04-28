@@ -4,16 +4,15 @@
 
 To create a new versioner image, after updating one or more of the microservice images in prod
 (eg runner, web, start-points-base, etc), simply:
-- `make all_local`
-- `git diff`
+- Edit .github/workflows/force-ci-run.txt
 - `git add .`
-- `git commit -m "[RELEASE=0.1.409] Patch level updates"` (assuming 0.1.408 was the current latest)
+- `git commit -m "[RELEASE=0.1.424] Patch level updates"` (assuming 0.1.423 was the current latest)
 - `git push`
 
 
-The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a
-self-consistent, working set of image-name, commit-sha, image-tag, image-digest, and port-number, environment variables.
-For example:
+The `entrypoint` for a `cyberdojo/versioner` docker image simply prints a self-consistent, working set of 
+image-name, commit-sha, image-tag, image-digest, and port-number, environment variables
+for public images in dockerhub. For example:
 <pre>
 $ docker run --rm <b>cyberdojo/versioner:latest</b>
 ...
