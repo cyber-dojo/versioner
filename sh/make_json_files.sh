@@ -54,10 +54,10 @@ create_public_image()
   local -r private_image="$(echo "${artifact}" | jq -r ".name")"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
 
+  echo "-------------------"
   echo "Create ${service_name}"
-  echo "-------------------"
-  echo "${artifact}" | jq .
-  echo "-------------------"
+  #echo "${artifact}" | jq .
+  #echo "-------------------"
   echo "sha=:${sha}:"
   echo "tag=:${tag}:"
   echo "private_image=:${private_image}:"
@@ -73,6 +73,7 @@ echo_json_content_for_one_micro_service()
 {
   local -r service_name="${1}"  # eg saver
   local -r artifact="$(artifact_for_service "${service_name}")"
+  local -r image_name="$(echo "${artifact}" | jq -r ".name")"
   local -r sha="$(echo "${artifact}" | jq -r ".git_commit")"
   local -r digest="$(echo_digest "${service_name}" "${sha}")"
   local -r port="$(echo_port "${service_name}")"
