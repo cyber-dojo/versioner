@@ -49,7 +49,7 @@ echo_json_content_for_one_micro_service()
   local -r service_name="${1}"  # eg saver
   local -r artifacts_length=$(echo "${SNAPSHOT}" | jq -r '.artifacts | length')
 
-  for a in $(seq 0 $(( ${artifacts_length} - 1 )))
+  for a in $(seq 0 $(( artifacts_length - 1 )))
   do
       artifact="$(echo "${SNAPSHOT}" | jq -r ".artifacts[$a]")"
       annotation_type="$(echo "${artifact}" | jq -r ".annotation.type")"
@@ -96,6 +96,7 @@ echo_digest()
   docker pull "${public_image}" &> /dev/null
   docker tag "${image_name}" "${public_image}" &> /dev/null
   docker push "${public_image}" &> /dev/null
+  docker pull "${public_image}" &> /dev/null
   local -r digest="$(kosli fingerprint "${public_image}" --artifact-type=docker --debug=false)"
   echo "${digest}"
 }
