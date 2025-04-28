@@ -63,6 +63,11 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ vars.KOSLI_CLI_VERSION }}
+
       - name: Run pre-build tests
         run: |
           make publish_service_images           
