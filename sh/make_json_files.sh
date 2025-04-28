@@ -34,6 +34,7 @@ create_json_files_for_all_micro_services()
   mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
   for service in "${services[@]}"
   do
+    create_public_image "${service}"
     filename="${service}.json"
     echo "  ${filename}"
     {
@@ -44,9 +45,44 @@ create_json_files_for_all_micro_services()
   done
 }
 
+create_public_image()
+{
+  local -r service_name="${1}" # eg saver
+  local -r artifact="$(artifact_for_service "${service_name}")"
+  local -r sha="$(echo "${artifact}" | jq -r ".git_commit")"
+  local -r tag="${sha:0:7}"
+  local -r private_image="$(echo "${artifact}" | jq -r ".name")"
+  local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
+
+  echo "Create ${service_name}"
+  echo "-------------------"
+  echo "${artifact}" | jq .
+  echo "-------------------"
+  echo "sha=:${sha}:"
+  echo "tag=:${tag}:"
+  echo "private_image=:${private_image}:"
+  echo "  Creating ${public_image}"
+
+  docker pull "${private_image}"
+  docker tag "${private_image}" "${public_image}"
+  docker push "${public_image}"
+  docker pull "${public_image}"
+}
+
 echo_json_content_for_one_micro_service()
 {
   local -r service_name="${1}"  # eg saver
+  local -r artifact="$(artifact_for_service "${service_name}")"
+  local -r sha="$(echo "${artifact}" | jq -r ".git_commit")"
+  local -r digest="$(echo_digest "${service_name}" "${sha}")"
+  local -r port="$(echo_port "${service_name}")"
+
+  echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
+}
+
+artifact_for_service()
+{
+  local -r service_name="${1}"
   local -r artifacts_length=$(echo "${SNAPSHOT}" | jq -r '.artifacts | length')
 
   for a in $(seq 0 $(( artifacts_length - 1 )))
@@ -57,10 +93,7 @@ echo_json_content_for_one_micro_service()
         image_name="$(echo "${artifact}" | jq -r ".name")"
         # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
         if [[ ${image_name} == */${service_name}:* ]]; then
-          sha="$(echo "${artifact}" | jq -r ".git_commit")"
-          digest="$(echo_digest "${image_name}" "${service_name}" "${sha}")"
-          port="$(echo_port "${service_name}")"
-          echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
+          echo "${artifact}"
           return
         fi
      fi
@@ -87,16 +120,10 @@ create_json_file_for_start_points_base()
 
 echo_digest()
 {
-  local -r image_name="${1}"   # eg 244531986313.dkr.ecr.eu-central-1.amazonaws.com/saver:a0f337d@sha256:0505ac397473fa757d2d51a3e88f0995ce3c20696ffb046f62f73b28654df1ec
-  local -r service_name="${2}" # eg saver
-  local -r sha="${3}"          # eg a0f337d93ee93f38e89182c49012fb3f8a9915d8
-  local -r tag="${sha:0:7}"    # eg a0f337d
+  local -r service_name="${1}"                              # eg saver
+  local -r sha="${2}"                                       # eg a0f337d93ee93f38e89182c49012fb3f8a9915d8
+  local -r tag="${sha:0:7}"                                 # eg a0f337d
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
-  echo "  Creating ${public_image}"
-  docker pull "${public_image}" &> /dev/null
-  docker tag "${image_name}" "${public_image}" &> /dev/null
-  docker push "${public_image}" &> /dev/null
-  docker pull "${public_image}" &> /dev/null
   local -r digest="$(kosli fingerprint "${public_image}" --artifact-type=docker --debug=false)"
   echo "${digest}"
 }
