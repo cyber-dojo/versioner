@@ -103,9 +103,15 @@ create_json_file_for_commander()
 
 create_json_file_for_start_points_base()
 {
-  local -r base_image="$(curl --fail https://cyber-dojo.org/custom-start-points/base_image | jq -r '.base_image')"
-  local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
-  local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=oci --debug=false)"
+  # TODO: Get these values from cyberdojo/languages-start-points live image's env-vars.
+  #local -r base_image="$(curl --fail https://cyber-dojo.org/custom-start-points/base_image | jq -r '.base_image')"
+  #local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
+  #local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=oci --debug=false)"
+
+  local -r base_image="cyberdojo/start-points-base:1f9a495"
+  local -r base_sha="1f9a4954e8d15dcb7e01f1811c14f053e2e5cdd7"
+  local -r base_digest="6ac8f06ba673c69228c8a47325478952ae0ae80008d97cb80d3a084bff9ecb10"
+
   local -r port=0
   echo_entries "${base_image}" "${base_sha}" "${base_digest}" "${port}"
 }
