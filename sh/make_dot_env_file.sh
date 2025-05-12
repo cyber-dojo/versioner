@@ -64,3 +64,18 @@ create_env_file()
 
 create_env_file
 
+# Debug
+set +e
+ls -al "${ROOT_DIR}/app/json/"
+cat "${ROOT_DIR}/app/json/custom-start-points.json"
+json="$(cat "${ROOT_DIR}/app/json/custom-start-points.json")"
+echo "${json}" | jq -r '.tag'
+echo "${json}" | jq -r '.digest'
+image_name="cyberdojo/custom-start-points:${tag}@sha26:${digest}"
+docker pull "${image_name}"
+set -e
+
+echo '-------------------------------'
+cat "${dot_env_filename}"
+echo '-------------------------------'
+
