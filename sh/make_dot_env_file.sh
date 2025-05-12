@@ -69,9 +69,10 @@ set +e
 ls -al "${ROOT_DIR}/app/json/"
 cat "${ROOT_DIR}/app/json/custom-start-points.json"
 json="$(cat "${ROOT_DIR}/app/json/custom-start-points.json")"
-echo "${json}" | jq -r '.tag'
-echo "${json}" | jq -r '.digest'
+tag="$(echo "${json}" | jq -r '.tag')"
+digest="$(echo "${json}" | jq -r '.digest')"
 image_name="cyberdojo/custom-start-points:${tag}@sha26:${digest}"
+echo "${image_name}"
 docker pull "${image_name}"
 set -e
 
