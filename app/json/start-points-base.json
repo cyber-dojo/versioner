@@ -1,7 +1,7 @@
 {
-  "image": "cyberdojo/start-points-base:37cd220",
-  "sha": "37cd22020605e5eefaeffaa1c3c5af726606bc04",
-  "tag": "37cd220",
-  "digest": "a87995429c762ddc7c42c9e24b1039bb7c3816671986919e34f91c13a3c8a67d",
+  "image": "cyberdojo/start-points-base:1f9a495",
+  "sha": "1f9a4954e8d15dcb7e01f1811c14f053e2e5cdd7",
+  "tag": "1f9a495",
+  "digest": "6ac8f06ba673c69228c8a47325478952ae0ae80008d97cb80d3a084bff9ecb10",
   "port": 0
 }

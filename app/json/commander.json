@@ -1,7 +1,7 @@
 {
-  "image": "cyberdojo/commander",
-  "sha": "ca1e1b3f73dfebcd029b81e4cd9e9a5acdc5b9fa",
-  "tag": "ca1e1b3",
-  "digest": "dc2e9ee8ed7302ac630a000ecf4170a116b6dd0a301b14e56c594ef5d0ba1f06",
+  "image": "cyberdojo/commander:latest",
+  "sha": "dbac9a5a2ce3b8577bc7e2af397d45536886c234",
+  "tag": "dbac9a5",
+  "digest": "10c613b7dad76bf4848fb50729f2c102bbb952e644afa4aae69712189074e50d",
   "port": 0
 }

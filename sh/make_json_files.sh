@@ -98,7 +98,14 @@ create_json_file_for_commander()
   local -r sha="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}' 2> /dev/null)"
   local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=oci --debug=false)"
   local -r port=0
-  echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
+
+  local -r filename=commander.json
+  echo "  ${filename}"
+  {
+    echo "{"
+    echo_entries "${image_name}" "${sha}" "${digest}" "${port}"
+    echo "}"
+  } > "${ROOT_DIR}/app/json/${filename}"
 }
 
 create_json_file_for_start_points_base()
@@ -111,9 +118,15 @@ create_json_file_for_start_points_base()
   local -r base_image="cyberdojo/start-points-base:1f9a495"
   local -r base_sha="1f9a4954e8d15dcb7e01f1811c14f053e2e5cdd7"
   local -r base_digest="6ac8f06ba673c69228c8a47325478952ae0ae80008d97cb80d3a084bff9ecb10"
-
   local -r port=0
-  echo_entries "${base_image}" "${base_sha}" "${base_digest}" "${port}"
+
+  local -r filename=start-points-base.json
+  echo "  ${filename}"
+  {
+    echo "{"
+    echo_entries "${base_image}" "${base_sha}" "${base_digest}" "${port}"
+    echo "}"
+  } > "${ROOT_DIR}/app/json/${filename}"
 }
 
 echo_digest()
