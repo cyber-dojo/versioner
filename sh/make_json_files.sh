@@ -112,8 +112,10 @@ create_json_file_for_start_points_base()
 {
   local -r json="$(cat "${ROOT_DIR}/app/json/custom-start-points.json")"
   local -r tag="$(echo "${json}" | jq -r '.tag')"
-  local -r digest="$(echo "${json}" | jq -r '.digest')"
-  local -r image_name="cyberdojo/custom-start-points:${tag}@sha26:${digest}"
+  #local -r digest="$(echo "${json}" | jq -r '.digest')"
+  local -r image_name="cyberdojo/custom-start-points:${tag}"
+
+  docker pull "${image_name}"
 
   local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_IMAGE}'  2> /dev/null)"
   local -r base_sha="$(   docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_SHA}'    2> /dev/null)"
