@@ -110,14 +110,14 @@ create_json_file_for_commander()
 
 create_json_file_for_start_points_base()
 {
-  # TODO: Get these values from cyberdojo/languages-start-points live image's env-vars.
-  #local -r base_image="$(curl --fail https://cyber-dojo.org/custom-start-points/base_image | jq -r '.base_image')"
-  #local -r base_sha="$(docker run --rm "${base_image}" sh -c 'echo ${SHA}')" # eg 07292391023dff901e6a7a42f7ab639f29855579
-  #local -r base_digest="$(kosli fingerprint "${base_image}" --artifact-type=oci --debug=false)"
+  local -r json="$(cat "${ROOT_DIR}/app/json/custom-start-points.json")"
+  local -r tag="$(echo "${json}" | jq -r '.tag')"
+  local -r digest="$(echo "${json}" | jq -r '.digest')"
+  local -r image="cyberdojo/custom-start-points:${tag}@sha26:${digest}"
 
-  local -r base_image="cyberdojo/start-points-base:1f9a495"
-  local -r base_sha="1f9a4954e8d15dcb7e01f1811c14f053e2e5cdd7"
-  local -r base_digest="6ac8f06ba673c69228c8a47325478952ae0ae80008d97cb80d3a084bff9ecb10"
+  local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_IMAGE}'  2> /dev/null)"
+  local -r base_sha="$(   docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_SHA}'    2> /dev/null)"
+  local -r base_digest="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_DIGEST}' 2> /dev/null)"
   local -r port=0
 
   local -r filename=start-points-base.json
@@ -173,7 +173,9 @@ echo_entries()
   echo "  \"port\": ${port}"
 }
 
+# Important that start_points_base is last because the first function (all_micro_services) creates
+# the json file for the 3 start points images, and also creates their public image on dockerhub.
+create_json_files_for_all_micro_services
 create_json_file_for_commander
 create_json_file_for_start_points_base
-create_json_files_for_all_micro_services
 
