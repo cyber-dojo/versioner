@@ -60,7 +60,7 @@ create_env_file()
   do
     echo_env "${service}" >> "${dot_env_filename}"
   done
+  cat "${dot_env_filename}"
 }
 
 create_env_file
-
