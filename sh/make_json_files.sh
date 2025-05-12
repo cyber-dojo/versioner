@@ -112,9 +112,9 @@ create_json_file_for_start_points_base()
 {
   local -r json="$(cat "${ROOT_DIR}/app/json/custom-start-points.json")"
   local -r tag="$(echo "${json}" | jq -r '.tag')"
-  #local -r digest="$(echo "${json}" | jq -r '.digest')"
   local -r image_name="cyberdojo/custom-start-points:${tag}"
 
+  # Do NOT add @sha256:digest to image_name. It fails in the CI workflow with "unsupported digest algorithm"
   docker pull "${image_name}"
 
   local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_IMAGE}'  2> /dev/null)"
@@ -175,8 +175,10 @@ echo_entries()
   echo "  \"port\": ${port}"
 }
 
-# Important that start_points_base is last because the first function (all_micro_services) creates
-# the json file for the 3 start points images, and also creates their public image on dockerhub.
+# Ordering is important here: all_micro_services must come before start_points_base.
+# The former creates two things required by the latter:
+#  - the json files for the 3 start points images
+#  - the 3 public images on dockerhub
 create_json_files_for_all_micro_services
 create_json_file_for_commander
 create_json_file_for_start_points_base
