@@ -2,6 +2,9 @@
 
 # These all require credentials and can run only in the CI workflow
 
+copy_prod_images_to_dockerhub:
+	@${PWD}/sh/copy_prod_images_to_dockerhub.sh
+
 json_files:
 	@${PWD}/sh/make_json_files.sh
 

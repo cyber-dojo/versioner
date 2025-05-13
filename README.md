@@ -3,7 +3,7 @@
 # cyberdojo/versioner docker image
 
 To create a new versioner image, after updating one or more of the microservice images in prod
-(eg runner, web, start-points-base, etc), simply:
+(eg runner, saver, web, languages-start-points, etc), simply:
 - Edit .github/workflows/force-ci-run.txt
 - `git add .`
 - `git commit -m "[RELEASE=0.1.424] Patch level updates"` (assuming 0.1.423 was the current latest)

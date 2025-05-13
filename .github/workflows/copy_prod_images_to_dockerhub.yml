@@ -1,0 +1,68 @@
+name: Copy aws-prod images to dockerhub
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
+  AWS_REGION:          ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
+  DOCKER_API_VERSION:  ${{ vars.DOCKER_API_VERSION }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    needs: []
+    outputs:
+      aws_account_id_beta:      ${{ steps.vars.outputs.aws_account_id_beta }}
+      ecr_registry:             ${{ steps.vars.outputs.ecr_registry }}
+      aws_region:               ${{ steps.vars.outputs.aws_region }}
+      gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Prepare outputs for workflow jobs
+        id: vars
+        run: |
+          echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
+          echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
+          echo "aws_region=${AWS_REGION}"                     >> ${GITHUB_OUTPUT}
+          echo "gh_actions_iam_role_name=gh_actions_services" >> ${GITHUB_OUTPUT}
+
+  copy-prod-images-to-dockerhub:
+    needs: [setup]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region:            ${{ needs.setup.outputs.aws_region }}
+          role-duration-seconds: 900
+          role-session-name:     ${{ github.event.repository.name }}
+          role-to-assume:        arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          mask-aws-account-id:   no
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run pre-build tests
+        run:
+          make copy_prod_images_to_dockerhub
+      
+
+
