@@ -90,6 +90,7 @@ artifact_for_service()
 create_json_file_for_commander()
 {
   local -r image_name="cyberdojo/commander:latest"
+  docker pull "${image_name}"
   local -r sha="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}' 2> /dev/null)"
   local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=oci --debug=false)"
   local -r port=0
