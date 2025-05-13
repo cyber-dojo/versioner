@@ -117,9 +117,9 @@ create_json_file_for_start_points_base()
   # Do NOT add @sha256:digest to image_name. It fails in the CI workflow with "unsupported digest algorithm"
   docker pull "${image_name}"
 
-  local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_IMAGE}'  2> /dev/null)"
-  local -r base_sha="$(   docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_SHA}'    2> /dev/null)"
-  local -r base_digest="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${START_POINTS_BASE_DIGEST}' 2> /dev/null)"
+  local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_IMAGE}'  2> /dev/null)"
+  local -r base_sha="$(   docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_SHA}'    2> /dev/null)"
+  local -r base_digest="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_DIGEST}' 2> /dev/null)"
   local -r port=0
 
   local -r filename=start-points-base.json
