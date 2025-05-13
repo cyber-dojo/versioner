@@ -1,7 +1,5 @@
 
-
-# These all require credentials and can run only in the CI workflow
-
+# This requires credentials and can run only in a CI workflow
 copy_prod_images_to_dockerhub:
 	@${PWD}/sh/copy_prod_images_to_dockerhub.sh
 
@@ -13,6 +11,8 @@ dot_env_file:
 
 dot_env_md_file:
 	@${PWD}/sh/make_dot_env_md_file.sh
+
+all_files: json_files dot_env_file dot_env_md_file
 
 service_image_tests:
 	@${PWD}/test/service_image_tests.sh

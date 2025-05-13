@@ -70,9 +70,6 @@ jobs:
 
       - name: Run pre-build tests
         run: |
-          make json_files
-          make dot_env_file
-          make dot_env_md_file              
           make service_image_tests          
           make build_image 
           make publish_image

@@ -5,8 +5,7 @@ export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
-# Script to push private images (web, runner, saver, etc) in AWS ECR, as public images to dockerhub.
-# Also creates json files for each image. Relies on ECR and dockerhub login in workflow.
+# Script to create json files for each image. Relies on public dockerhub images.
 #
 # Use: make json_files
 # Use: $ ./sh/make_json_files.sh
@@ -34,7 +33,7 @@ create_json_files_for_all_micro_services()
   mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
   for service in "${services[@]}"
   do
-    create_public_image "${service}"
+    pull_public_image "${service}"
     filename="${service}.json"
     echo "  ${filename}"
     {
@@ -45,18 +44,14 @@ create_json_files_for_all_micro_services()
   done
 }
 
-create_public_image()
+pull_public_image()
 {
   local -r service_name="${1}" # eg saver
   local -r artifact="$(artifact_for_service "${service_name}")"
   local -r sha="$(echo "${artifact}" | jq -r ".git_commit")"
   local -r tag="${sha:0:7}"
-  local -r private_image="$(echo "${artifact}" | jq -r ".name")"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
 
-  docker pull "${private_image}"
-  docker tag "${private_image}" "${public_image}"
-  docker push "${public_image}"
   docker pull "${public_image}"
 }
 

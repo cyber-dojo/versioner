@@ -31,11 +31,6 @@ outside_container()
   [ -z "${INSIDE_CONTAINER_UUID:-}" ]
 }
 
-on_CI()
-{
-  [ "${CI:-}" == true ]
-}
-
 service_image_tests()
 {
   if outside_container; then
@@ -45,15 +40,5 @@ service_image_tests()
   fi
 }
 
-on_ci_run_service_image_tests()
-{
-  if ! on_CI; then
-    echo 'not in CI Workflow so not running service image tests'
-  else
-    echo 'in CI Workflow so running service image tests'
-    service_image_tests
-  fi
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci_run_service_image_tests
+service_image_tests

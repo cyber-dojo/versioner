@@ -4,7 +4,8 @@
 
 To create a new versioner image, after updating one or more of the microservice images in prod
 (eg runner, saver, web, languages-start-points, etc), simply:
-- Edit .github/workflows/force-ci-run.txt
+- Run the copy_prod_images_to_dockerhub.yml workflow
+- `make all_files`
 - `git add .`
 - `git commit -m "[RELEASE=0.1.424] Patch level updates"` (assuming 0.1.423 was the current latest)
 - `git push`
