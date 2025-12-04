@@ -5,7 +5,7 @@
 To create a new versioner image, after there's been a deployment of one or more microservice in 
 [aws-prod](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/)
 (eg runner, saver, web, languages-start-points, etc), simply:
-- run the [copy_prod_images_to_dockerhub.yml](.github/workflows/copy_prod_images_to_dockerhub.yml) workflow
+- run the [copy_prod_images_to_dockerhub.yml](https://github.com/cyber-dojo/versioner/actions/workflows/copy_prod_images_to_dockerhub.yml) workflow
 - `make all_files`
 - `git add .`
 - `git commit -m "[RELEASE=0.1.424] Patch level updates"` (assuming 0.1.423 was the current latest)
@@ -168,7 +168,7 @@ build_fake_versioner_with_sha_and_tag_for_local_web
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
-$ ./build_test_publish.sh --build-only
+$ ./sh/build_image.sh
 ```
 
 - - - -
