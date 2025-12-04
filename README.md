@@ -61,14 +61,19 @@ For example:
 set -Eeu
 echo_env_vars() { docker run --rm cyberdojo/versioner:latest; }
 export $(echo_env_vars)
-docker compose --file my-docker-compose.yml up --detach
+docker compose --file docker-compose.yml up --detach
 # ...wait for all services to be ready
 # ...run your tests which depend on, eg, runner...
 #
 ```
 ```yml
-# my-docker-compose.yml
+# docker-compose.yml
 services:
+  my_app:  
+    depends_on:
+      - runner
+    ...
+
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     ...
@@ -97,6 +102,7 @@ echo_env_vars()
 }
 # Now export all echoed env-vars
 export $(echo_env_vars)
+...
 ```
 
 - - - -
