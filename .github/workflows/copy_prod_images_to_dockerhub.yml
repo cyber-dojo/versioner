@@ -65,7 +65,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run pre-build tests
+      - name: Copy prod images to dockerhub
         run:
           make copy_prod_images_to_dockerhub
       
