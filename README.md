@@ -2,7 +2,7 @@
 
 # cyberdojo/versioner docker image
 
-To create a new versioner image, after there's been a deployment of one or more microservice in 
+To create a new versioner image, after there's been a deployment of one or more microservices in 
 [aws-prod](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/)
 (eg runner, saver, web, languages-start-points, etc), simply:
 - run the [copy_prod_images_to_dockerhub.yml](https://github.com/cyber-dojo/versioner/actions/workflows/copy_prod_images_to_dockerhub.yml) workflow
