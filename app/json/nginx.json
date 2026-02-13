@@ -2,6 +2,6 @@
   "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:c18e309@sha256:4cadac8f34993fd2b855bcb261a72c025773aa58b1cc7d65adeadfa4abbdc814",
   "sha": "c18e309211dccd1dfada3a2ef9bb1a176643e082",
   "tag": "c18e309",
-  "digest": "8aac0edd52d2e2ccd60cc445a3fe8c5166e79e5c7aa02b1b82a542ce9253d251",
+  "digest": "4cadac8f34993fd2b855bcb261a72c025773aa58b1cc7d65adeadfa4abbdc814",
   "port": 80
 }
