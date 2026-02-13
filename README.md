@@ -174,7 +174,7 @@ build_fake_versioner_with_sha_and_tag_for_local_web
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
-$ ./sh/build_image.sh
+$ ./bin/build_image.sh
 ```
 
 - - - -
