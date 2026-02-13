@@ -2,7 +2,7 @@
 set -Eeu
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${ROOT_DIR}/sh/lib.sh"
+source "${ROOT_DIR}/bin/lib.sh"
 exit_non_zero_unless_installed jq
 
 # Script to create .env.md file content by inspecting json files

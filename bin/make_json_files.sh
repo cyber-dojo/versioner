@@ -2,7 +2,7 @@
 set -Eeu
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${ROOT_DIR}/sh/lib.sh"
+source "${ROOT_DIR}/bin/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
 # Script to create json files for each image. Relies on public dockerhub images.
@@ -52,7 +52,7 @@ pull_public_image()
   local -r tag="${sha:0:7}"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
 
-  docker pull "${public_image}"
+  docker pull --platform linux/amd64 "${public_image}"
 }
 
 echo_json_content_for_one_micro_service()

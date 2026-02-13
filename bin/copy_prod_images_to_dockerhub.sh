@@ -2,7 +2,7 @@
 set -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/lib.sh"
+source "${ROOT_DIR}/bin/lib.sh"
 exit_non_zero_unless_installed kosli docker jq
 
 # Workflow script to copy private images (web, runner, saver, etc) in AWS ECR, to dockerhub.
