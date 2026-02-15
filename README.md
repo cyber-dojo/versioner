@@ -107,21 +107,16 @@ export $(echo_env_vars)
 
 - - - -
 Alternatively you can build a `cyberdojo/versioner:latest` _fake_ _image_
-which prints SHA/TAG values for your locally built image(s).
-
-For example, if you are working on a local `web` service, you could
-- create a fake `cyberdojo/versioner:latest` which prints `CYBER_DOJO_WEB_SHA` and `CYBER_DOJO_WEB_TAG` values matching the git-sha for `cyberdojo/web:TAG` image built from your local `web` git repo
-(on `master` at `HEAD`).
-- reissue the `cyber-dojo up ...` command.
-
-You can automate creating a _fake_ `cyberdojo/versioner:latest` with the commit shas
-of locally modified service repos with:
+which prints SHA/TAG values for your locally built image(s) (eg for runner).
+You will need to hand-edit the git commit SHA values into `/bin/build_fake_image.sh`
+and then run:
 ```bash
 $ make build_fake_image
 ```
 
-Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
+Alternatively, you can temporarily hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
+
 ```bash
 $ make build_image
 ```
