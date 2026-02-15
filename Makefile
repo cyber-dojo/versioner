@@ -20,5 +20,8 @@ service_image_tests:
 build_image:
 	@${PWD}/bin/build_image.sh
 
+build_fake_image:
+	@${PWD}/bin/build_fake_image.sh
+
 publish_image:
 	@${PWD}/bin/publish_image.sh

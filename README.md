@@ -114,67 +114,16 @@ For example, if you are working on a local `web` service, you could
 (on `master` at `HEAD`).
 - reissue the `cyber-dojo up ...` command.
 
-You can automate creating a fake `cyberdojo/versioner:latest` using this bash script:
+You can automate creating a _fake_ `cyberdojo/versioner:latest` with the commit shas
+of locally modified service repos with:
 ```bash
-#!/usr/bin/env bash
-set -Eeu
-# Builds a fake cyberdojo/versioner:latest image that serves
-# CYBER_DOJO_WEB SHA/TAG values for a local web image
-# whose repo's dir/ contains this script.
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly TMP_DIR="$(mktemp -d /tmp/XXXXXXX)"
-remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
-trap remove_TMP_DIR INT EXIT
-echo_env_vars() { docker --log-level=ERROR run --rm cyberdojo/versioner:latest; }
-# - - - - - - - - - - - - - - - - - - - - - - - -
-build_fake_versioner_with_sha_and_tag_for_local_web()
-{
-  local -r sha_var_name=CYBER_DOJO_WEB_SHA
-  local -r tag_var_name=CYBER_DOJO_WEB_TAG
-  local -r fake_sha="$(git_commit_sha)"
-  local -r fake_tag="${fake_sha:0:7}"
-  local env_vars="$(echo_env_vars)"
-  env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
-  env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
-  echo "${env_vars}" > ${TMP_DIR}/.env
-  local -r fake_image=cyberdojo/versioner:latest
-  {
-    echo 'FROM alpine:latest'
-    echo 'ARG SHA'
-    echo 'ENV SHA=${SHA}'
-    echo 'ARG RELEASE'
-    echo 'ENV RELEASE=${RELEASE}'
-    echo 'COPY . /app'
-    echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
-  } > ${TMP_DIR}/Dockerfile
-  docker build \
-    --build-arg SHA="${fake_sha}" \
-    --build-arg RELEASE=999.999.999 \
-    --tag "${fake_image}" \
-    "${TMP_DIR}"
-}
-# - - - - - - - - - - - - - - - - - - - - - - - -
-replace_with()
-{
-  local -r env_vars="${1}"
-  local -r name="${2}"
-  local -r fake_value="${3}"
-  local -r all_except=$(echo "${env_vars}" | grep --invert-match "${name}")
-  printf "${all_except}\n${name}=${fake_value}\n"
-}
-# - - - - - - - - - - - - - - - - - - - - - - - -  
-git_commit_sha()
-{
-  git rev-parse HEAD  # eg 3240bfbcf3f02a9625e1ce55d054126c1a1c2cf1
-}
-# - - - - - - - - - - - - - - - - - - - - - - - -  
-build_fake_versioner_with_sha_and_tag_for_local_web
+$ make build_fake_image
 ```
 
 Alternatively, you can hand edit the SHA (`git rev-parse HEAD`) and TAG values
 into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
 ```bash
-$ ./bin/build_image.sh
+$ make build_image
 ```
 
 - - - -
