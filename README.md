@@ -114,13 +114,6 @@ and then run:
 $ make build_fake_image
 ```
 
-Alternatively, you can temporarily hand edit the SHA (`git rev-parse HEAD`) and TAG values
-into `versioner/app/.env` and then build a local `cyberdojo/versioner:latest` image.
-
-```bash
-$ make build_image
-```
-
 - - - -
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
