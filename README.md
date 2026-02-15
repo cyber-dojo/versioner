@@ -113,7 +113,10 @@ and then run:
 ```bash
 $ make build_fake_image
 ```
-
+After use, be sure to replace it with:
+```bash
+$ docker pull --platform=linux/amd64 cyberdojo/versioner
+```
 - - - -
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
