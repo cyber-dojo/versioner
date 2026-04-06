@@ -61,10 +61,6 @@ jobs:
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
       - name: Copy prod images to dockerhub
         run:
           make copy_prod_images_to_dockerhub
