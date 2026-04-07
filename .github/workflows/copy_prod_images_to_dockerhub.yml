@@ -57,9 +57,13 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
+        uses: kosli-dev/setup-cli-action@v3
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
 
       - name: Copy prod images to dockerhub
         run:
