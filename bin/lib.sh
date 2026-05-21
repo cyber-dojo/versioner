@@ -1,4 +1,6 @@
 
+export DOCKER_CLI_HINTS=false
+
 stderr()
 {
   local -r message="${1}"
