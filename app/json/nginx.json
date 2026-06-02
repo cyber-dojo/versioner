@@ -1,7 +1,7 @@
 {
-  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:8c3fc7c@sha256:8af37e66006d491a96f23b5118d30ed933f7f090d873c80618920772096974a3",
-  "sha": "8c3fc7c5fd507a5f5af2cd795c8b0a6cd3532f98",
-  "tag": "8c3fc7c",
-  "digest": "6a02c1645406561217e3f96054cd297cbb55722d8abbb50fdde3e079981e30cc",
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:ebf104f@sha256:df695792109b605031fbe0c33d89afa13b3fb26b513e7576f5201e991fd95a62",
+  "sha": "ebf104fc1c073c7462a6ec381af70f639e4b8ba0",
+  "tag": "ebf104f",
+  "digest": "28e2d4182477f52badf4460042e5a539e5c6868e18a83123fb31541e3dfeb69c",
   "port": 80
 }
