@@ -18,9 +18,7 @@ jobs:
       aws_region:               ${{ steps.vars.outputs.aws_region }}
       gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+      - uses: cyber-dojo/harden-runner@main
 
       - name: Prepare outputs for workflow jobs
         id: vars
@@ -37,6 +35,10 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
       - uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USER }}
@@ -54,15 +56,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
 
       - name: Copy prod images to dockerhub
         run:
