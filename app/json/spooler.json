@@ -1,0 +1,7 @@
+{
+  "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/spooler:92c624e@sha256:a20359795934beb03d992ba5a8f8b95ca637e609284e5a84781bdcbb1b861975",
+  "sha": "92c624eabb024729fb2af6cdbe354db11ee3882f",
+  "tag": "92c624e",
+  "digest": "502e23ee4c4de3ef2040790b6feeeade23065091b66b6ed8b1b0dbf07787dca8",
+  "port": 4539
+}
