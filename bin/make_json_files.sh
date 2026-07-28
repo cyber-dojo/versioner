@@ -139,6 +139,7 @@ echo_port()
     nginx      ) echo 80;;
     runner     ) echo 4597;;
     saver      ) echo 4537;;
+    spooler    ) echo 4539;;
     web        ) echo 3000;;
 
     *) echo 0
