@@ -47,27 +47,12 @@ echo_md()
   echo "${line}${two_spaces}"
 }
 
-readonly services=(
-  commander
-  start-points-base
-  custom-start-points
-  exercises-start-points
-  languages-start-points
-  creator
-  dashboard
-  differ
-  nginx
-  runner
-  saver
-  web
-)
-
 create_env_md()
 {
   echo Creating .env.md file
   dot_env_md_filename="${ROOT_DIR}/app/.env.md"
   rm "${dot_env_md_filename}" 2> /dev/null || true
-  for service in "${services[@]}"
+  for service in $(all_versioned_services)
   do
     echo_env_md "${service}" >> "${dot_env_md_filename}"
   done

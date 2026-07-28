@@ -14,24 +14,11 @@ echo Taking snapshot of aws-prod Environment...
 KOSLI_AWS_PROD=aws-prod
 SNAPSHOT="$(kosli get snapshot "${KOSLI_AWS_PROD}" --org=cyber-dojo --api-token=dummy-unused --output=json)"
 
-readonly services=(
-  custom-start-points
-  exercises-start-points
-  languages-start-points
-  creator
-  dashboard
-  differ
-  nginx
-  runner
-  saver
-  web
-)
-
 create_json_files_for_all_micro_services()
 {
   echo Creating json files...
   mkdir "${ROOT_DIR}/app/json" 2> /dev/null || true
-  for service in "${services[@]}"
+  for service in $(aws_prod_services)
   do
     pull_public_image "${service}"
     filename="${service}.json"

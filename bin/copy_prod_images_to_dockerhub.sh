@@ -13,23 +13,10 @@ echo Taking snapshot of aws-prod Environment...
 KOSLI_AWS_PROD=aws-prod
 SNAPSHOT="$(kosli get snapshot "${KOSLI_AWS_PROD}" --org=cyber-dojo --api-token=dummy-unused --output=json)"
 
-readonly services=(
-  custom-start-points
-  exercises-start-points
-  languages-start-points
-  creator
-  dashboard
-  differ
-  nginx
-  runner
-  saver
-  web
-)
-
 copy_prod_images_to_dockerhub()
 {
   echo Copying aws-prod images to dockerhub...
-  for service in "${services[@]}"
+  for service in $(aws_prod_services)
   do
     echo
     echo "Copying image to dockerhub: ${service}"

@@ -13,6 +13,7 @@ module JsonFiles
           nginx
           runner
           saver
+          spooler
           web
     )
   end

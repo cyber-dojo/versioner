@@ -36,27 +36,12 @@ upper_case()
   printf "${1}" | tr [a-z] [A-Z] | tr [\\-] [_]
 }
 
-readonly services=(
-  commander
-  start-points-base
-  custom-start-points
-  exercises-start-points
-  languages-start-points
-  creator
-  dashboard
-  differ
-  nginx
-  runner
-  saver
-  web
-)
-
 create_env_file()
 {
   echo Creating .env file
   dot_env_filename="${ROOT_DIR}/app/.env"
   rm "${dot_env_filename}" 2> /dev/null || true
-  for service in "${services[@]}"
+  for service in $(all_versioned_services)
   do
     echo_env "${service}" >> "${dot_env_filename}"
   done

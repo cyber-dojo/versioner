@@ -28,6 +28,34 @@ installed()
   fi
 }
 
+aws_prod_services()
+{
+  # The names of the services deployed to the aws-prod Environment, and thus
+  # present in its Kosli snapshot.
+  local -r services=(
+    custom-start-points
+    exercises-start-points
+    languages-start-points
+    creator
+    dashboard
+    differ
+    nginx
+    runner
+    saver
+    spooler
+    web
+  )
+  echo "${services[@]}"
+}
+
+all_versioned_services()
+{
+  # The names of every service with a version in the .env file. commander and
+  # start-points-base are not deployed to aws-prod, but they are versioned
+  # alongside the services that are.
+  echo commander start-points-base "$(aws_prod_services)"
+}
+
 image_name()
 {
   echo cyberdojo/versioner
