@@ -55,12 +55,21 @@ assert_equal()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image()
 {
-  docker tag $(image_name):latest $(image_name):$(image_tag)
-  if [ -n "$(image_release)" ]; then
-    docker tag $(image_name):latest $(image_name):$(image_release)
+  # Captured once: each runs a container to read an env-var out of the image.
+  local -r tag="$(image_tag)"
+  local -r rel="$(image_release)"
+  local versioned_tag
+  if [ -n "${rel}" ]; then
+    versioned_tag="${rel}"
   else
-    docker tag $(image_name):latest $(image_name):dev_latest
+    versioned_tag=dev_latest
   fi
+  docker tag $(image_name):latest $(image_name):"${tag}"
+  docker tag $(image_name):latest $(image_name):"${versioned_tag}"
+  # After tagging, so removing an earlier build's tags takes its last tag with
+  # them and the image itself goes, rather than being left dangling when
+  # :latest moves to this build.
+  remove_old_images "${tag}" "${versioned_tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

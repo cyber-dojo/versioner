@@ -61,6 +61,38 @@ image_name()
   echo cyberdojo/versioner
 }
 
+# Keeps :latest, which the build and local tooling read, and the tags named in
+# the arguments, which are the ones the build just made. Every older tag goes,
+# and an earlier build whose last tag was one of those goes with it, so local
+# builds stop accumulating images.
+remove_old_images()
+{
+  local -a kept=("$@")
+  local -r name="$(image_name)"
+  echo Removing old images
+  # grep exits non-zero when the machine holds no versioner image, eg one whose
+  # images have just been cleared, so an empty list must not end the build.
+  local tagged_name keep
+  for tagged_name in $(docker image ls --format '{{.Repository}}:{{.Tag}}' | grep "^${name}:" || true)
+  do
+    if [ "${tagged_name}" == "${name}:latest" ]; then
+      continue
+    fi
+    local matched=false
+    for keep in "${kept[@]}"
+    do
+      if [ "${tagged_name}" == "${name}:${keep}" ]; then
+        matched=true
+      fi
+    done
+    if [ "${matched}" == false ]; then
+      # Removing by name:tag untags, so this succeeds even while a container
+      # references the image, leaving it dangling until that container goes.
+      docker image rm --force "${tagged_name}" || echo "  skipped ${tagged_name} (in use)"
+    fi
+  done
+}
+
 git_commit_sha()
 {
   # shellcheck disable=SC2005
