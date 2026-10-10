@@ -1,8 +1,4 @@
 
-# This requires credentials and can run only in a CI workflow
-copy_prod_images_to_dockerhub:
-	@${PWD}/bin/copy_prod_images_to_dockerhub.sh
-
 json_files:
 	@${PWD}/bin/make_json_files.sh
 
