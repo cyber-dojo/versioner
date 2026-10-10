@@ -21,7 +21,7 @@ function build_fake_versioner_with_sha_and_tag_for_local_dev()
   # Repeat these 6 lines for each service
   local sha_var_name=CYBER_DOJO_RUNNER_SHA
   local tag_var_name=CYBER_DOJO_RUNNER_TAG
-  local fake_sha=cf7cd4a9999e6343d871a24a56fb079415437be0
+  local fake_sha=376f811ff50beefefbfda03047b45ba8b62fccc0
   local fake_tag="${fake_sha:0:7}"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
@@ -40,7 +40,11 @@ function build_fake_versioner_with_sha_and_tag_for_local_dev()
     echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
   } > ${TMP_DIR}/Dockerfile
   
+  # amd64, like the real image. A caller that runs versioner with
+  # DOCKER_DEFAULT_PLATFORM=linux/amd64 (as red_amber_green_test.sh does on
+  # arm64) finds this one locally rather than pulling the real one over it.
   docker build \
+    --platform linux/amd64 \
     --build-arg SHA="${fake_sha}" \
     --build-arg RELEASE=999.999.999 \
     --tag "${fake_image}" \
