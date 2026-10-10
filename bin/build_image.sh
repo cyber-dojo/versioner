@@ -36,7 +36,7 @@ release()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_release()
 {
-  docker --log-level=ERROR run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${RELEASE}'
+  docker run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${RELEASE}'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

@@ -11,7 +11,7 @@ trap remove_TMP_DIR INT EXIT
 
 function echo_env_vars() 
 { 
-  docker --log-level=ERROR run --rm cyberdojo/versioner:latest
+  docker run --rm cyberdojo/versioner:latest
 }
 
 function build_fake_versioner_with_sha_and_tag_for_local_dev()

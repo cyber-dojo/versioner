@@ -39,7 +39,7 @@ pull_public_image()
   local -r tag="${sha:0:7}"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:a0f337d
 
-  docker pull --platform=linux/amd64 "${public_image}"
+  docker pull "${public_image}"
 }
 
 echo_json_content_for_one_micro_service()
@@ -77,8 +77,8 @@ artifact_for_service()
 create_json_file_for_commander()
 {
   local -r image_name="cyberdojo/commander:latest"
-  docker pull --platform=linux/amd64 "${image_name}"
-  local -r sha="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}' 2> /dev/null)"
+  docker pull "${image_name}"
+  local -r sha="$(docker run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${SHA}')"
   local -r digest="$(kosli fingerprint "${image_name}" --artifact-type=oci --debug=false)"
   local -r port=0
 
@@ -98,11 +98,11 @@ create_json_file_for_start_points_base()
   local -r image_name="cyberdojo/custom-start-points:${tag}"
 
   # Do NOT add @sha256:digest to image_name. It fails in the CI workflow with "unsupported digest algorithm"
-  docker pull --platform=linux/amd64 "${image_name}"
+  docker pull "${image_name}"
 
-  local -r base_image="$( docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_IMAGE}'  2> /dev/null)"
-  local -r base_sha="$(   docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_SHA}'    2> /dev/null)"
-  local -r base_digest="$(docker --log-level=ERROR run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_DIGEST}' 2> /dev/null)"
+  local -r base_image="$( docker run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_IMAGE}')"
+  local -r base_sha="$(   docker run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_SHA}')"
+  local -r base_digest="$(docker run --rm --entrypoint="" "${image_name}" sh -c 'echo -n ${CYBER_DOJO_START_POINTS_BASE_DIGEST}')"
   local -r port=0
 
   local -r filename=start-points-base.json
