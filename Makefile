@@ -23,5 +23,9 @@ build_image:
 build_fake_image:
 	@${PWD}/bin/build_fake_image.sh
 
+# eg make push_platform_image arch=arm64
+push_platform_image:
+	@${PWD}/bin/push_platform_image.sh ${arch}
+
 publish_image:
 	@${PWD}/bin/publish_image.sh

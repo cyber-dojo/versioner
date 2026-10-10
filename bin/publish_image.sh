@@ -4,45 +4,23 @@ set -Eeu
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
 source "${ROOT_DIR}/bin/lib.sh"
 
-image_sha()
-{
-  docker run --rm --entrypoint "" $(image_name):latest sh -c 'echo ${SHA}'
-}
+# Names the per-platform images that bin/push_platform_image.sh pushed, as
+# :<short-sha>-amd64 and :<short-sha>-arm64, in one multi-platform index tagged
+# :<short-sha>. A release commit's index is also tagged :<release> and :latest.
+# The tag and release come from git, not from a local image, as the job that
+# runs this builds nothing.
+
+readonly PLATFORM_SUFFIXES=(amd64 arm64)
 
 image_tag()
 {
-  local -r sha="$(image_sha)"
+  local -r sha="$(git_commit_sha)"
   echo "${sha:0:7}"
 }
 
 release()
 {
   [[ "$(git_commit_msg)" =~ RELEASE=([0-9]*.[0-9]*.[0-9]*) ]]  && echo ${BASH_REMATCH[1]}
-}
-
-image_release()
-{
-  docker --log-level=ERROR run --rm --entrypoint="" $(image_name):latest sh -c 'echo ${RELEASE}' 2> /dev/null
-}
-
-assert_equal()
-{
-  local -r expected="${1}"
-  local -r actual="${2}"
-  echo "expected: '${expected}'"
-  echo "  actual: '${actual}'"
-  if [ "${expected}" != "${actual}" ]; then
-    stderr "ERROR: inside image $(image_name):latest"
-    exit 42
-  fi
-}
-
-tag_the_image()
-{
-  docker tag $(image_name):latest $(image_name):$(image_tag)
-  if [ -n "$(image_release)" ]; then
-    docker tag $(image_name):latest $(image_name):$(image_release)
-  fi
 }
 
 on_ci_publish_versioner_image()
@@ -52,12 +30,19 @@ on_ci_publish_versioner_image()
     return
   fi
   echo 'in CI Workflow so publishing versioner image'
-  # Workflow has done docker login
-  docker push $(image_name):$(image_tag)
-  if [ -n "$(image_release)" ]; then
-    docker push $(image_name):$(image_release)
-    docker push $(image_name):latest
+  local -r tag="$(image_tag)"
+  local -r rel="$(release)"
+  local -a tags=(--tag "$(image_name):${tag}")
+  if [ -n "${rel}" ]; then
+    tags+=(--tag "$(image_name):${rel}" --tag "$(image_name):latest")
   fi
+  local -a sources=()
+  local suffix
+  for suffix in "${PLATFORM_SUFFIXES[@]}"; do
+    sources+=("$(image_name):${tag}-${suffix}")
+  done
+  # Workflow has done docker login
+  docker buildx imagetools create "${tags[@]}" "${sources[@]}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
