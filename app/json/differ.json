@@ -2,6 +2,6 @@
   "image": "244531986313.dkr.ecr.eu-central-1.amazonaws.com/differ:9b49875@sha256:b268bc93ea9aac4a2db861f98c67c21b8a8165091c3f937b8f7ba129e81f665c",
   "sha": "9b498758459dd636ff7dbca04367de3f547454f0",
   "tag": "9b49875",
-  "digest": "0f920ee399096d9f396491b7ace3de2fde4ece78c231fa2dba3a52e39a9a7300",
+  "digest": "b268bc93ea9aac4a2db861f98c67c21b8a8165091c3f937b8f7ba129e81f665c",
   "port": 4567
 }
