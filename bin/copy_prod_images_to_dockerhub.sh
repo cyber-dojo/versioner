@@ -33,9 +33,23 @@ create_public_image()
   local -r private_image="$(echo "${artifact}" | jq -r ".name")"
   local -r public_image="cyberdojo/${service_name}:${tag}"  # eg cyberdojo/saver:c56e309
 
-  docker pull "${private_image}"
-  docker tag "${private_image}" "${public_image}"
-  docker push "${public_image}"
+  # The copy must keep the digest Kosli recorded. A multi-platform index is
+  # copied registry-side, every platform as it is; a pull would fetch only the
+  # runner's platform and the push would publish a different, one-platform
+  # image. A single-platform manifest is pulled and pushed, which keeps its
+  # digest, where imagetools would wrap it in a new index.
+  local -r media_type="$(docker buildx imagetools inspect "${private_image}" \
+                           --format '{{ json .Manifest }}' | jq -r .mediaType)"
+  case "${media_type}" in
+    *image.index*|*manifest.list*)
+      docker buildx imagetools create --tag "${public_image}" "${private_image}"
+      ;;
+    *)
+      docker pull "${private_image}"
+      docker tag "${private_image}" "${public_image}"
+      docker push "${public_image}"
+      ;;
+  esac
 }
 
 artifact_for_service()
